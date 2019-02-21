@@ -105,7 +105,7 @@ android {
         manifestPlaceholders = [
             XG_ACCESS_ID: "2100327204",
             XG_ACCESS_KEY: "AYA8S6DU622N",
-            HW_APPID: "e71e534fa879b",
+            HW_APPID: "100632255",
             PACKAGE_NAME: "com.jeepeng.push"
         ]
     }

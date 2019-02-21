@@ -63,37 +63,38 @@ export default class App extends Component {
             <Router getSceneStyle={getSceneStyle} >
                 <Scene key="root">
                     <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
-                   <Scene
+                    <Scene
                         key="mainRoot"
                         component={connect(mapStateToProps)(Switch)}
                         tabs={true}
                         type={ActionConst.RESET}
                         selector={(props) => {
-                            // const { user } = props.loginReducer.data
-                            // if (user.mobile
-                            //     && user.token
-                            //     && user.uid
-                            //     && user.status
-                            //     && user.type) {
-                            //     return 'main'
-                            // } else {
+                            const { user } = props.loginReducer.data
+                            console.log(user)
+                            if (user.mobile
+                                && user.token
+                                && user.uid
+                                && user.status
+                                && user.type) {
+                                return 'main'
+                            } else {
                                 return 'loginBlock'
-                            // }
+                            }
                         }}
-                    > 
+                    >
                         <Scene key="loginBlock" >
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>
                         <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                            <Scene key="homeBlock"  online='ios-home' >
-                                <Scene key="home" 
-                                initial={true}
-                                 component={Home} 
-                                 title='结算管理' 
-                                 hideNavBar={false} 
+                            <Scene key="homeBlock" online='ios-home' >
+                                <Scene key="home"
+                                    initial={true}
+                                    component={Home}
+                                    title='结算管理'
+                                    hideNavBar={false}
                                 // navBar={NavBar} 
-                                 //RightButton={HandOverListForHomeToolButton} 
-                                 />
+                                //RightButton={HandOverListForHomeToolButton} 
+                                />
                             </Scene>
                         </Scene>
                     </Scene>

@@ -13,6 +13,7 @@
 		"moment": "2.22.2",
 		"native-base": "2.6.1",
 		"react-native-router-flux": "3.40.1",
+		"react-native-storage": "0.2.2",
 		"redux": "4.0.1",
 		"redux-actions": "2.6.4",
 		"react-native-xinge-push": "0.7.0",

@@ -3,7 +3,6 @@ export const init_app_waiting = 'init_app_waiting'
 export const valdate_version_success = 'valdate_version_success'
 export const valdate_version_failed = 'valdate_version_failed'
 export const valdate_version_error = 'valdate_version_error'
-export const valdate_version_low = 'valdate_version_low'
 
 export const init_XGPush_success = 'init_XGPush_success'
 export const init_XGPush_failed = 'init_XGPush_failed'
