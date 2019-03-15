@@ -11,6 +11,11 @@ import { connect } from 'react-redux'
 import Login from '../views/login/Login'
 import Home from '../views/home/Home'
 import InitView from '../views/initView/InitView'
+import InquiryInfo from '../views/inquiryInfo/InquiryInfo'
+import InquiryCarList from '../views/inquiryCarList/InquiryCarList'
+import InquiryCarInfo from '../views/inquiryCarInfo/InquiryCarInfo'
+import Consult from '../views/consult/Consult'
+import CityList from '../views/list/cityList/CityList'
 //<<<<<<<<<<views
 
 const styles = StyleSheet.create({
@@ -62,7 +67,7 @@ export default class App extends Component {
         return (
             <Router getSceneStyle={getSceneStyle} >
                 <Scene key="root">
-                    <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
+                    {/* <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
                     <Scene
                         key="mainRoot"
                         component={connect(mapStateToProps)(Switch)}
@@ -86,19 +91,60 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>
                         <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                            <Scene key="homeBlock" online='ios-home' >
-                                <Scene key="home"
-                                    initial={true}
-                                    component={Home}
-                                    title='结算管理'
-                                    hideNavBar={false}
-                                // navBar={NavBar} 
-                                //RightButton={HandOverListForHomeToolButton} 
-                                />
-                            </Scene>
-                        </Scene>
-                    </Scene>
+                            <Scene key="homeBlock" online='ios-home' > */}
+                    <Scene key="home"
+                        initial={true}
+                        component={Home}
+                        title='首页'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
+                    <Scene key="inquiryInfo"
+                        // initial={true}
+                        component={InquiryInfo}
+                        title='询价详情'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
+                    <Scene key="inquiryCarList"
+                        component={InquiryCarList}
+                        title='运送车辆'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
+                    <Scene key="inquiryCarInfo"
+                        // initial={true}
+                        component={InquiryCarInfo}
+                        title='车辆信息'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
+                    <Scene key="consult"
+                        // initial={true}
+
+                        component={Consult}
+                        title='协商费用'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
+                    <Scene key="cityList"
+                        // initial={true}
+
+                        component={CityList}
+                        title='城市列表'
+                        hideNavBar={false}
+                    // navBar={NavBar} 
+                    //RightButton={HandOverListForHomeToolButton} 
+                    />
                 </Scene>
+                {/* </Scene>
+                    </Scene> 
+                 </Scene>  */}
             </Router>
         )
     }

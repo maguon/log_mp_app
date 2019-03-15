@@ -3,7 +3,15 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 
 const initialState = {
     data: {
-        user: {}
+        user: {
+            id: 3,
+            user_name: "19999999999",
+            real_name: "管理员",
+            gender: 0,
+            phone: "13322222222",
+            status: 1,
+            type: 10001
+        }
     },
     loginFlow: {
         isResultStatus: 0,     //执行状态 : 0(未执行), 1(正在执行),2(执行结束)
@@ -90,7 +98,7 @@ export default handleActions({
 
     [reduxActionTypes.login.set_userInfo]: (state, action) => {
         const { payload: { user } } = action
-        console.log('action',action)
+        // console.log('action',action)
         return {
             ...initialState,
             data: {

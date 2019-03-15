@@ -27,10 +27,6 @@ class InitView extends Component {
         )
     }
 }
-// const InitView = props => {
-
-// }
-
 
 const mapStateToProps = (state) => {
     return {

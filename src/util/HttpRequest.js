@@ -1,6 +1,5 @@
 import requestHeaders from './RequestHeaders'
 
-
 const get = url => fetch(url, {
     method: 'GET',
     headers: requestHeaders.headers
