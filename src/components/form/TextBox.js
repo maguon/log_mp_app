@@ -20,6 +20,7 @@ const TextBox = props => {
         isRequired = false,
         renderIcon,
         meta: { error, touched } } = props
+        // console.log('props',props)
     return (
         <View style={[styles.body, { borderBottomWidth: !last ? 0.3 : 0 }]} >
             <View style={styles.inputContainer} >

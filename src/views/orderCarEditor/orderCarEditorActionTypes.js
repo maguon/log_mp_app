@@ -1,0 +1,9 @@
+export const update_orderCar_success = 'update_orderCar_success'
+export const update_orderCar_failed = 'update_orderCar_failed'
+export const update_orderCar_waiting = 'update_orderCar_waiting'
+export const update_orderCar_error = 'update_orderCar_error'
+
+export const get_transAndInsurePriceForEditor_success = 'get_transAndInsurePriceForEditor_success'
+export const get_transAndInsurePriceForEditor_failed = 'get_transAndInsurePriceForEditor_failed'
+export const get_transAndInsurePriceForEditor_waiting = 'get_transAndInsurePriceForEditor_waiting'
+export const get_transAndInsurePriceForEditor_error = 'get_transAndInsurePriceForEditor_error'

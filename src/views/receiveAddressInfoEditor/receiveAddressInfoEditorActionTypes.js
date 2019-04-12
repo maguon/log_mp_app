@@ -1,0 +1,4 @@
+export const save_receiveAddressInfo_success = 'save_receiveAddressInfo_success'
+export const save_receiveAddressInfo_failed = 'save_receiveAddressInfo_failed'
+export const save_receiveAddressInfo_waiting = 'save_receiveAddressInfo_waiting'
+export const save_receiveAddressInfo_error = 'save_receiveAddressInfo_error'
