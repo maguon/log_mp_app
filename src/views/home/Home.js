@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     InteractionManager,
-    DrawerLayoutAndroid
+    DrawerLayoutAndroid,
+    Dimensions
 } from 'react-native'
 import { Container, Icon, Button } from 'native-base'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
@@ -20,7 +21,6 @@ import OrderListNotDemand from './orderListNotDemand/OrderListNotDemand'
 import OrderListNotInfo from './orderListNotInfo/OrderListNotInfo'
 import OrderListNotPrice from './orderListNotPrice/OrderListNotPrice'
 import OrderListNotRoute from './orderListNotRoute/OrderListNotRoute'
-
 
 const drawerWidth = 300
 
@@ -68,7 +68,8 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabActiveIndex: 2
+            tabActiveIndex: 5,
+            showAlert: false
         }
     }
 
@@ -166,9 +167,9 @@ class Home extends Component {
                     {this.state.tabActiveIndex == 1 && <HomeSearch onPress={() => this.drawer.openDrawer()} />}
                     {this.state.tabActiveIndex == 1 && <InquiryList sceneKey={sceneKey} />}
                     {this.state.tabActiveIndex == 2 && <OrderListNotInfo sceneKey={sceneKey} />}
-                    {this.state.tabActiveIndex == 3 && <OrderListNotPrice  sceneKey={sceneKey}/>}
-                    {this.state.tabActiveIndex == 4 && <OrderListNotDemand  sceneKey={sceneKey}/>}
-                    {this.state.tabActiveIndex == 5 && <OrderListNotRoute  sceneKey={sceneKey}/>}
+                    {this.state.tabActiveIndex == 3 && <OrderListNotPrice sceneKey={sceneKey} />}
+                    {this.state.tabActiveIndex == 4 && <OrderListNotDemand sceneKey={sceneKey} />}
+                    {this.state.tabActiveIndex == 5 && <OrderListNotRoute sceneKey={sceneKey} />}
                 </Container>
             </DrawerLayoutAndroid>
         )

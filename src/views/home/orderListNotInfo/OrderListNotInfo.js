@@ -22,6 +22,7 @@ const renderListEmpty = () => {
 const renderListItem = props => {
     const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type }, sceneKey } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
+
     return (
         <TouchableOpacity onPress={() => Actions.orderNotInfo({ orderId: id, preSceneKey: sceneKey })}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
@@ -57,9 +58,6 @@ const renderListItem = props => {
                         <View>
                             <Text style={[globalStyles.midText]}>应付费用：<Text style={[{ color: '#d82983' }]}>{`${moneyFormat(total_insure_price + total_trans_price, 2)}`}</Text>元</Text>
                         </View>
-                        {/* <View>
-                            <Text style={[globalStyles.midText]}>应付费用：<Text style={[{ color: '#d82983' }]}>20000</Text>元</Text>
-                        </View> */}
                     </View>
                 </View>
                 <View>
@@ -80,7 +78,12 @@ const renderListFooter = props => {
 }
 
 class OrderListNotInfo extends Component {
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            loadListIsFinished: false
+        }
+    }
 
     componentDidMount() {
         const { getOrderListNotInfoWaiting, getOrderListNotInfo } = this.props
@@ -110,7 +113,12 @@ class OrderListNotInfo extends Component {
                         if (isResultStatus == 2 && !isCompleted) {
                             getOrderListNotInfoMore()
                         } else {
-                            ToastAndroid.show('已全部加载完毕！', 10)
+                            if (!this.state.loadListIsFinished) {
+                                ToastAndroid.show('已全部加载完毕！', 10)
+                                this.setState({
+                                    loadListIsFinished: true
+                                })
+                            }
                         }
                     }}
                     ListEmptyComponent={orderListNotInfoReducer.getOrderListNotInfo.isResultStatus != 1 && orderListNotInfo.length == 0 && renderListEmpty}

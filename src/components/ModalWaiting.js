@@ -15,7 +15,7 @@ const ModalWaiting = props => {
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                alert("Modal has been closed.");
+                // alert("Modal has been closed.");
             }}>
             <Container style={{ backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' }}>
                 {title && <View style={{ backgroundColor: 'rgba(0,0,0,0.7)', padding: 15, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>

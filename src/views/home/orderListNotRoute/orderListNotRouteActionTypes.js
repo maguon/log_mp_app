@@ -12,3 +12,8 @@ export const get_orderNotRouteById_success = 'get_orderNotRouteById_success'
 export const get_orderNotRouteById_failed = 'get_orderNotRouteById_failed'
 export const get_orderNotRouteById_error = 'get_orderNotRouteById_error'
 export const get_orderNotRouteById_waiting = 'get_orderNotRouteById_waiting'
+
+export const put_orderRemarkForNotRoute_success = 'put_orderRemarkForNotRoute_success'
+export const put_orderRemarkForNotRoute_failed = 'put_orderRemarkForNotRoute_failed'
+export const put_orderRemarkForNotRoute_error = 'put_orderRemarkForNotRoute_error'
+export const put_orderRemarkForNotRoute_waiting = 'put_orderRemarkForNotRoute_waiting'

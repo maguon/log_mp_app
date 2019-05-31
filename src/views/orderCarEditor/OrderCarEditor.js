@@ -7,6 +7,10 @@ import carModal from '../../config/car_modal.json'
 import globalStyles from '../../style/GlobalStyles'
 import { connect } from 'react-redux'
 import { moneyFormat } from '../../util/util'
+import * as reduxActions from '../../reduxActions'
+import ModalWaiting from '../../components/ModalWaiting'
+
+
 
 const OrderCarEditor = props => {
     const carModalList = carModal.map(item => {
@@ -14,11 +18,14 @@ const OrderCarEditor = props => {
             id: item[0],
             value: item[1].name
         }
+
     })
-    const { orderCarEditorReducer: { data: { transAndInsurePrice: { insure, trans } } }, dispatch, formValues } = props
+
+    const { orderCarEditorReducer: { data: { transAndInsurePrice: { insure, trans } },updateOrderCar: { isResultStatus } }, dispatch, formValues } = props
     const actTransPrice = formValues && formValues.actTransPrice && !isNaN(parseFloat(formValues.actTransPrice)) ? parseFloat(formValues.actTransPrice) : 0.00
     const actInsurePrice = formValues && formValues.actInsurePrice && !isNaN(parseFloat(formValues.actInsurePrice)) ? parseFloat(formValues.actInsurePrice) : 0.00
     const actPrice = `${moneyFormat(actTransPrice + actInsurePrice)}`
+    
     return (
         <Container>
             <Content>
@@ -95,9 +102,11 @@ const OrderCarEditor = props => {
                             }
                             return value
                         }}
-                        onFocus={(event, name) => { if (!actTransPrice) dispatch(change('orderCarEditorForm', 'actTransPrice', '')) }}
+                        onFocus={(event, name) => {
+                            if (!actTransPrice) dispatch(change('orderCarEditorForm', 'actTransPrice', ''))
+                        }}
                         name='actTransPrice'
-                        label='协商运费(元)'
+                        label='应付运费(元)'
                         component={TextBox}
                     />
                 </View>
@@ -116,7 +125,10 @@ const OrderCarEditor = props => {
                             }
                             return value
                         }}
-                        onFocus={(event, name) => { if (!actInsurePrice) dispatch(change('orderCarEditorForm', 'actInsurePrice', '')) }}
+                        onFocus={(event, name) => {
+                            if (!actInsurePrice)
+                                dispatch(change('orderCarEditorForm', 'actInsurePrice', ''))
+                        }}
                         name='actInsurePrice'
                         label='应付保费(元)'
                         component={TextBox}
@@ -127,6 +139,7 @@ const OrderCarEditor = props => {
                     <Text style={[styles.listItemPadding, globalStyles.midText]}><Text style={styles.fontColor}>{`${actPrice}`}</Text> 元</Text>
                 </View>
             </Content>
+            <ModalWaiting visible={isResultStatus == 1} title={'提交中...'} />
         </Container>
     )
 }
@@ -151,13 +164,12 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const { orderCarListReducer: { data: { orderCarList } } } = state
-    const { orderCarId } = ownProps
+    const { orderCarListReducer: { data: { orderCarList } },
+        orderListNotInfoReducer: { data: { orderListNotInfo } } } = state
+    const { orderCarId, orderId } = ownProps
     const orderCar = orderCarList.find(item => item.id == orderCarId)
-    const { safe_status, act_insure_price, vin, act_trans_price, valuation, brand, brand_type, model_type } = orderCar
+    const { safe_status, act_insure_price, vin, act_trans_price, old_car, valuation, brand, brand_type, model_type } = orderCar
     const cartype = new Map(carModal).get(model_type)
-    console.log('orderCar', orderCar)
-    console.log('cartype', cartype)
     return {
         initialValues: {
             safeStatus: safe_status == 1 ? true : false,
@@ -168,18 +180,39 @@ const mapStateToProps = (state, ownProps) => {
             actInsurePrice: `${act_insure_price}`,
             actTransPrice: `${act_trans_price}`,
             modelType: { id: model_type, value: cartype.name },
-            oldCar: false
-            // actInsurePrice: '0.00',
-            // actTransPrice: '0.00'
+            oldCar: old_car == 1 ? true : false,
         },
         formValues: getFormValues('orderCarEditorForm')(state),
-        orderCarEditorReducer: state.orderCarEditorReducer
+        orderCarEditorReducer: state.orderCarEditorReducer,
+        order: orderListNotInfo.find(item => item.id == orderId)
     }
 }
 
 export default connect(mapStateToProps)(reduxForm({
     form: 'orderCarEditorForm',
     onSubmit: (values, dispatch, props) => {
-        console.log('orderCarEditorForm')
+        dispatch(reduxActions.orderCarEditor.updateOrderCar({
+            formValues: values, order: props.order, orderCarId: props.orderCarId
+        }))
+    },
+    onChange: (values, dispatch, props, previousValues) => {
+        const { order } = props
+        if (values.modelType && values.valuation) {
+            if (!previousValues.modelType
+                || !previousValues.valuation
+                || values.modelType.id != previousValues.modelType.id
+                || values.valuation != previousValues.valuation
+                || values.safeStatus != previousValues.safeStatus
+                || values.oldCar != previousValues.oldCar) {
+                dispatch(reduxActions.orderCarEditor.getTransAndInsurePrice({
+                    distance: order.distance,
+                    serviceType: order.service_type,
+                    modelType: values.modelType.id,
+                    oldCar: values.oldCar,
+                    valuation: values.valuation,
+                    safeStatus: values.safeStatus ? 1 : 0
+                }))
+            }
+        }
     }
 })(OrderCarEditor))

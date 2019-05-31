@@ -21,7 +21,12 @@ const initialState = {
         errorMsg: '',
         failedMsg: ''
     },
-    delOrderCar:{
+    delOrderCar: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
+    },
+    getOrderCarByCarIdAddList: {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
@@ -131,11 +136,18 @@ export default handleActions({
 
     [reduxActionTypes.orderCarList.get_orderCarByCarId_success]: (state, action) => {
         const { payload: { orderCar } } = action
+        console.log('orderCar', orderCar)
         return {
             ...state,
             data: {
                 ...state.data,
-                orderCarList: [...state.data.orderCarList, orderCar]
+                orderCarList: state.data.orderCarList.map(item => {
+                    if (item.id == orderCar.id) {
+                        return orderCar
+                    } else {
+                        return item
+                    }
+                })
             },
             getOrderCarByCarId: {
                 ...state.getOrderCarByCarId,
@@ -176,11 +188,13 @@ export default handleActions({
     },
 
 
-
-
     [reduxActionTypes.orderCarList.del_orderCar_success]: (state, action) => {
+        const { payload: { orderItemId } } = action
         return {
             ...state,
+            data: {
+                orderCarList: state.data.orderCarList.filter(item => item.id != orderItemId)
+            },
             delOrderCar: {
                 ...state.delOrderCar,
                 isResultStatus: 2
@@ -213,6 +227,55 @@ export default handleActions({
             ...state,
             delOrderCar: {
                 ...state.delOrderCar,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.orderCarList.get_orderCarByCarIdAddList_success]: (state, action) => {
+        const { payload: { orderCar } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                orderCarList: [...state.data.orderCarList, orderCar]
+            },
+            getOrderCarByCarIdAddList: {
+                ...state.getOrderCarByCarIdAddList,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderCarList.get_orderCarByCarIdAddList_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getOrderCarByCarIdAddList: {
+                ...state.getOrderCarByCarIdAddList,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderCarList.get_orderCarByCarIdAddList_waiting]: (state, action) => {
+        return {
+            ...state,
+            getOrderCarByCarIdAddList: {
+                ...state.getOrderCarByCarIdAddList,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderCarList.get_orderCarByCarIdAddList_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getOrderCarByCarIdAddList: {
+                ...state.getOrderCarByCarIdAddList,
                 isResultStatus: 3,
                 errorMsg
             }

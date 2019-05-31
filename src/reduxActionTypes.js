@@ -13,11 +13,18 @@ import * as orderListNotRoute from './views/home/orderListNotRoute/orderListNotR
 import * as orderListNotPrice from './views/home/orderListNotPrice/orderListNotPriceActionTypes'
 import * as orderListNotInfo from './views/home/orderListNotInfo/orderListNotInfoActionTypes'
 import * as inquiryList from './views/home/inquiryList/inquiryListActionTypes'
-import * as receiveAddressInfoEditor from './views/receiveAddressInfoEditor/receiveAddressInfoEditorActionTypes'
-import * as sendAddressInfoEditor from './views/sendAddressInfoEditor/sendAddressInfoEditorActionTypes'
+
 import * as addOrderCar from './views/addOrderCar/addOrderCarActionTypes'
 import * as orderCarList from './views/orderCarList/orderCarListActionTypes'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActionTypes'
+
+
+import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActionTypes'
+import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActionTypes'
+import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActionTypes'
+import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActionTypes'
+import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActionTypes'
+import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActionTypes'
 
 export {
     login,
@@ -35,9 +42,16 @@ export {
     orderListNotPrice,
     orderListNotInfo,
     inquiryList,
-    receiveAddressInfoEditor,
-    sendAddressInfoEditor,
+
     addOrderCar,
     orderCarList,
-    orderCarEditor
+    orderCarEditor,
+
+
+    sendAddrEditorForNotDemand,
+    sendAddrEditorForNotInfo,
+    sendAddrEditorForNotPrice,
+    recAddrEditorForNotDemand,
+    recAddrEditorForNotInfo,
+    recAddrEditorForNotPrice
 }

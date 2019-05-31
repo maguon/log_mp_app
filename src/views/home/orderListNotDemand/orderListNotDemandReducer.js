@@ -21,6 +21,16 @@ const initialState = {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
+    },
+    cancelOrder: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
+    },
+    saveOrderRemark: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
     }
 }
 
@@ -120,15 +130,15 @@ export default handleActions({
 
 
 
-    [reduxActionTypes.orderListNotDemand.get_OrderNotDemandById_success]: (state, action) => {
-        const { payload: { orderNotDemand } } = action
+    [reduxActionTypes.orderListNotDemand.get_orderNotDemandById_success]: (state, action) => {
+        const { payload: { order } } = action
         return {
             ...state,
             data: {
                 ...state.data,
                 orderListNotDemand: state.data.orderListNotDemand.map(item => {
-                    if (item.id == orderNotDemand.id) {
-                        return orderNotDemand
+                    if (item.id == order.id) {
+                        return order
                     } else {
                         return item
                     }
@@ -140,7 +150,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.orderListNotDemand.get_OrderNotDemandById_failed]: (state, action) => {
+    [reduxActionTypes.orderListNotDemand.get_orderNotDemandById_failed]: (state, action) => {
         const { payload: { failedMsg } } = action
         return {
             ...state,
@@ -151,7 +161,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.orderListNotDemand.get_OrderNotDemandById_waiting]: (state, action) => {
+    [reduxActionTypes.orderListNotDemand.get_orderNotDemandById_waiting]: (state, action) => {
         return {
             ...state,
             getOrderNotDemandById: {
@@ -160,7 +170,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.orderListNotDemand.get_OrderNotDemandById_error]: (state, action) => {
+    [reduxActionTypes.orderListNotDemand.get_orderNotDemandById_error]: (state, action) => {
         const { payload: { errorMsg } } = action
         return {
             ...state,
@@ -170,5 +180,112 @@ export default handleActions({
                 errorMsg
             }
         }
-    }
+    },
+
+
+
+
+    [reduxActionTypes.orderListNotDemand.put_orderRemarkForNotDemand_success]: (state, action) => {
+        const { payload: { orderId, remark } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                orderListNotDemand: state.data.orderListNotDemand.map(item => {
+                    if (item.id == orderId) {
+                        return {
+                            ...item,
+                            admin_mark: remark
+                        }
+                    } else {
+                        return item
+                    }
+                })
+            },
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderRemarkForNotDemand_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderRemarkForNotDemand_waiting]: (state, action) => {
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderRemarkForNotDemand_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+    [reduxActionTypes.orderListNotDemand.put_orderCancelNotDemandById_success]: (state, action) => {
+        const { payload: { orderId } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                orderListNotDemand: state.data.orderListNotDemand.filter(item => item.id != orderId)
+            },
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderCancelNotDemandById_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderCancelNotDemandById_waiting]: (state, action) => {
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotDemand.put_orderCancelNotInfoById_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
 }, initialState)

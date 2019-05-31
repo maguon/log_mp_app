@@ -17,3 +17,8 @@ export const del_orderCar_success = 'del_orderCar_success'
 export const del_orderCar_failed = 'del_orderCar_failed'
 export const del_orderCar_waiting = 'del_orderCar_waiting'
 export const del_orderCar_error = 'del_orderCar_error'
+
+export const get_orderCarByCarIdAddList_success = 'get_orderCarByCarIdAddList_success'
+export const get_orderCarByCarIdAddList_failed = 'get_orderCarByCarIdAddList_failed'
+export const get_orderCarByCarIdAddList_error = 'get_orderCarByCarIdAddList_error'
+export const get_orderCarByCarIdAddList_waiting = 'get_orderCarByCarIdAddList_waiting'

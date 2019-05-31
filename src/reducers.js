@@ -16,12 +16,17 @@ import orderListNotRouteReducer from './views/home/orderListNotRoute/orderListNo
 import orderListNotPriceReducer from './views/home/orderListNotPrice/orderListNotPriceReducer'
 import orderListNotInfoReducer from './views/home/orderListNotInfo/orderListNotInfoReducer'
 import inquiryListReducer from './views/home/inquiryList/inquiryListReducer'
-import receiveAddressInfoEditorReducer from './views/receiveAddressInfoEditor/receiveAddressInfoEditorReducer'
-import sendAddressInfoEditorReducer from './views/sendAddressInfoEditor/sendAddressInfoEditorReducer'
 import orderCarListReducer from './views/orderCarList/orderCarListReducer'
 import addOrderCarReducer from './views/addOrderCar/addOrderCarReducer'
 import orderCarEditorReducer from './views/orderCarEditor/orderCarEditorReducer'
 
+import sendAddrEditorForNotDemandReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandReducer'
+import sendAddrEditorForNotInfoReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoReducer'
+import sendAddrEditorForNotPriceReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceReducer'
+
+import recAddrEditorForNotDemandReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandReducer'
+import recAddrEditorForNotInfoReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoReducer'
+import recAddrEditorForNotPriceReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -41,9 +46,14 @@ export default combineReducers({
     orderListNotPriceReducer,
     orderListNotInfoReducer,
     inquiryListReducer,
-    receiveAddressInfoEditorReducer,
-    sendAddressInfoEditorReducer,
     orderCarListReducer,
     addOrderCarReducer,
-    orderCarEditorReducer
+    orderCarEditorReducer,
+
+    sendAddrEditorForNotDemandReducer,
+    sendAddrEditorForNotInfoReducer,
+    sendAddrEditorForNotPriceReducer,
+    recAddrEditorForNotDemandReducer,
+    recAddrEditorForNotInfoReducer,
+    recAddrEditorForNotPriceReducer
 })

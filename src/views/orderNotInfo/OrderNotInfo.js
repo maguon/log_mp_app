@@ -14,14 +14,14 @@ import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment'
-import { moneyFormat } from '../../util/util'
-import { RichTextBox } from '../../components/form'
 import serviceTypeList from '../../config/service_type.json'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const OrderNotInfo = props => {
-    const { sceneKey, orderId, getOrderCarList, getOrderCarListWaiting, order: { id, created_on, start_city, end_city, service_type } } = props
+    const { sceneKey, orderId, getOrderCarList, getOrderCarListWaiting, cancelOrder,orderListNotInfoReducer,
+        order: { id, created_on, total_trans_price, total_insure_price, admin_mark, start_city, created_type, end_city, service_type, car_num } } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
-    // console.log('props', props)
+    console.log('props', props)
     return (
         <Container>
             <Content>
@@ -53,7 +53,7 @@ const OrderNotInfo = props => {
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => Actions.addressInfo({ preSceneKey: sceneKey, orderId })}>
+                    onPress={() => Actions.addressInfoForNotInfo({ preSceneKey: sceneKey, orderId, sceneName: "notInfo" })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
                     </View>
@@ -69,64 +69,57 @@ const OrderNotInfo = props => {
                     onPress={() => {
                         getOrderCarListWaiting()
                         Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        getOrderCarList({ orderId })
+                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <Text style={[globalStyles.midText]}>
-
+                            {car_num ? `${car_num}` : '0'}
                         </Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity
+                <View
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => {
-                        // if (status == 2 || status == 3) {
-                        //     Actions.consultInfo({ preSceneKey: sceneKey, inquiry })
-                        // } else {
-                        //     Actions.consult({ preSceneKey: sceneKey, inquiry })
-                        // }
-                    }}>
+                >
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>应付费用</Text>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View style={[styles.listItemBody]}>
-                            <Text style={[globalStyles.xlText, styles.fontColor, { fontWeight: '400' }]}>0</Text>
+                            <Text style={[globalStyles.xlText, styles.fontColor, { fontWeight: '400' }]}>{total_insure_price + total_trans_price}</Text>
                             <Text style={[globalStyles.midText, { paddingLeft: 7.5 }]}>元</Text>
                         </View>
-                        <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
-                </TouchableOpacity>
-                <View style={[styles.listItemPadding, styles.listItemBorderBottom]}>
+                </View>
+                <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
+                    onPress={() => Actions.orderNotInfoRemarkEditor({ preSceneKey: sceneKey, orderId })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>客服备注</Text>
                     </View>
                     <View style={styles.listItemPadding}>
-                        <Text style={[globalStyles.midText]}>123123</Text>
+                        <Text style={[globalStyles.midText]}>{admin_mark ? `${admin_mark}` : ''}</Text>
                     </View>
-                </View>
-
+                </TouchableOpacity>
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full bordered style={[{ flex: 1, borderColor: styleColor }]} onPress={() => {
-                            // Alert.alert(
-                            //     '',
-                            //     '确定取消订单？',
-                            //     [
-                            //         { text: '取消', onPress: () => { }, style: 'cancel' },
-                            //         { text: '确定', onPress: () => cancalInquiry({ inquiryId: id }) },
-                            //     ],
-                            //     { cancelable: false }
-                            // )
+                            Alert.alert(
+                                '',
+                                '确定取消订单？',
+                                [
+                                    { text: '取消', onPress: () => { }, style: 'cancel' },
+                                    { text: '确定', onPress: () => cancelOrder({ orderId: id }) },
+                                ],
+                                { cancelable: false }
+                            )
                         }}>
                             <Text style={[globalStyles.largeText, styles.fontColor]}>取消订单</Text>
                         </Button>
                     </View>
-                    <View style={[styles.listItemPadding, { flex: 1 }]}>
+                    {created_type == 1 && <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full style={[globalStyles.styleBackgroundColor, { flex: 1 }]} onPress={() => {
                             // Alert.alert(
                             //     '',
@@ -138,11 +131,12 @@ const OrderNotInfo = props => {
                             //     { cancelable: false }
                             // )
                         }}>
-                            <Text style={[globalStyles.largeText, { color: '#fff' }]}>提交</Text>
+                            <Text style={[globalStyles.largeText, { color: '#fff' }]}>完善信息</Text>
                         </Button>
-                    </View>
+                    </View>}
                 </View>
             </Content>
+            <ModalWaiting visible={orderListNotInfoReducer.cancelOrder.isResultStatus == 1} title={'提交中...'} />
         </Container>
     )
 }
@@ -183,7 +177,8 @@ const mapStateToProps = (state, ownProps) => {
     const { orderListNotInfoReducer: { data: { orderListNotInfo } } } = state
     const { orderId } = ownProps
     return {
-        order: orderListNotInfo.find(item => item.id == orderId)
+        order: orderListNotInfo.find(item => item.id == orderId),
+        orderListNotInfoReducer: state.orderListNotInfoReducer
     }
 }
 
@@ -194,6 +189,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getOrderCarListWaiting: () => {
         dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
+    },
+    cancelOrder: req => {
+        dispatch(reduxActions.orderListNotInfo.cancelOrder(req))
     }
 })
 

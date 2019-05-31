@@ -12,3 +12,15 @@ export const get_orderNotDemandById_success = 'get_orderNotDemandById_success'
 export const get_orderNotDemandById_failed = 'get_orderNotDemandById_failed'
 export const get_orderNotDemandById_error = 'get_orderNotDemandById_error'
 export const get_orderNotDemandById_waiting = 'get_orderNotDemandById_waiting'
+
+
+export const put_orderCancelNotDemandById_success = 'put_orderCancelNotDemandById_success'
+export const put_orderCancelNotDemandById_waiting = 'put_orderCancelNotDemandById_waiting'
+export const put_orderCancelNotDemandById_failed = 'put_orderCancelNotDemandById_failed'
+export const put_orderCancelNotDemandById_error = 'put_orderCancelNotDemandById_error'
+
+
+export const put_orderRemarkForNotDemand_success = 'put_orderRemarkForNotDemand_success'
+export const put_orderRemarkForNotDemand_failed = 'put_orderRemarkForNotDemand_failed'
+export const put_orderRemarkForNotDemand_error = 'put_orderRemarkForNotDemand_error'
+export const put_orderRemarkForNotDemand_waiting = 'put_orderRemarkForNotDemand_waiting'

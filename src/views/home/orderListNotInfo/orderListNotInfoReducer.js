@@ -21,6 +21,16 @@ const initialState = {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
+    },
+    cancelOrder: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
+    },
+    saveOrderRemark: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
     }
 }
 
@@ -70,7 +80,6 @@ export default handleActions({
             }
         }
     },
-
     [reduxActionTypes.orderListNotInfo.get_orderListNotInfoMore_success]: (state, action) => {
         const { payload: { orderListNotInfo, isCompleted } } = action
         return {
@@ -117,9 +126,6 @@ export default handleActions({
             }
         }
     },
-
-
-
     [reduxActionTypes.orderListNotInfo.get_orderNotInfoById_success]: (state, action) => {
         const { payload: { order } } = action
         return {
@@ -166,6 +172,105 @@ export default handleActions({
             ...state,
             getOrderNotInfoById: {
                 ...state.getOrderNotInfoById,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_success]: (state, action) => {
+        const { payload: { orderId } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                orderListNotInfo: state.data.orderListNotInfo.filter(item => item.id != orderId)
+            },
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_waiting]: (state, action) => {
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            cancelOrder: {
+                ...state.cancelOrder,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_success]: (state, action) => {
+        const { payload: { orderId, remark } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                orderListNotInfo: state.data.orderListNotInfo.map(item => {
+                    if (item.id == orderId) {
+                        return {
+                            ...item,
+                            admin_mark: remark
+                        }
+                    } else {
+                        return item
+                    }
+                })
+            },
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_waiting]: (state, action) => {
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            saveOrderRemark: {
+                ...state.saveOrderRemark,
                 isResultStatus: 3,
                 errorMsg
             }

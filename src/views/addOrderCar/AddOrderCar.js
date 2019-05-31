@@ -8,10 +8,11 @@ import carModal from '../../config/car_modal.json'
 import * as reduxActions from '../../reduxActions'
 import globalStyles from '../../style/GlobalStyles'
 import { moneyFormat } from '../../util/util'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const AddOrderCar = props => {
-    console.log('props', props)
-    const { addOrderCarReducer: { data: { transAndInsurePrice: { insure, trans } } }, dispatch, formValues } = props
+    // console.log('props', props)
+    const { addOrderCarReducer: { data: { transAndInsurePrice: { insure, trans } },addOrderCar:{isResultStatus} }, dispatch, formValues } = props
     const actTransPrice = formValues && formValues.actTransPrice && !isNaN(parseFloat(formValues.actTransPrice)) ? parseFloat(formValues.actTransPrice) : 0.00
     const actInsurePrice = formValues && formValues.actInsurePrice && !isNaN(parseFloat(formValues.actInsurePrice)) ? parseFloat(formValues.actInsurePrice) : 0.00
     const actPrice = `${moneyFormat(actTransPrice + actInsurePrice)}`
@@ -97,7 +98,11 @@ const AddOrderCar = props => {
                             }
                             return value
                         }}
-                        onFocus={(event, name) => { if (!actTransPrice) dispatch(change('addOrderCarForm', 'actTransPrice', '')) }}
+                        onFocus={(event, name) => {
+                            if (!actTransPrice) {
+                                dispatch(change('addOrderCarForm', 'actTransPrice', ''))
+                            }
+                        }}
                         name='actTransPrice'
                         label='协商运费(元)'
                         component={TextBox}
@@ -118,7 +123,11 @@ const AddOrderCar = props => {
                             }
                             return value
                         }}
-                        onFocus={(event, name) => { if (!actInsurePrice) dispatch(change('addOrderCarForm', 'actInsurePrice', '')) }}
+                        onFocus={(event, name) => {
+                            if (!actInsurePrice) {
+                                dispatch(change('addOrderCarForm', 'actInsurePrice', ''))
+                            }
+                        }}
                         name='actInsurePrice'
                         label='应付保费(元)'
                         component={TextBox}
@@ -129,6 +138,7 @@ const AddOrderCar = props => {
                     <Text style={[styles.listItemPadding, globalStyles.midText]}><Text style={styles.fontColor}>{`${actPrice}`}</Text> 元</Text>
                 </View>
             </Content>
+            <ModalWaiting visible={isResultStatus == 1} title={'提交中...'} />
         </Container>
     )
 }

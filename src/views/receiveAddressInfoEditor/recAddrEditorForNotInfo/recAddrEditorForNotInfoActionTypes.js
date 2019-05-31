@@ -1,0 +1,4 @@
+export const save_recAddrForNotInfo_success = 'save_recAddrForNotInfo_success'
+export const save_recAddrForNotInfo_failed = 'save_recAddrForNotInfo_failed'
+export const save_recAddrForNotInfo_waiting = 'save_recAddrForNotInfo_waiting'
+export const save_recAddrForNotInfo_error = 'save_recAddrForNotInfo_error'

@@ -13,12 +13,18 @@ import * as orderListNotRoute from './views/home/orderListNotRoute/orderListNotR
 import * as orderListNotPrice from './views/home/orderListNotPrice/orderListNotPriceActions'
 import * as orderListNotInfo from './views/home/orderListNotInfo/orderListNotInfoActions'
 import * as inquiryList from './views/home/inquiryList/inquiryListActions'
-import * as receiveAddressInfoEditor from './views/receiveAddressInfoEditor/receiveAddressInfoEditorActions'
-import * as sendAddressInfoEditor from './views/sendAddressInfoEditor/sendAddressInfoEditorActions'
 import * as orderCarList from './views/orderCarList/orderCarListActions'
 import * as addOrderCar from './views/addOrderCar/addOrderCarActions'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActions'
 
+import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActions'
+import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActions'
+import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActions'
+
+
+import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActions'
+import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActions'
+import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
 
 export {
     initView,
@@ -36,9 +42,19 @@ export {
     orderListNotPrice,
     orderListNotInfo,
     inquiryList,
-    receiveAddressInfoEditor,
-    sendAddressInfoEditor,
     orderCarList,
     addOrderCar,
-    orderCarEditor
+    orderCarEditor,
+
+
+
+    sendAddrEditorForNotDemand,
+    sendAddrEditorForNotInfo,
+    sendAddrEditorForNotPrice,
+
+
+    recAddrEditorForNotDemand,
+    recAddrEditorForNotInfo,
+    recAddrEditorForNotPrice
+
 }

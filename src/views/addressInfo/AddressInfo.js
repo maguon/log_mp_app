@@ -11,9 +11,10 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import serviceTypeList from '../../config/service_type.json'
+import * as routerDirection from '../../util/RouterDirection'
 
-const AddressInfoEditor = props => {
-    const { sceneKey, orderId, order: { service_type, send_address, send_name, send_phone, recv_phone, recv_name, recv_address } } = props
+const AddressInfo = props => {
+    const { sceneKey, orderId,sceneName, order: { service_type, send_address, send_name, send_phone, recv_phone, recv_name, recv_address } } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
         <Container>
@@ -28,7 +29,7 @@ const AddressInfoEditor = props => {
                 </View>
                 {!send_address && !send_name && !send_phone && <TouchableOpacity
                     style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.sendAddressInfoEditor({ preSceneKey: sceneKey, orderId })}>
+                    onPress={() =>routerDirection.sendAddressInfoEditor(sceneName)({ preSceneKey: sceneKey, orderId })}>
                     <View style={styles.listItemPadding}>
                         <Text style={globalStyles.midText}>发货信息</Text>
                     </View>
@@ -48,7 +49,7 @@ const AddressInfoEditor = props => {
                 </TouchableOpacity>}
                 {!(!send_address && !send_name && !send_phone) && <TouchableOpacity
                     style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.sendAddressInfoEditor({ preSceneKey: sceneKey, orderId })}>
+                    onPress={() => routerDirection.sendAddressInfoEditor(sceneName)({ preSceneKey: sceneKey, orderId })}>
                     <View style={[styles.listItemPadding, { alignSelf: 'flex-start' }]}>
                         <Icon name='ios-person' style={{ color: '#ed2162' }} />
                     </View>
@@ -126,14 +127,5 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state, ownProps) => {
-    const { orderListNotInfoReducer: { data: { orderListNotInfo } } } = state
-    const { orderId } = ownProps
-    // const { inquiryId } = ownProps
-    // console.log('ownProps',ownProps)
-    return {
-        order: orderListNotInfo.find(item => item.id == orderId)
-    }
-}
 
-export default connect(mapStateToProps)(AddressInfoEditor)
+export default AddressInfo

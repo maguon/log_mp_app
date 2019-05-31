@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, ActivityIndicator, StyleSheet, InteractionManager, ToastAndroid, RefreshControl } from 'react-native'
+import { Text, View, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet, InteractionManager, ToastAndroid, RefreshControl } from 'react-native'
 import { Container, Icon } from 'native-base'
 import { connect } from 'react-redux'
 import globalStyles, { styleColor } from '../../../style/GlobalStyles'
@@ -9,6 +9,7 @@ import * as reduxActions from '../../../reduxActions'
 import moment from 'moment'
 import { moneyFormat } from '../../../util/util'
 import serviceTypeList from '../../../config/service_type.json'
+import { Actions } from 'react-native-router-flux'
 
 const renderListEmpty = () => {
     return (
@@ -19,10 +20,10 @@ const renderListEmpty = () => {
 }
 
 const renderListItem = props => {
-    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type } } = props
+    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type }, sceneKey } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
-        <View>
+        <TouchableOpacity onPress={() => Actions.orderNotPrice({ orderId: id, preSceneKey: sceneKey })}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>询价编号：{`${id}`}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
@@ -65,7 +66,7 @@ const renderListItem = props => {
                     <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -79,7 +80,12 @@ const renderListFooter = props => {
 }
 
 class OrderListNotPrice extends Component {
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            loadListIsFinished: false
+        }
+    }
 
     componentDidMount() {
         const { getOrderListNotPriceWaiting, getOrderListNotPrice } = this.props
@@ -89,7 +95,7 @@ class OrderListNotPrice extends Component {
 
     render() {
         const { orderListNotPriceReducer: { getOrderListNotPrice: { isResultStatus }, data: { orderListNotPrice, isCompleted } },
-        getOrderListNotPrice, orderListNotPriceReducer, getOrderListNotPriceMore, getOrderListNotPriceWaiting, sceneKey } = this.props
+            getOrderListNotPrice, orderListNotPriceReducer, getOrderListNotPriceMore, getOrderListNotPriceWaiting, sceneKey } = this.props
         // console.log('this.props', this.props)
         return (
             <Container>
@@ -109,7 +115,12 @@ class OrderListNotPrice extends Component {
                         if (isResultStatus == 2 && !isCompleted) {
                             getOrderListNotPriceMore()
                         } else {
-                            ToastAndroid.show('已全部加载完毕！', 10)
+                            if (!this.state.loadListIsFinished) {
+                                ToastAndroid.show('已全部加载完毕！', 10)
+                                this.setState({
+                                    loadListIsFinished: true
+                                })
+                            }
                         }
                     }}
                     ListEmptyComponent={orderListNotPriceReducer.getOrderListNotPrice.isResultStatus != 1 && orderListNotPrice.length == 0 && renderListEmpty}
