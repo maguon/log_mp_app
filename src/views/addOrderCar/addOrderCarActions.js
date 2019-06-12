@@ -47,7 +47,7 @@ export const getTransAndInsurePrice = req => async (dispatch, getState) => {
         const res = await httpRequest.post(url, {
             distance: req.order.distance,
             modelType: req.formValues.modelType.id,
-            oldCar: req.formValues.order ? 1 : 2,
+            oldCar: req.formValues.oldCar ? 1 : 2,
             serviceType: req.order.service_type,
             valuation: req.formValues.valuation,
             safeStatus: req.formValues.safeStatus ? 1 : 0

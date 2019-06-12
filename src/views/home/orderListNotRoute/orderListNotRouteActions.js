@@ -79,28 +79,3 @@ export const getOrderListNotRouteMore = () => async (dispatch, getState) => {
 export const getOrderNotRouteById = req => async (dispatch, getState) => {
 
 }
-
-export const saveOrderRemark = req => async (dispatch, getstate) => {
-    try {
-        dispatch({ type: reduxActionTypes.orderListNotRoute.put_orderRemarkForNotRoute_waiting, payload: {} })
-        const { communicationSettingReducer: { data: { base_host } },
-            loginReducer: { data: { user: { id } } } } = getstate()
-        const url = `${base_host}/admin/${id}/order/${req.orderId}/adminMark`
-        const res = await httpRequest.put(url, {
-            adminMark: req.formValues.remark ? req.formValues.remark : ''
-        })
-        if (res.success) {
-            dispatch({
-                type: reduxActionTypes.orderListNotRoute.put_orderRemarkForNotRoute_success, payload: {
-                    orderId: req.orderId,
-                    remark: req.formValues.remark
-                }
-            })
-            ToastAndroid.show('修改成功！', 10)
-        } else {
-            dispatch({ type: reduxActionTypes.orderListNotRoute.put_orderRemarkForNotRoute_failed, payload: { failedMsg: `${res.msg}` } })
-        }
-    } catch (err) {
-        dispatch({ type: reduxActionTypes.orderListNotRoute.put_orderRemarkForNotRoute_error, payload: { errorMsg: `${err}` } })
-    }
-}

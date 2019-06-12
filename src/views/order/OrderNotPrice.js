@@ -18,11 +18,24 @@ import serviceTypeList from '../../config/service_type.json'
 
 
 const OrderNotPrice = props => {
-    const { sceneKey, orderId, getOrderCarList, getOrderCarListWaiting,cancelOrder,
-        order: { id, created_on, total_trans_price, total_insure_price, admin_mark, start_city, end_city, service_type, car_num } } = props
-    const serviceType = new Map(serviceTypeList).get(service_type)
     // console.log('props', props)
-    // console.log('serviceType', serviceType)
+    const {
+        orderReducer:
+        {
+            data:
+            {
+                order,
+                order: {
+                    id, created_on, total_trans_price, total_insure_price, admin_mark,
+                    start_city, created_type, end_city, service_type, car_num
+                }
+            }
+        },
+        sceneKey,
+        cancelOrder,
+        changeOrderStatus
+    } = props
+    const serviceType = new Map(serviceTypeList).get(service_type)
     return (
         <Container>
             <Content>
@@ -68,9 +81,7 @@ const OrderNotPrice = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
+                        Actions.orderCarList({ preSceneKey: sceneKey})
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
@@ -113,7 +124,7 @@ const OrderNotPrice = props => {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.orderNotPriceRemarkEditor({ preSceneKey: sceneKey, orderId })}>
+                    onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>客服备注</Text>
                     </View>
@@ -124,30 +135,30 @@ const OrderNotPrice = props => {
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full bordered style={[{ flex: 1, borderColor: styleColor }]} onPress={() => {
-                            // Alert.alert(
-                            //     '',
-                            //     '确定取消订单？',
-                            //     [
-                            //         { text: '取消', onPress: () => { }, style: 'cancel' },
-                            //         { text: '确定', onPress: () => cancalInquiry({ inquiryId: id }) },
-                            //     ],
-                            //     { cancelable: false }
-                            // )
+                            Alert.alert(
+                                '',
+                                '确定重新完善信息？',
+                                [
+                                    { text: '取消', onPress: () => { }, style: 'cancel' },
+                                    { text: '确定', onPress: () => changeOrderStatus({ order, targetStatus: 0 }) },
+                                ],
+                                { cancelable: false }
+                            )
                         }}>
                             <Text style={[globalStyles.largeText, styles.fontColor]}>重新完善信息</Text>
                         </Button>
                     </View>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full style={[globalStyles.styleBackgroundColor, { flex: 1 }]} onPress={() => {
-                            // Alert.alert(
-                            //     '',
-                            //     '确定将该询价生成订单？',
-                            //     [
-                            //         { text: '取消', onPress: () => { }, style: 'cancel' },
-                            //         { text: '确定', onPress: () => produceOrder({ inquiryId: id }) },
-                            //     ],
-                            //     { cancelable: false }
-                            // )
+                            Alert.alert(
+                                '',
+                                '确定价格已完善？',
+                                [
+                                    { text: '取消', onPress: () => { }, style: 'cancel' },
+                                    { text: '确定', onPress: () => changeOrderStatus({ order, targetStatus: 2 }) },
+                                ],
+                                { cancelable: false }
+                            )
                         }}>
                             <Text style={[globalStyles.largeText, { color: '#fff' }]}>价格已完善</Text>
                         </Button>
@@ -161,7 +172,7 @@ const OrderNotPrice = props => {
                                 '确定取消订单？',
                                 [
                                     { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ orderId: id }) },
+                                    { text: '确定', onPress: () => cancelOrder({ order }) },
                                 ],
                                 { cancelable: false }
                             )
@@ -208,26 +219,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state, ownProps) => {
-    const { orderListNotPriceReducer: { data: { orderListNotPrice } } } = state
-    const { orderId } = ownProps
-    return {
-        order: orderListNotPrice.find(item => item.id == orderId)
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => ({
-    getOrderCarList: req => {
-        dispatch(reduxActions.orderCarList.getOrderCarList(req))
-    },
-    getOrderCarListWaiting: () => {
-        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
-    },
-    cancelOrder: req => {
-        dispatch(reduxActions.orderListNotPrice.cancelOrder(req))
-    }
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderNotPrice) 
+export default OrderNotPrice

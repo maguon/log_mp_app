@@ -18,6 +18,8 @@ import * as addOrderCar from './views/addOrderCar/addOrderCarActionTypes'
 import * as orderCarList from './views/orderCarList/orderCarListActionTypes'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActionTypes'
 
+import * as order from './views/order/orderActionTypes'
+
 
 import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActionTypes'
 import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActionTypes'
@@ -53,5 +55,6 @@ export {
     sendAddrEditorForNotPrice,
     recAddrEditorForNotDemand,
     recAddrEditorForNotInfo,
-    recAddrEditorForNotPrice
+    recAddrEditorForNotPrice,
+    order
 }

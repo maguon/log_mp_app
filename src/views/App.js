@@ -22,10 +22,7 @@ import RecAddrEditorForNotPriceToolButton from '../components/toolButton/RecAddr
 
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
 import OrderCarEditorToolButton from '../components/toolButton/OrderCarEditorToolButton'
-import OrderNotInfoRemarkEditorToolButton from '../components/toolButton/OrderNotInfoRemarkEditorToolButton'
-import OrderNotPriceRemarkEditorToolButton from '../components/toolButton/OrderNotPriceRemarkEditorToolButton'
-import OrderNotDemandRemarkEditorToolButton from '../components/toolButton/OrderNotDemandRemarkEditorToolButton'
-import OrderNotRouteRemarkEditorToolButton from '../components/toolButton/OrderNotRouteRemarkEditorToolButton'
+
 //<<<<<<<<<<components
 
 //<<<<<<<<<<views
@@ -33,7 +30,7 @@ import Login from '../views/login/Login'
 import Home from '../views/home/Home'
 import InitView from '../views/initView/InitView'
 import InquiryInfo from '../views/inquiryInfo/InquiryInfo'
-import OrderNotInfo from '../views/orderNotInfo/OrderNotInfo'
+
 import InquiryCarList from '../views/inquiryCarList/InquiryCarList'
 import InquiryCarInfo from '../views/inquiryCarInfo/InquiryCarInfo'
 import Consult from '../views/consult/Consult'
@@ -52,17 +49,19 @@ import OrderCarInfo from '../views/orderCarInfo/OrderCarInfo'
 import OrderCarEditor from '../views/orderCarEditor/OrderCarEditor'
 import OrderCarList from '../views/orderCarList/OrderCarList'
 import AddOrderCar from '../views/addOrderCar/AddOrderCar'
-import OrderNotDemand from './orderNotDemand/OrderNotDemand'
-import OrderNotPrice from './orderNotPrice/OrderNotPrice'
-import OrderNotRoute from './orderNotRoute/OrderNotRoute'
+
+
+
+import order from './order/Order'
+import OrderRemarkEditor from './orderRemarkEditor/OrderRemarkEditor'
+import OrderRemarkEditorToolButton from '../components/toolButton/OrderRemarkEditorToolButton'
+
+
+
 import AddressInfoForNotDemand from './addressInfo/AddressInfoForNotDemand'
 import AddressInfoForNotPrice from './addressInfo/AddressInfoForNotPrice'
 import AddressInfoForNotInfo from './addressInfo/AddressInfoForNotInfo'
 
-import OrderNotInfoRemarkEditor from './orderRemarkEditor/OrderNotInfoRemarkEditor'
-import OrderNotPriceRemarkEditor from './orderRemarkEditor/OrderNotPriceRemarkEditor'
-import OrderNotRouteRemarkEditor from './orderRemarkEditor/OrderNotRouteRemarkEditor'
-import OrderNotDemandRemarkEditor from './orderRemarkEditor/OrderNotDemandRemarkEditor'
 
 import SendAddressInfoEditorForNotDemand from './sendAddressInfoEditor/sendAddrEditorForNotDemand/SendAddrEditorForNotDemand'
 import SendAddressInfoEditorForNotInfo from './sendAddressInfoEditor/sendAddrEditorForNotInfo/SendAddrEditorForNotInfo'
@@ -162,30 +161,10 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
-                            <Scene key="orderNotInfo"
+
+                             <Scene key="order"
                                 LeftButton={LeftButton}
-                                component={OrderNotInfo}
-                                title='订单详情'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderNotDemand"
-                                LeftButton={LeftButton}
-                                component={OrderNotDemand}
-                                title='订单详情'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderNotPrice"
-                                LeftButton={LeftButton}
-                                component={OrderNotPrice}
-                                title='订单详情'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderNotRoute"
-                                LeftButton={LeftButton}
-                                component={OrderNotRoute}
+                                component={order}
                                 title='订单详情'
                                 hideNavBar={false}
                                 navBar={NavBar}
@@ -343,44 +322,17 @@ export default class App extends Component {
                                 RightButton={OrderCarEditorToolButton}
                             />
 
+                            <Scene key="orderRemarkEditor"
+                                LeftButton={LeftButton}
+                                component={OrderRemarkEditor}
+                                title='客服备注'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderRemarkEditorToolButton}
+                            />
 
 
-                            <Scene key="orderNotInfoRemarkEditor"
-                                LeftButton={LeftButton}
-                                component={OrderNotInfoRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderNotInfoRemarkEditorToolButton}
-                            />
-                            <Scene key="orderNotRouteRemarkEditor"
-                                LeftButton={LeftButton}
-                                component={OrderNotRouteRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderNotRouteRemarkEditorToolButton}
-                            />
-                            <Scene key="orderNotPriceRemarkEditor"
-                                LeftButton={LeftButton}
-                                component={OrderNotPriceRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderNotPriceRemarkEditorToolButton}
-                            />
-                            <Scene key="orderNotDemandRemarkEditor"
-                                LeftButton={LeftButton}
-                                component={OrderNotDemandRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderNotDemandRemarkEditorToolButton}
-                            />
 
 
                             <Scene key="addOrderCar"
@@ -402,7 +354,7 @@ export default class App extends Component {
                             />
                         </Scene>
                         <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
-                            <Scene key="order"
+                            <Scene key="orderb"
                                 component={Order}
                                 title='订单'
                                 hideNavBar={false}

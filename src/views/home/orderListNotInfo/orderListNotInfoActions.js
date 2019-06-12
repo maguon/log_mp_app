@@ -75,7 +75,9 @@ export const getOrderNotInfoById = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
+        console.log('url',url)
         const res = await httpRequest.get(url)
+        console.log('res',res)
 
         if (res.success) {
             dispatch({ type: reduxActionTypes.orderListNotInfo.get_orderNotInfoById_success, payload: { order: res.result[0] } })
@@ -89,56 +91,13 @@ export const getOrderNotInfoById = req => async (dispatch, getState) => {
     }
 }
 
-export const cancelOrder = req => async (dispatch, getState) => {
-    try {
-        dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_waiting, payload: {} })
-        const { communicationSettingReducer: { data: { base_host } },
-            loginReducer: { data: { user: { id } } } } = getState()
-        const url = `${base_host}/admin/${id}/order/${req.orderId}/cancel`
-        const res = await httpRequest.put(url, {})
-        if (res.success) {
-            Actions.pop()
-            InteractionManager.runAfterInteractions(() => dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_success, payload: { orderId: req.orderId } }))
-        } else {
-            dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_failed, payload: { failedMsg: `${res.msg}` } })
-        }
-    } catch (err) {
-        dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_error, payload: { errorMsg: `${err}` } })
-    }
-}
-
-export const saveOrderRemark = req => async (dispatch, getstate) => {
-    try {
-        dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_waiting, payload: {} })
-        const { communicationSettingReducer: { data: { base_host } },
-            loginReducer: { data: { user: { id } } } } = getstate()
-        const url = `${base_host}/admin/${id}/order/${req.orderId}/adminMark`
-        const res = await httpRequest.put(url, {
-            adminMark: req.formValues.remark ? req.formValues.remark : ''
-        })
-        if (res.success) {
-            dispatch({
-                type: reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_success, payload: {
-                    orderId: req.orderId,
-                    remark: req.formValues.remark
-                }
-            })
-            ToastAndroid.show('修改成功！', 10)
-        } else {
-            dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_failed, payload: { failedMsg: `${res.msg}` } })
-        }
-    } catch (err) {
-        dispatch({ type: reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_error, payload: { errorMsg: `${err}` } })
-    }
-}
-
 
 export const changeOrderStatus = req => async (dispatch, getState) => {
     try {
         dispatch({ type: reduxActionTypes.orderListNotInfo.change_orderStatusForNotInfo_waiting, payload: {} })
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getstate()
-        const url = `${base_host}`
+        const url = `${base_host}/admin/${id}/order/${req.orderId}/status/0`
         console.log('url', url)
         const res = await httpRequest.put(url, {})
         console.log('res', res)

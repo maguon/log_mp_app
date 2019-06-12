@@ -17,7 +17,7 @@ import * as reduxActions from '../../reduxActions'
 import ModalWaiting from '../../components/ModalWaiting'
 
 const CarListItem = props => {
-    const { item: { vin, ora_insure_price, ora_trans_price, id, valuation, model_type, safe_status, old_car },
+    const { item: { vin, act_insure_price, act_trans_price, id, valuation, model_type, safe_status, old_car },
         item, i, getTransAndInsurePrice, delOrderCar, sceneKey, order } = props
     const cartype = new Map(carModal).get(model_type)
     // console.log('props', props)
@@ -35,7 +35,7 @@ const CarListItem = props => {
                     safeStatus: safe_status
                 })
                 if (order.created_type == 1) {
-                    Actions.orderCarEditor({ preSceneKey: sceneKey, orderCarId: id, orderId: order.id })
+                    Actions.orderCarEditor({ preSceneKey: sceneKey, orderCarId: id, order })
                 } else {
                     Actions.orderCarInfo({ preSceneKey: sceneKey, orderCarId: id, orderId: order.id })
                 }
@@ -58,12 +58,11 @@ const CarListItem = props => {
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBody]}>
                     <Text style={globalStyles.midText}>{cartype ? `${cartype.name}` : ""}</Text>
-
-                    <Text style={globalStyles.midText}>估值：{valuation ? `${valuation}` : ''}元</Text>
+                    <Text style={globalStyles.midText}>估值：{valuation ? `${valuation}` : '0'}元</Text>
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBody]}>
                     <Text style={globalStyles.midText}>应付费用</Text>
-                    <Text style={globalStyles.midText}><Text style={globalStyles.xlText}>{ora_insure_price + ora_trans_price}</Text> 元</Text>
+                    <Text style={globalStyles.midText}><Text style={globalStyles.xlText}>{act_insure_price + act_trans_price}</Text> 元</Text>
                 </View>
             </View>
             <View style={[styles.listItemPadding, {}]}>
@@ -91,7 +90,8 @@ const EmptyList = props => {
 
 
 const CarList = props => {
-    const { list, sceneKey, delOrderCar, order, getTransAndInsurePrice } = props
+    const { list, sceneKey, delOrderCar, getTransAndInsurePrice,order
+         } = props
     return list.map((item, i) => {
         return <CarListItem
             item={item}
@@ -104,9 +104,11 @@ const CarList = props => {
 }
 
 const OrderCarList = props => {
-    const { sceneKey, orderId, getTransAndInsurePrice, delOrderCar,
-        order: { total_insure_price, car_num, total_trans_price, created_type }, order,
+    const { sceneKey, getTransAndInsurePrice, delOrderCar,
+        orderReducer: { data: { order: { total_insure_price, car_num, total_trans_price, created_type }, 
+        order } },
         orderCarListReducer: { data: { orderCarList }, getOrderCarList }, orderCarListReducer } = props
+    // console.log('props',props)
     if (getOrderCarList.isResultStatus == 1) {
         return (
             <Container style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -184,11 +186,9 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const { orderListNotInfoReducer: { data: { orderListNotInfo } } } = state
-    const { orderId } = ownProps
     return {
-        order: orderListNotInfo.find(item => item.id == orderId),
-        orderCarListReducer: state.orderCarListReducer
+        orderCarListReducer: state.orderCarListReducer,
+        orderReducer: state.orderReducer
     }
 }
 

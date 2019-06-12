@@ -10,9 +10,8 @@ import { moneyFormat } from '../../util/util'
 import * as reduxActions from '../../reduxActions'
 import ModalWaiting from '../../components/ModalWaiting'
 
-
-
 const OrderCarEditor = props => {
+    
     const carModalList = carModal.map(item => {
         return {
             id: item[0],
@@ -20,7 +19,6 @@ const OrderCarEditor = props => {
         }
 
     })
-
     const { orderCarEditorReducer: { data: { transAndInsurePrice: { insure, trans } },updateOrderCar: { isResultStatus } }, dispatch, formValues } = props
     const actTransPrice = formValues && formValues.actTransPrice && !isNaN(parseFloat(formValues.actTransPrice)) ? parseFloat(formValues.actTransPrice) : 0.00
     const actInsurePrice = formValues && formValues.actInsurePrice && !isNaN(parseFloat(formValues.actInsurePrice)) ? parseFloat(formValues.actInsurePrice) : 0.00
@@ -166,7 +164,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
     const { orderCarListReducer: { data: { orderCarList } },
         orderListNotInfoReducer: { data: { orderListNotInfo } } } = state
-    const { orderCarId, orderId } = ownProps
+    const { orderCarId } = ownProps
     const orderCar = orderCarList.find(item => item.id == orderCarId)
     const { safe_status, act_insure_price, vin, act_trans_price, old_car, valuation, brand, brand_type, model_type } = orderCar
     const cartype = new Map(carModal).get(model_type)
@@ -183,8 +181,7 @@ const mapStateToProps = (state, ownProps) => {
             oldCar: old_car == 1 ? true : false,
         },
         formValues: getFormValues('orderCarEditorForm')(state),
-        orderCarEditorReducer: state.orderCarEditorReducer,
-        order: orderListNotInfo.find(item => item.id == orderId)
+        orderCarEditorReducer: state.orderCarEditorReducer
     }
 }
 

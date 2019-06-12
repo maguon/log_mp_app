@@ -20,10 +20,16 @@ const renderListEmpty = () => {
 }
 
 const renderListItem = props => {
-    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type }, sceneKey } = props
+    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city,
+         start_city, service_type, created_type }, sceneKey,item, initOrder, getOrderCarListWaiting, getOrderCarList } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
-        <TouchableOpacity onPress={() => Actions.orderNotPrice({ orderId: id, preSceneKey: sceneKey })}>
+        <TouchableOpacity onPress={() =>{
+            getOrderCarListWaiting()
+            initOrder({ order: item })
+            Actions.order({ preSceneKey: sceneKey })
+            InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+        }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>询价编号：{`${id}`}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
@@ -95,7 +101,8 @@ class OrderListNotPrice extends Component {
 
     render() {
         const { orderListNotPriceReducer: { getOrderListNotPrice: { isResultStatus }, data: { orderListNotPrice, isCompleted } },
-            getOrderListNotPrice, orderListNotPriceReducer, getOrderListNotPriceMore, getOrderListNotPriceWaiting, sceneKey } = this.props
+            getOrderListNotPrice, orderListNotPriceReducer, getOrderListNotPriceMore, getOrderListNotPriceWaiting, sceneKey
+            ,initOrder, getOrderCarListWaiting, getOrderCarList } = this.props
         // console.log('this.props', this.props)
         return (
             <Container>
@@ -127,7 +134,7 @@ class OrderListNotPrice extends Component {
                     contentContainerStyle={[styles.list]}
                     keyExtractor={(item, index) => index}
                     data={orderListNotPrice}
-                    renderItem={param => renderListItem({ ...param, sceneKey })}
+                    renderItem={param => renderListItem({ ...param, sceneKey,initOrder, getOrderCarListWaiting, getOrderCarList })}
                     ListFooterComponent={orderListNotPriceReducer.getOrderListNotPriceMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                 />
             </Container>
@@ -223,6 +230,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getOrderListNotPriceMore: () => {
         dispatch(reduxActions.orderListNotPrice.getOrderListNotPriceMore())
+    },
+    getOrderCarList: req => {
+        dispatch(reduxActions.orderCarList.getOrderCarList(req))
+    },
+    getOrderCarListWaiting: () => {
+        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
+    },
+    initOrder: req => {
+        dispatch(reduxActions.order.initOrder(req))
     }
 })
 

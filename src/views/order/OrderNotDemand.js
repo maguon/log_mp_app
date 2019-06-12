@@ -18,8 +18,23 @@ import serviceTypeList from '../../config/service_type.json'
 
 
 const OrderNotDemand = props => {
-    const { sceneKey, orderId, getOrderCarList, getOrderCarListWaiting,cancelOrder,
-        order: { id, created_on, total_trans_price, total_insure_price, admin_mark, start_city, end_city, service_type, car_num } } = props
+    // console.log('props', props)
+    const {
+        orderReducer:
+        {
+            data:
+            {
+                order,
+                order: {
+                    id, created_on, total_trans_price, total_insure_price, admin_mark,
+                    start_city, created_type, end_city, service_type, car_num
+                }
+            }
+        },
+        sceneKey,
+        cancelOrder,
+        changeOrderStatus
+    } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
         <Container>
@@ -52,7 +67,7 @@ const OrderNotDemand = props => {
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => Actions.addressInfoForNotDemand({ preSceneKey: sceneKey, orderId , sceneName: "notDemand"})}>
+                    onPress={() => Actions.addressInfoForNotDemand({ preSceneKey: sceneKey, orderId, sceneName: "notDemand" })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
                     </View>
@@ -66,9 +81,9 @@ const OrderNotDemand = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
+                        // getOrderCarListWaiting()
+                        Actions.orderCarList({ preSceneKey: sceneKey})
+                        // InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
@@ -111,7 +126,7 @@ const OrderNotDemand = props => {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.orderNotDemandRemarkEditor({ preSceneKey: sceneKey, orderId })}>
+                    onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>客服备注</Text>
                     </View>
@@ -122,30 +137,30 @@ const OrderNotDemand = props => {
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full bordered style={[{ flex: 1, borderColor: styleColor }]} onPress={() => {
-                            // Alert.alert(
-                            //     '',
-                            //     '确定取消订单？',
-                            //     [
-                            //         { text: '取消', onPress: () => { }, style: 'cancel' },
-                            //         { text: '确定', onPress: () => cancalInquiry({ inquiryId: id }) },
-                            //     ],
-                            //     { cancelable: false }
-                            // )
+                            Alert.alert(
+                                '',
+                                '确定重新完善价格？',
+                                [
+                                    { text: '取消', onPress: () => { }, style: 'cancel' },
+                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 1 }) },
+                                ],
+                                { cancelable: false }
+                            )
                         }}>
                             <Text style={[globalStyles.largeText, styles.fontColor]}>重新完善价格</Text>
                         </Button>
                     </View>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full style={[globalStyles.styleBackgroundColor, { flex: 1 }]} onPress={() => {
-                            // Alert.alert(
-                            //     '',
-                            //     '确定将该询价生成订单？',
-                            //     [
-                            //         { text: '取消', onPress: () => { }, style: 'cancel' },
-                            //         { text: '确定', onPress: () => produceOrder({ inquiryId: id }) },
-                            //     ],
-                            //     { cancelable: false }
-                            // )
+                            Alert.alert(
+                                '',
+                                '确定生成运输需求？',
+                                [
+                                    { text: '取消', onPress: () => { }, style: 'cancel' },
+                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 3 }) },
+                                ],
+                                { cancelable: false }
+                            )
                         }}>
                             <Text style={[globalStyles.largeText, { color: '#fff' }]}>生成运输需求</Text>
                         </Button>
@@ -159,7 +174,7 @@ const OrderNotDemand = props => {
                                 '确定取消订单？',
                                 [
                                     { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ orderId: id }) },
+                                    { text: '确定', onPress: () => cancelOrder({ order }) }
                                 ],
                                 { cancelable: false }
                             )
@@ -206,26 +221,5 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state, ownProps) => {
-    const { orderListNotDemandReducer: { data: { orderListNotDemand } } } = state
-    const { orderId } = ownProps
-    return {
-        order: orderListNotDemand.find(item => item.id == orderId)
-    }
-}
+export default OrderNotDemand
 
-
-const mapDispatchToProps = (dispatch) => ({
-    getOrderCarList: req => {
-        dispatch(reduxActions.orderCarList.getOrderCarList(req))
-    },
-    getOrderCarListWaiting: () => {
-        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
-    },
-    cancelOrder: req => {
-        dispatch(reduxActions.orderListNotDemand.cancelOrder(req))
-    }
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderNotDemand) 

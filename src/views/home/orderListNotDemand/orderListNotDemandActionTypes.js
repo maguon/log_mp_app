@@ -20,7 +20,8 @@ export const put_orderCancelNotDemandById_failed = 'put_orderCancelNotDemandById
 export const put_orderCancelNotDemandById_error = 'put_orderCancelNotDemandById_error'
 
 
-export const put_orderRemarkForNotDemand_success = 'put_orderRemarkForNotDemand_success'
-export const put_orderRemarkForNotDemand_failed = 'put_orderRemarkForNotDemand_failed'
-export const put_orderRemarkForNotDemand_error = 'put_orderRemarkForNotDemand_error'
-export const put_orderRemarkForNotDemand_waiting = 'put_orderRemarkForNotDemand_waiting'
+export const remove_orderForNotDemand ='remove_orderForNotDemand'
+export const modify_orderRemarkForNotDemand = 'modify_orderRemarkForNotDemand'
+export const set_orderForNotDemand = 'set_orderForNotDemand'
+
+

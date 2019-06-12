@@ -22,6 +22,9 @@ import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAdd
 import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActions'
 
 
+import * as order from './views/order/orderActions'
+
+
 import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActions'
 import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActions'
 import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
@@ -55,6 +58,7 @@ export {
 
     recAddrEditorForNotDemand,
     recAddrEditorForNotInfo,
-    recAddrEditorForNotPrice
+    recAddrEditorForNotPrice,
+    order
 
 }

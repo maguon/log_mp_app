@@ -185,12 +185,24 @@ export default handleActions({
 
 
 
-    [reduxActionTypes.orderListNotPrice.put_orderRemarkForNotPrice_success]: (state, action) => {
+    [reduxActionTypes.orderListNotPrice.remove_orderForNotPrice]: (state, action) => {
+        const { payload: { order } } = action
+        return {
+            ...state,
+            data: {
+                orderListNotPrice: state.data.orderListNotPrice.filter(item => item.id != order.id)
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.orderListNotPrice.modify_orderRemarkForNotPrice]: (state, action) => {
         const { payload: { orderId, remark } } = action
         return {
             ...state,
             data: {
-                ...state.data,
                 orderListNotPrice: state.data.orderListNotPrice.map(item => {
                     if (item.id == orderId) {
                         return {
@@ -201,90 +213,27 @@ export default handleActions({
                         return item
                     }
                 })
-            },
-            saveOrderRemark: {
-                ...state.saveOrderRemark,
-                isResultStatus: 2
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderRemarkForNotPrice_failed]: (state, action) => {
-        const { payload: { failedMsg } } = action
-        return {
-            ...state,
-            saveOrderRemark: {
-                ...state.saveOrderRemark,
-                isResultStatus: 4,
-                failedMsg
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderRemarkForNotPrice_waiting]: (state, action) => {
-        return {
-            ...state,
-            saveOrderRemark: {
-                ...state.saveOrderRemark,
-                isResultStatus: 1
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderRemarkForNotPrice_error]: (state, action) => {
-        const { payload: { errorMsg } } = action
-        return {
-            ...state,
-            saveOrderRemark: {
-                ...state.saveOrderRemark,
-                isResultStatus: 3,
-                errorMsg
             }
         }
     },
 
 
 
-    [reduxActionTypes.orderListNotPrice.put_orderCancelNotPriceById_success]: (state, action) => {
-        const { payload: { orderId } } = action
+    [reduxActionTypes.orderListNotPrice.set_orderForNotPrice]: (state, action) => {
+        const { payload: { order } } = action
+        console.log('order',order)
         return {
             ...state,
             data: {
-                ...state.data,
-                orderListNotPrice: state.data.orderListNotPrice.filter(item => item.id != orderId)
-            },
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 2
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderCancelNotPriceById_failed]: (state, action) => {
-        const { payload: { failedMsg } } = action
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 4,
-                failedMsg
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderCancelNotPriceById_waiting]: (state, action) => {
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 1
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotPrice.put_orderCancelNotPriceById_error]: (state, action) => {
-        const { payload: { errorMsg } } = action
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 3,
-                errorMsg
+                orderListNotPrice: state.data.orderListNotPrice.map(item => {
+                    if (item.id == order.id) {
+                        return order
+                    } else {
+                        return item
+                    }
+                })
             }
         }
     }
+
 }, initialState)

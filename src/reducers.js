@@ -20,6 +20,9 @@ import orderCarListReducer from './views/orderCarList/orderCarListReducer'
 import addOrderCarReducer from './views/addOrderCar/addOrderCarReducer'
 import orderCarEditorReducer from './views/orderCarEditor/orderCarEditorReducer'
 
+
+import orderReducer from './views/order/orderReducer'
+
 import sendAddrEditorForNotDemandReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandReducer'
 import sendAddrEditorForNotInfoReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoReducer'
 import sendAddrEditorForNotPriceReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceReducer'
@@ -55,5 +58,9 @@ export default combineReducers({
     sendAddrEditorForNotPriceReducer,
     recAddrEditorForNotDemandReducer,
     recAddrEditorForNotInfoReducer,
-    recAddrEditorForNotPriceReducer
+    recAddrEditorForNotPriceReducer,
+
+
+
+    orderReducer
 })

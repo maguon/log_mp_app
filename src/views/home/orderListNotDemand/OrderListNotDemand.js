@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, ActivityIndicator, StyleSheet, InteractionManager, ToastAndroid, RefreshControl,TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, ActivityIndicator, StyleSheet, InteractionManager, ToastAndroid, RefreshControl, TouchableOpacity } from 'react-native'
 import { Container, Icon } from 'native-base'
 import { connect } from 'react-redux'
 import globalStyles, { styleColor } from '../../../style/GlobalStyles'
@@ -20,10 +20,17 @@ const renderListEmpty = () => {
 }
 
 const renderListItem = props => {
-    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type },sceneKey } = props
+    const { item: { id, created_on, car_num, total_trans_price, total_insure_price,
+        end_city, start_city, service_type, created_type }, item, sceneKey, initOrder,
+        getOrderCarListWaiting, getOrderCarList } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
-        <TouchableOpacity onPress={()=>Actions.orderNotDemand({orderId: id,preSceneKey: sceneKey })}>
+        <TouchableOpacity onPress={() => {
+            getOrderCarListWaiting()
+            initOrder({ order: item })
+            Actions.order({ preSceneKey: sceneKey })
+            InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+        }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>询价编号：{`${id}`}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
@@ -86,7 +93,7 @@ class OrderListNotDemand extends Component {
             loadListIsFinished: false
         }
     }
-    
+
     componentDidMount() {
         const { getOrderListNotDemandWaiting, getOrderListNotDemand } = this.props
         getOrderListNotDemandWaiting()
@@ -95,7 +102,8 @@ class OrderListNotDemand extends Component {
 
     render() {
         const { orderListNotDemandReducer: { getOrderListNotDemand: { isResultStatus }, data: { orderListNotDemand, isCompleted } },
-        getOrderListNotDemand, orderListNotDemandReducer, getOrderListNotDemandMore, getOrderListNotDemandWaiting, sceneKey } = this.props
+            getOrderListNotDemand, orderListNotDemandReducer, getOrderListNotDemandMore, getOrderListNotDemandWaiting,
+            sceneKey, initOrder, getOrderCarListWaiting, getOrderCarList } = this.props
         return (
             <Container>
                 <FlatList
@@ -126,7 +134,7 @@ class OrderListNotDemand extends Component {
                     contentContainerStyle={[styles.list]}
                     keyExtractor={(item, index) => index}
                     data={orderListNotDemand}
-                    renderItem={param => renderListItem({ ...param, sceneKey })}
+                    renderItem={param => renderListItem({ ...param, sceneKey, initOrder, getOrderCarListWaiting, getOrderCarList })}
                     ListFooterComponent={orderListNotDemandReducer.getOrderListNotDemandMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                 />
             </Container>
@@ -222,6 +230,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getOrderListNotDemandMore: () => {
         dispatch(reduxActions.orderListNotDemand.getOrderListNotDemandMore())
+    },
+    getOrderCarList: req => {
+        dispatch(reduxActions.orderCarList.getOrderCarList(req))
+    },
+    getOrderCarListWaiting: () => {
+        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
+    },
+    initOrder: req => {
+        dispatch(reduxActions.order.initOrder(req))
     }
 })
 

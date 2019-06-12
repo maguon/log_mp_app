@@ -23,17 +23,38 @@ export const updateOrderCar = req => async (dispatch, getState) => {
             serviceType: req.order.service_type
         })
         if (res.success) {
-            dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_success, payload: {} })
-            dispatch(reduxActions.orderListNotInfo.getOrderNotInfoById({ orderId: req.order.id }))
-            dispatch(reduxActions.orderCarList.getOrderCarByCarId({
-                orderId: req.order.id,
-                orderItemId: req.orderCarId
-            }))
+            const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.order.id}`
+            console.log('orderUrl', orderUrl)
+            const orderRes = await httpRequest.get(orderUrl)
+            console.log('orderRes', orderRes)
+
+
+            if (orderRes.success) {
+                dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_success, payload: {} })
+                dispatch(reduxActions.orderCarList.getOrderCarByCarId({
+                    orderId: req.order.id,
+                    orderItemId: req.orderCarId
+                }))
+                dispatch(reduxActions.order.initOrder({ order: orderRes.result[0] }))
+                if (req.order.status == 0) {
+                    dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
+                } else if (req.order.status == 1) {
+                    dispatch({ type: reduxActionTypes.orderListNotPrice.set_orderForNotPrice, payload: { order: orderRes.result[0] } })
+                } else if (req.order.status == 2) {
+                    dispatch({ type: reduxActionTypes.orderListNotDemand.set_orderForNotDemand, payload: { order: orderRes.result[0] } })
+                } else if (req.order.status == 3) {
+                    dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
+                }
+            } else {
+                dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_failed, payload: { failedMsg: `${orderRes.msg}` } })
+            }
+
             ToastAndroid.show('修改成功！', 10)
         } else {
             dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
+        console.log('err', err)
         dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_error, payload: { errorMsg: `${err}` } })
     }
 }

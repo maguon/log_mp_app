@@ -22,7 +22,7 @@ export const getOrderCarList = req => async (dispatch, getState) => {
     }
 }
 
-export const getOrderCarListWaiting = req => (dispatch, getState) => {
+export const getOrderCarListWaiting = () => (dispatch) => {
     dispatch({ type: reduxActionTypes.orderCarList.get_orderCarList_waiting, payload: {} })
 }
 
@@ -58,7 +58,7 @@ export const getOrderCarByCarId = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.orderCarList.get_orderCarByCarId_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        console.log('err',err)
+        console.log('err', err)
         dispatch({ type: reduxActionTypes.orderCarList.get_orderCarByCarId_error, payload: { errorMsg: `${err}` } })
     }
 }

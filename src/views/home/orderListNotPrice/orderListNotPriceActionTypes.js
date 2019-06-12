@@ -13,13 +13,7 @@ export const get_orderNotPriceById_failed = 'get_orderNotPriceById_failed'
 export const get_orderNotPriceById_error = 'get_orderNotPriceById_error'
 export const get_orderNotPriceById_waiting = 'get_orderNotPriceById_waiting'
 
-export const put_orderCancelNotPriceById_success = 'put_orderCancelNotPriceById_success'
-export const put_orderCancelNotPriceById_waiting = 'put_orderCancelNotPriceById_waiting'
-export const put_orderCancelNotPriceById_failed = 'put_orderCancelNotPriceById_failed'
-export const put_orderCancelNotPriceById_error = 'put_orderCancelNotPriceById_error'
 
-
-export const put_orderRemarkForNotPrice_success = 'put_orderRemarkForNotPrice_success'
-export const put_orderRemarkForNotPrice_failed = 'put_orderRemarkForNotPrice_failed'
-export const put_orderRemarkForNotPrice_error = 'put_orderRemarkForNotPrice_error'
-export const put_orderRemarkForNotPrice_waiting = 'put_orderRemarkForNotPrice_waiting'
+export const remove_orderForNotPrice ='remove_orderForNotPrice'
+export const modify_orderRemarkForNotPrice = 'modify_orderRemarkForNotPrice'
+export const set_orderForNotPrice = 'set_orderForNotPrice'

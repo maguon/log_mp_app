@@ -10,8 +10,9 @@ import { RichTextBox } from '../../components/form'
 import * as reduxActions from '../../reduxActions'
 import ModalWaiting from '../../components/ModalWaiting'
 
-const OrderNotRouteRemarkEditor = props => {
-    const { orderListNotRouteReducer: { saveOrderRemark: { isResultStatus } } } = props
+
+const OrderRemarkEditor = props => {
+    const { orderReducer: { modifyOrderRemark: { isResultStatus } } } = props
     return (
         <Container>
             <Content>
@@ -26,21 +27,22 @@ const OrderNotRouteRemarkEditor = props => {
     )
 }
 
+
+
 const mapStateToProps = (state, ownProps) => {
-    const { orderId } = ownProps
-    const order = state.orderListNotRouteReducer.data.orderListNotRoute.find(item => item.id == orderId)
+    const { order } = ownProps
     return {
         initialValues: {
             remark: order.admin_mark
         },
-        orderListNotRouteReducer: state.orderListNotRouteReducer
+        orderReducer: state.orderReducer
     }
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: 'orderNRRemarkForm',
+    form: 'orderRemarkForm',
     onSubmit: (values, dispatch, props) => {
-        const { orderId } = props
-        dispatch(reduxActions.orderListNotRoute.saveOrderRemark({ formValues:values, orderId }))
+        const { order } = props
+        dispatch(reduxActions.order.modifyOrderRemark({ formValues: values, order }))
     }
-})(OrderNotRouteRemarkEditor))
+})(OrderRemarkEditor))

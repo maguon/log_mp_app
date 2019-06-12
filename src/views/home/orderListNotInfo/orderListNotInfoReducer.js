@@ -31,6 +31,11 @@ const initialState = {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
+    },
+    changeOrderStatus: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
     }
 }
 
@@ -177,51 +182,11 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_success]: (state, action) => {
-        const { payload: { orderId } } = action
-        return {
-            ...state,
-            data: {
-                ...state.data,
-                orderListNotInfo: state.data.orderListNotInfo.filter(item => item.id != orderId)
-            },
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 2
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_failed]: (state, action) => {
-        const { payload: { failedMsg } } = action
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 4,
-                failedMsg
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_waiting]: (state, action) => {
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 1
-            }
-        }
-    },
-    [reduxActionTypes.orderListNotInfo.put_orderCancelNotInfoById_error]: (state, action) => {
-        const { payload: { errorMsg } } = action
-        return {
-            ...state,
-            cancelOrder: {
-                ...state.cancelOrder,
-                isResultStatus: 3,
-                errorMsg
-            }
-        }
-    },
+
+
+
+
+
     [reduxActionTypes.orderListNotInfo.put_orderRemarkForNotInfo_success]: (state, action) => {
         const { payload: { orderId, remark } } = action
         return {
@@ -273,6 +238,104 @@ export default handleActions({
                 ...state.saveOrderRemark,
                 isResultStatus: 3,
                 errorMsg
+            }
+        }
+    },
+
+
+
+
+
+
+
+    [reduxActionTypes.orderListNotInfo.change_orderStatusForNotInfo_success]: (state, action) => {
+        const { payload: { orderId, remark } } = action
+        return {
+            ...state,
+            changeOrderStatus: {
+                ...state.changeOrderStatus,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.change_orderStatusForNotInfo_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            changeOrderStatus: {
+                ...state.changeOrderStatus,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.change_orderStatusForNotInfo_waiting]: (state, action) => {
+        return {
+            ...state,
+            changeOrderStatus: {
+                ...state.changeOrderStatus,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.orderListNotInfo.change_orderStatusForNotInfo_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            changeOrderStatus: {
+                ...state.changeOrderStatus,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.orderListNotInfo.remove_orderForNotInfo]: (state, action) => {
+        const { payload: { order } } = action
+        return {
+            ...state,
+            data: {
+                orderListNotInfo: state.data.orderListNotInfo.filter(item => item.id != order.id)
+            }
+        }
+    },
+
+    [reduxActionTypes.orderListNotInfo.modify_orderRemarkForNotInfo]: (state, action) => {
+        const { payload: { orderId, remark } } = action
+        return {
+            ...state,
+            data: {
+                orderListNotInfo: state.data.orderListNotInfo.map(item => {
+                    if (item.id == orderId) {
+                        return {
+                            ...item,
+                            admin_mark: remark
+                        }
+                    } else {
+                        return item
+                    }
+                })
+            }
+        }
+    },
+
+
+    [reduxActionTypes.orderListNotInfo.set_orderForNotInfo]: (state, action) => {
+        const { payload: { order } } = action
+        console.log('order',order)
+        return {
+            ...state,
+            data: {
+                orderListNotInfo: state.data.orderListNotInfo.map(item => {
+                    if (item.id == order.id) {
+                        return order
+                    } else {
+                        return item
+                    }
+                })
             }
         }
     }

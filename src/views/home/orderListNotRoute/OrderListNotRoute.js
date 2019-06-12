@@ -20,10 +20,17 @@ const renderListEmpty = () => {
 }
 
 const renderListItem = props => {
-    const { item: { id, created_on, car_num, total_trans_price, total_insure_price, end_city, start_city, service_type, created_type }, sceneKey } = props
+    const { item: { id, created_on, car_num, total_trans_price, total_insure_price,
+        end_city, start_city, service_type, created_type }, sceneKey, item, initOrder,
+        getOrderCarListWaiting, getOrderCarList } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
-        <TouchableOpacity onPress={() => Actions.orderNotRoute({ orderId: id, preSceneKey: sceneKey })}>
+        <TouchableOpacity onPress={() => {
+            getOrderCarListWaiting()
+            initOrder({ order: item })
+            Actions.order({ preSceneKey: sceneKey })
+            InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+        }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>询价编号：{`${id}`}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
@@ -86,7 +93,7 @@ class OrderListNotRoute extends Component {
             loadListIsFinished: false
         }
     }
-    
+
     componentDidMount() {
         const { getOrderListNotRouteWaiting, getOrderListNotRoute } = this.props
         getOrderListNotRouteWaiting()
@@ -95,7 +102,8 @@ class OrderListNotRoute extends Component {
 
     render() {
         const { orderListNotRouteReducer: { getOrderListNotRoute: { isResultStatus }, data: { orderListNotRoute, isCompleted } },
-            getOrderListNotRoute, orderListNotRouteReducer, getOrderListNotRouteMore, getOrderListNotRouteWaiting, sceneKey } = this.props
+            getOrderListNotRoute, orderListNotRouteReducer, getOrderListNotRouteMore, getOrderListNotRouteWaiting, sceneKey,
+            initOrder, getOrderCarListWaiting, getOrderCarList } = this.props
         // console.log('this.props', this.props)
         return (
             <Container>
@@ -127,7 +135,7 @@ class OrderListNotRoute extends Component {
                     contentContainerStyle={[styles.list]}
                     keyExtractor={(item, index) => index}
                     data={orderListNotRoute}
-                    renderItem={param => renderListItem({ ...param, sceneKey })}
+                    renderItem={param => renderListItem({ ...param, sceneKey, initOrder, getOrderCarListWaiting, getOrderCarList })}
                     ListFooterComponent={orderListNotRouteReducer.getOrderListNotRouteMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                 />
             </Container>
@@ -223,6 +231,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getOrderListNotRouteMore: () => {
         dispatch(reduxActions.orderListNotRoute.getOrderListNotRouteMore())
+    },
+    getOrderCarList: req => {
+        dispatch(reduxActions.orderCarList.getOrderCarList(req))
+    },
+    getOrderCarListWaiting: () => {
+        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
+    },
+    initOrder: req => {
+        dispatch(reduxActions.order.initOrder(req))
     }
 })
 
