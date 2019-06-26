@@ -401,7 +401,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
+                        <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
                                 component={Route}
                                 title='路线'

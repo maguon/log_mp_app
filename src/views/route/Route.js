@@ -21,7 +21,7 @@ class Route extends Component {
     render() {
         return (
             <Container>
-                <Text>route</Text>
+                {/* <Text>route</Text> */}
                 <RequireTaskList />
             </Container>
         )
