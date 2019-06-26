@@ -15,10 +15,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment'
 import serviceTypeList from '../../config/service_type.json'
+import orderPaymentStatusList from '../../config/order_payment_status.json'
 
 
 const OrderNotDemand = props => {
-    // console.log('props', props)
+    console.log('props', props)
     const {
         orderReducer:
         {
@@ -26,16 +27,19 @@ const OrderNotDemand = props => {
             {
                 order,
                 order: {
-                    id, created_on, total_trans_price, total_insure_price, admin_mark,
-                    start_city, created_type, end_city, service_type, car_num
+                    id, created_on, total_trans_price, total_insure_price, admin_mark, real_payment_price, admin_name,
+                    start_city, created_type, end_city, service_type, car_num, departure_time, payment_status
                 }
             }
         },
         sceneKey,
         cancelOrder,
-        changeOrderStatus
+        changeOrderStatus,
+        getPaymentList,
+        getPaymentListWaiting
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
+    const orderPaymentStatus = new Map(orderPaymentStatusList).get(payment_status)
     return (
         <Container>
             <Content>
@@ -52,16 +56,16 @@ const OrderNotDemand = props => {
                         </View>
                         <View>
                             <Text style={[globalStyles.midText, styles.fontColor]}>
-                                待完善信息
+                                {orderPaymentStatus ? `${orderPaymentStatus}` : '未知'}/待生成需求
                             </Text>
                         </View>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View>
-                            <Text style={[globalStyles.midText]}>创建人：李建国</Text>
+                            <Text style={[globalStyles.midText]}>创建人：{admin_name ? `${admin_name}` : ''}</Text>
                         </View>
                         <View>
-                            <Icon name='md-call' style={styles.fontColor} />
+                            <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>发运日期：{departure_time ? `${moment(departure_time).format('YYYY-MM-DD')}` : ''}</Text>
                         </View>
                     </View>
                 </View>
@@ -73,7 +77,7 @@ const OrderNotDemand = props => {
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <Text style={[globalStyles.midText]}>
-                            {serviceType ? `${serviceType}` : ''}
+                            {serviceType ? `${serviceType}` : '未知'}
                         </Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
@@ -82,7 +86,7 @@ const OrderNotDemand = props => {
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
                         // getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey})
+                        Actions.orderCarList({ preSceneKey: sceneKey })
                         // InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
                     }}>
                     <View style={styles.listItemPadding}>
@@ -95,9 +99,7 @@ const OrderNotDemand = props => {
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </TouchableOpacity>
-                <View
-                    style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                >
+                <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>应付费用</Text>
                     </View>
@@ -111,16 +113,16 @@ const OrderNotDemand = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
+                        getPaymentListWaiting()
+                        Actions.payment({ preSceneKey: sceneKey, order })
+                        InteractionManager.runAfterInteractions(() => getPaymentList({ order }))
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>支付费用：</Text></Text>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <Text style={[globalStyles.midText]}>
-                            未支付
+                            {orderPaymentStatus ? `${orderPaymentStatus}` : '未知'}{real_payment_price ? `${real_payment_price}` : ''}
                         </Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
@@ -142,7 +144,7 @@ const OrderNotDemand = props => {
                                 '确定重新完善价格？',
                                 [
                                     { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 1 }) },
+                                    { text: '确定', onPress: () => changeOrderStatus({ order, targetStatus: 1 }) },
                                 ],
                                 { cancelable: false }
                             )
@@ -157,7 +159,7 @@ const OrderNotDemand = props => {
                                 '确定生成运输需求？',
                                 [
                                     { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 3 }) },
+                                    { text: '确定', onPress: () => changeOrderStatus({ order, targetStatus: 3 }) },
                                 ],
                                 { cancelable: false }
                             )
@@ -184,7 +186,6 @@ const OrderNotDemand = props => {
                     </View>
                 </View>
             </Content>
-
         </Container>
     )
 }

@@ -15,12 +15,12 @@ import ModalWaiting from '../../components/ModalWaiting'
 
 const Order = props => {
     const { orderReducer: { data: { order: { status } } },
-        orderCarListReducer: {  getOrderCarList: { isResultStatus } }
+        orderCarListReducer: { getOrderCarList: { isResultStatus } }
     } = props
     if (isResultStatus == 1) {
         return (
             <Container>
-                <ModalWaiting visible={isResultStatus == 1}  />
+                <ModalWaiting visible={isResultStatus == 1} />
             </Container>
         )
     } else {
@@ -52,6 +52,24 @@ const mapDispatchToProps = (dispatch) => ({
     },
     changeOrderStatus: req => {
         dispatch(reduxActions.order.changeOrderStatus(req))
+    },
+    getPaymentList: req => {
+        dispatch(reduxActions.payment.getPaymentList(req))
+    },
+    getPaymentListWaiting: () => {
+        dispatch(reduxActions.payment.getPaymentListWaiting())
+    },
+    getRouteTaskInfo: req => {
+        dispatch(reduxActions.loadTaskList.getRouteTaskInfo(req))
+    },
+    getRouteTaskInfoWaiting: () => {
+        dispatch(reduxActions.loadTaskList.getRouteTaskInfoWaiting())
+    },
+    getLoadTaskList: req => {
+        dispatch(reduxActions.loadTaskList.getLoadTaskList(req))
+    },
+    getLoadTaskListWaiting: () => {
+        dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
     }
 })
 

@@ -22,6 +22,8 @@ import orderCarEditorReducer from './views/orderCarEditor/orderCarEditorReducer'
 
 
 import orderReducer from './views/order/orderReducer'
+import paymentReucer from './views/payment/paymentReucer'
+import orderCarFeeEditorReducer from './views/orderCarFeeEditor/orderCarFeeEditorReducer'
 
 import sendAddrEditorForNotDemandReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandReducer'
 import sendAddrEditorForNotInfoReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoReducer'
@@ -30,6 +32,9 @@ import sendAddrEditorForNotPriceReducer from './views/sendAddressInfoEditor/send
 import recAddrEditorForNotDemandReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandReducer'
 import recAddrEditorForNotInfoReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoReducer'
 import recAddrEditorForNotPriceReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceReducer'
+
+import loadTaskListReducer from './views/loadTaskList/loadTaskListReducer'
+import requireTaskListReducer from './views/route/requireTaskList/requireTaskListReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -59,8 +64,11 @@ export default combineReducers({
     recAddrEditorForNotDemandReducer,
     recAddrEditorForNotInfoReducer,
     recAddrEditorForNotPriceReducer,
+    orderCarFeeEditorReducer,
 
+    orderReducer,
+    paymentReucer,
 
-
-    orderReducer
+    loadTaskListReducer,
+    requireTaskListReducer
 })

@@ -68,7 +68,7 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabActiveIndex: 2,
+            tabActiveIndex: 5,
             showAlert: false
         }
     }
@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     }
 })
-
 
 const mapStateToProps = (state) => {
     return {

@@ -19,6 +19,9 @@ import * as orderCarList from './views/orderCarList/orderCarListActionTypes'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActionTypes'
 
 import * as order from './views/order/orderActionTypes'
+import * as orderCarFeeEditor from './views/orderCarFeeEditor/orderCarFeeEditorActionTypes'
+
+import * as payment from './views/payment/paymentActionTypes'
 
 
 import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActionTypes'
@@ -27,6 +30,10 @@ import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAd
 import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActionTypes'
 import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActionTypes'
 import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActionTypes'
+
+
+import * as loadTaskList from './views/loadTaskList/loadTaskListActionTypes'
+import * as requireTaskList from './views/route/requireTaskList/requireTaskListActionTypes'
 
 export {
     login,
@@ -48,6 +55,7 @@ export {
     addOrderCar,
     orderCarList,
     orderCarEditor,
+    orderCarFeeEditor,
 
 
     sendAddrEditorForNotDemand,
@@ -56,5 +64,11 @@ export {
     recAddrEditorForNotDemand,
     recAddrEditorForNotInfo,
     recAddrEditorForNotPrice,
-    order
+    order,
+    payment,
+
+
+
+    loadTaskList,
+    requireTaskList
 }

@@ -52,7 +52,7 @@ const OrderCarInfo = props => {
                 <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
                     <View style={[styles.listItemBody, { flex: 1 }]}>
                         <Text style={[styles.listItemPadding, globalStyles.midText]}>估值(元)</Text>
-                        <Text style={[globalStyles.midText, { paddingRight: 15, }]}>{valuation ? `${valuation}` : ''}</Text>
+                        <Text style={[globalStyles.midText, { paddingRight: 15 }]}>{valuation ? `${valuation}` : ''}</Text>
                     </View>
                     <View style={[styles.listItemBody, { borderLeftWidth: 0.5, borderLeftColor: '#dfdfdf' }]}>
                         <Icon style={{ paddingRight: 7.5, paddingLeft: 15, color: old_car == 1 ? 'green' : '#777' }} name='ios-checkmark-circle' />

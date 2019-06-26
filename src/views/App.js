@@ -22,6 +22,7 @@ import RecAddrEditorForNotPriceToolButton from '../components/toolButton/RecAddr
 
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
 import OrderCarEditorToolButton from '../components/toolButton/OrderCarEditorToolButton'
+import OrderCarFeeEditorToolButton from '../components/toolButton/OrderCarFeeEditorToolButton'
 
 //<<<<<<<<<<components
 
@@ -30,6 +31,7 @@ import Login from '../views/login/Login'
 import Home from '../views/home/Home'
 import InitView from '../views/initView/InitView'
 import InquiryInfo from '../views/inquiryInfo/InquiryInfo'
+import Payment from '../views/payment/Payment'
 
 import InquiryCarList from '../views/inquiryCarList/InquiryCarList'
 import InquiryCarInfo from '../views/inquiryCarInfo/InquiryCarInfo'
@@ -38,7 +40,7 @@ import CityList from '../views/list/cityList/CityList'
 import RouteCityList from '../views/list/routeCityList/RouteCityList'
 import ConsultInfo from '../views/ConsultInfo'
 import Setting from '../views/setting/Setting'
-import Route from '../views/route/Route'
+import Route from './route/Route'
 import Order from '../views/order/Order'
 import FeePrice from '../views/feePrice/FeePrice'
 import ChangePassword from '../views/changePassword/ChangePassword'
@@ -47,6 +49,7 @@ import CreateOrder from '../views/createOrder/CreateOrder'
 
 import OrderCarInfo from '../views/orderCarInfo/OrderCarInfo'
 import OrderCarEditor from '../views/orderCarEditor/OrderCarEditor'
+import OrderCarFeeEditor from '../views/orderCarFeeEditor/OrderCarFeeEditor'
 import OrderCarList from '../views/orderCarList/OrderCarList'
 import AddOrderCar from '../views/addOrderCar/AddOrderCar'
 
@@ -70,6 +73,12 @@ import SendAddressInfoEditorForNotPrice from './sendAddressInfoEditor/sendAddrEd
 import RecAddrEditorForNotDemand from './receiveAddressInfoEditor/recAddrEditorForNotDemand/RecAddrEditorForNotDemand'
 import RecAddrEditorForNotInfo from './receiveAddressInfoEditor/recAddrEditorForNotInfo/RecAddrEditorForNotInfo'
 import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorForNotPrice/RecAddrEditorForNotPrice'
+
+
+
+
+import LoadTaskList from './loadTaskList/LoadTaskList'
+
 //<<<<<<<<<<views
 
 const styles = StyleSheet.create({
@@ -184,7 +193,13 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
 
-
+                            <Scene key="payment"
+                                LeftButton={LeftButton}
+                                component={Payment}
+                                title='支付信息'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
                             <Scene key="sendAddressInfoEditorForNotDemand"
                                 LeftButton={LeftButton}
                                 component={SendAddressInfoEditorForNotDemand}
@@ -322,6 +337,17 @@ export default class App extends Component {
                                 RightButton={OrderCarEditorToolButton}
                             />
 
+
+                            <Scene key="orderCarFeeEditor"
+                                LeftButton={LeftButton}
+                                component={OrderCarFeeEditor}
+                                title='车辆信息'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderCarFeeEditorToolButton}
+                            />
+
                             <Scene key="orderRemarkEditor"
                                 LeftButton={LeftButton}
                                 component={OrderRemarkEditor}
@@ -344,6 +370,20 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={AddOrderCarToolButton}
                             />
+
+
+
+                            <Scene key="loadTaskListAtHome"
+                                LeftButton={LeftButton}
+                                component={LoadTaskList}
+                                title='线路安排'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+
+
+
                         </Scene>
                         <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
@@ -368,6 +408,7 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
+
                         </Scene>
                         <Scene key="settingBlock" icon={TabBarIcon} online='ios-settings' >
                             <Scene key="setting"

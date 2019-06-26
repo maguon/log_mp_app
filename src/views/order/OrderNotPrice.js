@@ -26,8 +26,8 @@ const OrderNotPrice = props => {
             {
                 order,
                 order: {
-                    id, created_on, total_trans_price, total_insure_price, admin_mark,
-                    start_city, created_type, end_city, service_type, car_num
+                    id, created_on, total_trans_price, total_insure_price, admin_mark,admin_name,
+                    start_city, created_type, end_city, service_type, car_num, departure_time
                 }
             }
         },
@@ -52,16 +52,16 @@ const OrderNotPrice = props => {
                         </View>
                         <View>
                             <Text style={[globalStyles.midText, styles.fontColor]}>
-                                待完善信息
+                                待完善价格
                             </Text>
                         </View>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View>
-                            <Text style={[globalStyles.midText]}>创建人：李建国</Text>
+                            <Text style={[globalStyles.midText]}>创建人：{admin_name ? `${admin_name}` : ''}</Text>
                         </View>
                         <View>
-                            <Icon name='md-call' style={styles.fontColor} />
+                            <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>发运日期：{departure_time ? `${moment(departure_time).format('YYYY-MM-DD')}` : ''}</Text>
                         </View>
                     </View>
                 </View>
@@ -81,7 +81,7 @@ const OrderNotPrice = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        Actions.orderCarList({ preSceneKey: sceneKey})
+                        Actions.orderCarList({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
@@ -106,23 +106,6 @@ const OrderNotPrice = props => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity
-                    style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => {
-                        getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
-                    }}>
-                    <View style={styles.listItemPadding}>
-                        <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>支付费用：</Text></Text>
-                    </View>
-                    <View style={[styles.listItemPadding, styles.listItemBody]}>
-                        <Text style={[globalStyles.midText]}>
-                            未支付
-                        </Text>
-                        <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
-                    </View>
-                </TouchableOpacity>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
                     onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>

@@ -27,12 +27,16 @@ const OrderNotRoute = props => {
                 order,
                 order: {
                     id, created_on, total_trans_price, total_insure_price, admin_mark,
-                    start_city, created_type, end_city, service_type, car_num
+                    start_city, created_type, end_city, service_type, car_num, admin_name
                 }
             }
         },
         sceneKey,
         cancelOrder,
+        getRouteTaskInfo,
+        getRouteTaskInfoWaiting,
+        getLoadTaskList,
+        getLoadTaskListWaiting,
         changeOrderStatus
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
@@ -52,17 +56,27 @@ const OrderNotRoute = props => {
                         </View>
                         <View>
                             <Text style={[globalStyles.midText, styles.fontColor]}>
-                                待完善信息
+                                待安排
                             </Text>
                         </View>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View>
-                            <Text style={[globalStyles.midText]}>创建人：李建国</Text>
+                            <Text style={[globalStyles.midText]}>创建人：{admin_name ? `${admin_name}` : ''}</Text>
                         </View>
                         <View>
-                            <Icon name='md-call' style={styles.fontColor} />
+                            <Text style={[globalStyles.midText]}>发运日期：</Text>
                         </View>
+                    </View>
+                    <View style={[styles.listItemPadding, styles.listItemBody]}>
+                        <View>
+                            <Text style={[globalStyles.midText]}>订单费用</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
+                    <View style={styles.listItemPadding}>
+                        <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>需求创建时间：2018-08-26 11:20:31</Text>
                     </View>
                 </View>
                 <TouchableOpacity
@@ -81,7 +95,7 @@ const OrderNotRoute = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        Actions.orderCarList({ preSceneKey: sceneKey})
+                        Actions.orderCarList({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
@@ -93,11 +107,27 @@ const OrderNotRoute = props => {
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </TouchableOpacity>
-                <View
+                <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                >
+                    onPress={() => {
+                        getRouteTaskInfoWaiting()
+                        getLoadTaskListWaiting()
+                        Actions.loadTaskList({ preSceneKey: sceneKey })
+                        InteractionManager.runAfterInteractions(async () => {
+                            await getRouteTaskInfo({ order })
+                            getLoadTaskList({ order })
+                        })
+                    }}>
                     <View style={styles.listItemPadding}>
-                        <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>应付费用</Text>
+                        <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>路线安排</Text></Text>
+                    </View>
+                    <View style={[styles.listItemPadding, styles.listItemBody]}>
+                        <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
+                    </View>
+                </TouchableOpacity>
+                <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
+                    <View style={styles.listItemPadding}>
+                        <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>支付供应商</Text>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View style={[styles.listItemBody]}>
@@ -106,23 +136,6 @@ const OrderNotRoute = props => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity
-                    style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => {
-                        getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey, orderId })
-                        InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
-                    }}>
-                    <View style={styles.listItemPadding}>
-                        <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>支付费用：</Text></Text>
-                    </View>
-                    <View style={[styles.listItemPadding, styles.listItemBody]}>
-                        <Text style={[globalStyles.midText]}>
-                            未支付
-                        </Text>
-                        <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
-                    </View>
-                </TouchableOpacity>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
                     onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>
@@ -132,38 +145,6 @@ const OrderNotRoute = props => {
                         <Text style={[globalStyles.midText]}>{admin_mark ? `${admin_mark}` : ''}</Text>
                     </View>
                 </TouchableOpacity>
-                <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
-                    <View style={[styles.listItemPadding, { flex: 1 }]}>
-                        <Button full bordered style={[{ flex: 1, borderColor: styleColor }]} onPress={() => {
-                            Alert.alert(
-                                '',
-                                '确定生成运输需求？',
-                                [
-                                    { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 2 }) },
-                                ],
-                                { cancelable: false }
-                            )
-                        }}>
-                            <Text style={[globalStyles.largeText, styles.fontColor]}>取消订单</Text>
-                        </Button>
-                    </View>
-                    <View style={[styles.listItemPadding, { flex: 1 }]}>
-                        <Button full style={[globalStyles.styleBackgroundColor, { flex: 1 }]} onPress={() => {
-                            Alert.alert(
-                                '',
-                                '确定生成运输需求？',
-                                [
-                                    { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => cancelOrder({ order, targetStatus: 4 }) },
-                                ],
-                                { cancelable: false }
-                            )
-                        }}>
-                            <Text style={[globalStyles.largeText, { color: '#fff' }]}>提交</Text>
-                        </Button>
-                    </View>
-                </View>
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={[styles.listItemPadding, { flex: 1 }]}>
                         <Button full bordered style={[{ flex: 1, borderColor: styleColor }]} onPress={() => {

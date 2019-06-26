@@ -23,7 +23,7 @@ const OrderNotInfo = props => {
                 order,
                 order: {
                     id, created_on, total_trans_price, total_insure_price, admin_mark,
-                    start_city, created_type, end_city, service_type, car_num
+                    start_city, created_type, end_city, service_type, car_num, admin_name
                 }
             }
         },
@@ -54,7 +54,7 @@ const OrderNotInfo = props => {
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View>
-                            <Text style={[globalStyles.midText]}>创建人：李建国</Text>
+                            <Text style={[globalStyles.midText]}>创建人：{admin_name ? `${admin_name}` : ''}</Text>
                         </View>
                         <View>
                             <Icon name='md-call' style={styles.fontColor} />
@@ -77,7 +77,7 @@ const OrderNotInfo = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        Actions.orderCarList({ preSceneKey: sceneKey})
+                        Actions.orderCarList({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
