@@ -8,13 +8,36 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Icon } from 'native-base'
-import globalStyles from '../../../style/GlobalStyles'
+import globalStyles, { styleColor } from '../../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment'
 
+
+const renderListEmpty = () => {
+    return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 80 }}>
+            <Text style={globalStyles.midText}>暂无订单需求</Text>
+        </View>
+    )
+}
+
+
+const renderListFooter = props => {
+    return (
+        <View style={styles.footerContainer}>
+            <ActivityIndicator color={styleColor} styleAttr='Small' />
+            <Text style={[globalStyles.smallText, styles.footerText]}>正在加载...</Text>
+        </View>
+    )
+}
+
+
+
 const renderItem = props => {
-    const { item: { id, created_on, departure_time, route_start, route_end, car_num, status } } = props
+    const { item: { id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type } } = props
+    let _total_insure_price = total_insure_price ? total_insure_price : 0
+    let _total_trans_price = total_trans_price ? total_trans_price : 0
     return (
         <TouchableOpacity onPress={() => { }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
@@ -25,26 +48,17 @@ const renderItem = props => {
                 <View style={{ flex: 1 }}>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                            <Text style={[globalStyles.xlText, { color: '#000' }]}>{route_start ? `${route_start}` : ''}</Text>
+                            <MaterialCommunityIcons name='truck' style={{ color: '#d58dac', fontSize: 20 }} />
+                            <Text style={[globalStyles.xlText, { color: '#000', paddingLeft: 10 }]}>{route_start ? `${route_start}` : ''}</Text>
                             <Icon name='md-arrow-forward' style={{ paddingHorizontal: 10, color: '#00cade', fontSize: 20 }} />
                             <Text style={[globalStyles.xlText, { color: '#000' }]}>{route_end ? `${route_end}` : ''}</Text>
-                            {/* <FontAwesome name='ship' style={{ paddingLeft: 10, color: '#00cade', fontSize: 20 }} />
-                            <MaterialCommunityIcons name='truck-fast' style={{ paddingLeft: 10, color: '#00cade', fontSize: 22 }} /> */}
                         </View>
-                        {status == 0 && <Text style={[globalStyles.midText, styles.fontColor]}>待发运</Text>}
-                        {status == 1 && <Text style={[globalStyles.midText, styles.fontColor]}>已发运</Text>}
-                        {status == 9 && <Text style={[globalStyles.midText, styles.fontColor]}>已送达</Text>}
+                        {service_type == 2 && <Text style={[globalStyles.midText, styles.fontColor]}>当地自提</Text>}
+                        {service_type == 1 && <Text style={[globalStyles.midText, styles.fontColor]}>上门服务</Text>}
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        {/* <Text style={[globalStyles.midText]}>顺通物流</Text> */}
                         <Text style={[globalStyles.midText]}>运送车辆：{car_num ? `${car_num}` : ''}</Text>
-                    </View>
-                    <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        <Text style={[globalStyles.midText]}>计划发运日期：{departure_time ? `${moment(departure_time).format('YYYY-MM-DD')}` : ''}</Text>
-                    </View>
-                    <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        {/* <Text style={[globalStyles.midText]}>支付供应商</Text> */}
-                        {/* <Text style={[globalStyles.midText]}><Text style={[globalStyles.xlText, styles.fontColor]}>3400.00</Text> 元</Text> */}
+                        <Text style={[globalStyles.midText]}>支付供应商<Text style={[globalStyles.xlText, styles.fontColor]}>{(_total_insure_price + _total_trans_price)}</Text> 元</Text>
                     </View>
                 </View>
                 <View>
@@ -57,12 +71,22 @@ const renderItem = props => {
 
 const RequireTaskList = props => {
     console.log('props', props)
-    const { requireTaskListReducer: { data: { requireTaskList } } } = props
+    const { requireTaskListReducer: { data: { requireTaskList }, getRequireTaskList: { isResultStatus } } } = props
     console.log('requireTaskList', requireTaskList)
 
     return (
         <Container>
             <FlatList
+                refreshControl={<RefreshControl
+                    refreshing={isResultStatus == 1}
+                    onRefresh={() => {
+                        getLoadTaskListWaiting()
+                        InteractionManager.runAfterInteractions(getLoadTaskList)
+                    }}
+                    progressBackgroundColor={'rgba(255,255,255,0)'}
+                    tintColor={'rgba(0,0,0,0)'}
+                    colors={[styleColor]}
+                />}
                 keyExtractor={(item, index) => index}
                 data={requireTaskList}
                 renderItem={renderItem} />
@@ -76,7 +100,20 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(RequireTaskList)
+const mapDispatchToProps = (dispatch) => ({
+    getRequireTaskListMore: () => {
+
+    },
+    getRequireTaskList: () => {
+
+    },
+    getRequireTaskListWaiting: () => {
+
+    }
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequireTaskList)
 
 
 const styles = StyleSheet.create({
@@ -108,5 +145,14 @@ const styles = StyleSheet.create({
     },
     fontColor: {
         color: '#bd417c'
+    },
+    footerContainer: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        margin: 10,
+        alignItems: 'center'
+    },
+    footerText: {
+        paddingLeft: 10
     }
 })
