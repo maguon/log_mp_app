@@ -32,8 +32,10 @@ import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAd
 import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActionTypes'
 
 
-import * as loadTaskList from './views/loadTaskList/loadTaskListActionTypes'
+// import * as loadTaskList from './views/loadTaskList/loadTaskListActionTypes'
 import * as requireTaskList from './views/route/requireTaskList/requireTaskListActionTypes'
+import * as loadTaskList from './views/route/loadTaskList/loadTaskListActionTypes'
+
 
 export {
     login,
@@ -69,6 +71,6 @@ export {
 
 
 
-    loadTaskList,
-    requireTaskList
+    requireTaskList,
+    loadTaskList
 }

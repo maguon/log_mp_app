@@ -10,6 +10,7 @@ import LeftButton from '../components/leftButton/LeftButton'
 import ConsultToolButton from '../components/toolButton/ConsultToolButton'
 import HomeToolButton from '../components/toolButton/HomeToolButton'
 import CreateOrderToolButton from '../components/toolButton/CreateOrderToolButton'
+import RouteToolButton from '../components/toolButton/RouteToolButton'
 
 import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
 import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
@@ -78,6 +79,7 @@ import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorFo
 
 
 import LoadTaskList from './loadTaskList/LoadTaskList'
+import SearchRoute from './searchRoute/SearchRoute'
 
 //<<<<<<<<<<views
 
@@ -171,7 +173,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
 
-                             <Scene key="order"
+                            <Scene key="order"
                                 LeftButton={LeftButton}
                                 component={order}
                                 title='订单详情'
@@ -407,8 +409,22 @@ export default class App extends Component {
                                 title='路线'
                                 hideNavBar={false}
                                 navBar={NavBar}
+                                RightButton={RouteToolButton}
                             />
-
+                            <Scene key="searchRoute"
+                                component={SearchRoute}
+                                LeftButton={LeftButton}
+                                title='路线'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="cityListAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={CityList}
+                                title='城市列表'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
                         </Scene>
                         <Scene key="settingBlock" icon={TabBarIcon} online='ios-settings' >
                             <Scene key="setting"

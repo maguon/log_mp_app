@@ -3,18 +3,17 @@ import * as reduxActionTypes from '../../../reduxActionTypes'
 
 const initialState = {
     data: {
-        requireTaskList: [],
+        loadTaskList:[],
         searchParam: {},
-        isCompleted: false,
-
+        isCompleted: false
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
-    getRequireTaskList: {
+    getLoadTaskList: {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
     },
-    getRequireTaskListMore: {
+    getLoadTaskListMore: {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
@@ -23,51 +22,64 @@ const initialState = {
 
 
 export default handleActions({
-    [reduxActionTypes.requireTaskList.get_requireTaskList_success]: (state, action) => {
-        const { payload: { requireTaskList, searchParam, isCompleted } } = action
+    [reduxActionTypes.loadTaskList.get_loadTaskList_success]: (state, action) => {
+        const { payload: { loadTaskList, searchParam, isCompleted } } = action
         return {
             ...state,
             data: {
                 ...state.data,
-                requireTaskList
+                loadTaskList
             },
-            getRequireTaskList: {
-                ...state.getRequireTaskList,
+            getLoadTaskList: {
+                ...state.getLoadTaskList,
                 isResultStatus: 2
             }
         }
     },
-    [reduxActionTypes.requireTaskList.get_requireTaskList_failed]: (state, action) => {
+    [reduxActionTypes.loadTaskList.get_loadTaskList_failed]: (state, action) => {
         const { payload: { failedMsg } } = action
         return {
             ...state,
-            getRequireTaskList: {
-                ...state.getRequireTaskList,
+            getLoadTaskList: {
+                ...state.getLoadTaskList,
                 isResultStatus: 4,
                 failedMsg
             }
         }
     },
-    [reduxActionTypes.requireTaskList.get_requireTaskList_waiting]: (state, action) => {
+    [reduxActionTypes.loadTaskList.get_loadTaskList_waiting]: (state, action) => {
         return {
             ...state,
-            getRequireTaskList: {
-                ...state.getRequireTaskList,
+            getLoadTaskList: {
+                ...state.getLoadTaskList,
                 isResultStatus: 1
             }
         }
     },
-    [reduxActionTypes.requireTaskList.get_requireTaskList_error]: (state, action) => {
+    [reduxActionTypes.loadTaskList.get_loadTaskList_error]: (state, action) => {
         const { payload: { errorMsg } } = action
         return {
             ...state,
-            getRequireTaskList: {
-                ...state.getRequireTaskList,
+            getLoadTaskList: {
+                ...state.getLoadTaskList,
                 isResultStatus: 3,
                 errorMsg
             }
         }
-    }
+    },
 
+
+
+
+
+
+
+
+
+
+
+
+
+   
 
 }, initialState)

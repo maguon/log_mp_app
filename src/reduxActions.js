@@ -32,8 +32,9 @@ import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAd
 import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
 
 
-import * as loadTaskList from './views/loadTaskList/loadTaskListActions'
+// import * as loadTaskList from './views/loadTaskList/loadTaskListActions'
 import * as requireTaskList from './views/route/requireTaskList/requireTaskListActions'
+import * as loadTaskList from './views/route/loadTaskList/loadTaskListActions'
 
 
 export {
@@ -71,7 +72,7 @@ export {
     payment,
 
 
-    loadTaskList,
-    requireTaskList
+    requireTaskList,
+    loadTaskList
 
 }

@@ -3,50 +3,55 @@ import {
     Text,
     View,
     FlatList,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Icon } from 'native-base'
 import globalStyles from '../../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import moment from 'moment'
 
 const renderItem = props => {
-    console.log('props', props)
+    const { item: { id, created_on, departure_time, route_start, route_end, car_num, status } } = props
     return (
-        <View>
+        <TouchableOpacity onPress={() => { }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
-                <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>路线编号：2144454578</Text>
-                <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>2018-05-06 18:50:20</Text>
+                <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>路线编号：{id ? `${id}` : ''}</Text>
+                <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
             </View>
             <View style={[styles.listItemPadding, styles.listItemBorderBottom, { flexDirection: 'row', alignItems: 'center' }]}>
                 <View style={{ flex: 1 }}>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                            <Text style={[globalStyles.xlText, { color: '#000' }]}>大连</Text>
+                            <Text style={[globalStyles.xlText, { color: '#000' }]}>{route_start ? `${route_start}` : ''}</Text>
                             <Icon name='md-arrow-forward' style={{ paddingHorizontal: 10, color: '#00cade', fontSize: 20 }} />
-                            <Text style={[globalStyles.xlText, { color: '#000' }]}>烟台</Text>
+                            <Text style={[globalStyles.xlText, { color: '#000' }]}>{route_end ? `${route_end}` : ''}</Text>
+                            {/* <FontAwesome name='ship' style={{ paddingLeft: 10, color: '#00cade', fontSize: 20 }} />
+                            <MaterialCommunityIcons name='truck-fast' style={{ paddingLeft: 10, color: '#00cade', fontSize: 22 }} /> */}
                         </View>
-                        <Text style={[globalStyles.midText,styles.fontColor]}>待发运</Text>
+                        {status == 0 && <Text style={[globalStyles.midText, styles.fontColor]}>待发运</Text>}
+                        {status == 1 && <Text style={[globalStyles.midText, styles.fontColor]}>已发运</Text>}
+                        {status == 9 && <Text style={[globalStyles.midText, styles.fontColor]}>已送达</Text>}
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        <Text style={[globalStyles.midText]}>顺通物流</Text>
-                        <Text style={[globalStyles.midText]}>运送车辆：3</Text>
+                        {/* <Text style={[globalStyles.midText]}>顺通物流</Text> */}
+                        <Text style={[globalStyles.midText]}>运送车辆：{car_num ? `${car_num}` : ''}</Text>
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        <Text style={[globalStyles.midText]}>计划发运日期：2018-08-26</Text>
+                        <Text style={[globalStyles.midText]}>计划发运日期：{departure_time ? `${moment(departure_time).format('YYYY-MM-DD')}` : ''}</Text>
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
-                        <Text style={[globalStyles.midText]}>支付供应商</Text>
-                        <Text style={[globalStyles.midText]}><Text style={[globalStyles.xlText,styles.fontColor]}>3400.00</Text> 元</Text>
+                        {/* <Text style={[globalStyles.midText]}>支付供应商</Text> */}
+                        {/* <Text style={[globalStyles.midText]}><Text style={[globalStyles.xlText, styles.fontColor]}>3400.00</Text> 元</Text> */}
                     </View>
                 </View>
                 <View>
                     <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -58,9 +63,9 @@ const RequireTaskList = props => {
     return (
         <Container>
             <FlatList
+                keyExtractor={(item, index) => index}
                 data={requireTaskList}
                 renderItem={renderItem} />
-            {/* <Text>RequireTaskList</Text> */}
         </Container>
     )
 }

@@ -33,8 +33,9 @@ import recAddrEditorForNotDemandReducer from './views/receiveAddressInfoEditor/r
 import recAddrEditorForNotInfoReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoReducer'
 import recAddrEditorForNotPriceReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceReducer'
 
-import loadTaskListReducer from './views/loadTaskList/loadTaskListReducer'
+// import loadTaskListReducer from './views/loadTaskList/loadTaskListReducer'
 import requireTaskListReducer from './views/route/requireTaskList/requireTaskListReducer'
+import loadTaskListReducer from './views/route/loadTaskList/loadTaskListReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -69,6 +70,6 @@ export default combineReducers({
     orderReducer,
     paymentReucer,
 
-    loadTaskListReducer,
-    requireTaskListReducer
+    requireTaskListReducer,
+    loadTaskListReducer
 })
