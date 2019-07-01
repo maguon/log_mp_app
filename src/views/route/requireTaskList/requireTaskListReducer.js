@@ -29,7 +29,9 @@ export default handleActions({
             ...state,
             data: {
                 ...state.data,
-                requireTaskList
+                requireTaskList, 
+                searchParam, 
+                isCompleted 
             },
             getRequireTaskList: {
                 ...state.getRequireTaskList,
@@ -67,7 +69,58 @@ export default handleActions({
                 errorMsg
             }
         }
-    }
+    },
+
+
+
+
+
+    [reduxActionTypes.requireTaskList.get_requireTaskListMore_success]: (state, action) => {
+        const { payload: { requireTaskList, isCompleted } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                requireTaskList: [...state.data.requireTaskList, ...requireTaskList],
+                isCompleted
+            },
+            getRequireTaskListMore: {
+                ...initialState.getRequireTaskListMore,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskList.get_requireTaskListMore_waiting]: (state, action) => {
+        return {
+            ...state,
+            getRequireTaskListMore: {
+                ...initialState.getRequireTaskListMore,
+                isResultStatus: 1,
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskList.get_requireTaskListMore_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getRequireTaskListMore: {
+                ...initialState.getRequireTaskListMore,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskList.get_requireTaskListMore_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getRequireTaskListMore: {
+                ...initialState.getRequireTaskListMore,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
 
 
 }, initialState)

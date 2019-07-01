@@ -36,6 +36,8 @@ import recAddrEditorForNotPriceReducer from './views/receiveAddressInfoEditor/re
 // import loadTaskListReducer from './views/loadTaskList/loadTaskListReducer'
 import requireTaskListReducer from './views/route/requireTaskList/requireTaskListReducer'
 import loadTaskListReducer from './views/route/loadTaskList/loadTaskListReducer'
+import loadTaskInfoReducer from './views/loadTaskInfo/loadTaskInfoReducer'
+import requireTaskInfoReducer from './views/requireTaskInfo/requireTaskInfoReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -71,5 +73,7 @@ export default combineReducers({
     paymentReucer,
 
     requireTaskListReducer,
-    loadTaskListReducer
+    loadTaskListReducer,
+    loadTaskInfoReducer,
+    requireTaskInfoReducer
 })

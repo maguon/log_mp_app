@@ -1,124 +1,102 @@
 import httpRequest from '../../../util/HttpRequest'
 import * as reduxActionTypes from '../../../reduxActionTypes'
+import { sleep, ObjectToUrl } from '../../../util/util'
 
 const pageSize = 20
 
-export const getLoadTaskList = () => async (dispatch, getState) => {
+export const getLoadTaskList = req => async (dispatch, getState) => {
     try {
+        // console.log('req', req)
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
-        const url = `${base_host}/admin/${id}/routeLoadTask?start=0&size=${pageSize}`
-        console.log('url', url)
+        let searchParam = {}
+        if (req) {
+            searchParam = {
+                loadTaskId: req.loadTaskId,
+                transType: req.transType && req.transType.id ? req.transType.id : null,
+                routeStartId: req.routeStart && req.routeStart.id ? req.routeStart.id : null,
+                routeEndId: req.routeEnd && req.routeEnd.id ? req.routeEnd.id : null,
+                createdOnStart: req.createdOnStart,
+                createdOnEnd: req.createdOnEnd,
+                planDateStart: req.planDateStart,
+                planDateEnd: req.planDateEnd
+            }
+        }
+        // console.log('searchParam', searchParam)
+        const url = `${base_host}/admin/${id}/routeLoadTask${ObjectToUrl({
+            start: 0,
+            size: pageSize,
+            ...searchParam
+        })}`
+        // console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
+        // console.log('res', res)
         if (res.success) {
-            dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskList_success, payload: { loadTaskList: res.result } })
+            dispatch({
+                type: reduxActionTypes.loadTaskList.get_loadTaskList_success, payload: {
+                    loadTaskList: res.result,
+                    isCompleted: (res.result.length == 0 || res.result.length % pageSize != 0),
+                    searchParam: req ? req : null
+                }
+            })
         } else {
             dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskList_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-
         dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskList_error, payload: { errorMsg: `${err}` } })
     }
-
-
-
-    // try {
-    //     const { communicationSettingReducer: { data: { base_host } },
-    //         loginReducer: { data: { user: { id } } } } = getState()
-    //     // console.log('req', req)
-    //     let searchReq = {}
-    //     if (req) {
-    //         searchReq = {
-    //             inquiryTimeStart: req.inquiryTimeStart,
-    //             inquiryTimeEnd: req.inquiryTimeEnd,
-    //             serviceType: req.serviceType && req.serviceType.id ? req.serviceType.id : null,
-    //             startCityId: req.startCity && req.startCity.id ? req.startCity.id : null,
-    //             endCityId: req.endCity && req.endCity.id ? req.endCity.id : null,
-    //             status: req.status && req.status.id ? req.status.id : null,
-    //             inquiryId: req.inquiryId
-    //         }
-    //     }
-    //     // console.log('searchParam', searchParam)
-    //     const url = `${base_host}/admin/${id}/inquiry${ObjectToUrl({
-    //         start: 0,
-    //         size: pageSize,
-    //         ...searchReq
-    //     })}`
-    //     // console.log('url', url)
-    //     const res = await httpRequest.get(url)
-    //     // console.log('res', res)
-    //     if (res.success) {
-    //         dispatch({
-    //             type: reduxActionTypes.inquiryList.get_inquiryList_success, payload: {
-    //                 inquiryList: res.result,
-    //                 isCompleted: (res.result.length == 0 || res.result.length % pageSize != 0),
-    //                 searchParam: req ? req : null
-    //             }
-    //         })
-    //     } else {
-    //         dispatch({ type: reduxActionTypes.inquiryList.get_inquiryList_failed, payload: { failedMsg: `${res.msg}` } })
-    //     }
-    // } catch (err) {
-    //     // console.log('err', err)
-    //     dispatch({ type: reduxActionTypes.inquiryList.get_inquiryList_error, payload: { errorMsg: `${err}` } })
-
-    // }
 }
 
 export const getLoadTaskListWaiting = () => (dispatch) => {
     dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskList_waiting })
 }
 
-export const getLoadTaskListMore = () => (dispatch, getState) => {
-    // const { communicationSettingReducer: { data: { base_host } },
-    //     loginReducer: { data: { user: { id } } },
-    //     homeReducer: { data: { inquiryList, isCompleted, searchParam } },
-    //     homeReducer } = getState()
-
-    // let searchReq = {}
-    // if (searchParam) {
-    //     searchReq = {
-    //         inquiryTimeStart: searchParam.inquiryTimeStart,
-    //         inquiryTimeEnd: searchParam.inquiryTimeEnd,
-    //         serviceType: searchParam.serviceType && searchParam.serviceType.id ? searchParam.serviceType.id : null,
-    //         startCityId: searchParam.startCity && searchParam.startCity.id ? searchParam.startCity.id : null,
-    //         endCityId: searchParam.endCity && searchParam.endCity.id ? searchParam.endCity.id : null,
-    //         status: searchParam.status && searchParam.status.id ? searchParam.status.id : null,
-    //         inquiryId: searchParam.inquiryId
-    //     }
-    // }
-    // if (homeReducer.getInquiryListMore.isResultStatus == 1) {
-    //     await sleep(1000)
-    //     dispatch(getInquiryListMore)
-    // } else {
-    //     if (!isCompleted) {
-    //         dispatch({ type: reduxActionTypes.inquiryList.get_inquiryListMore_waiting, payload: {} })
-    //         try {
-    //             const url = `${base_host}/admin/${id}/inquiry${ObjectToUrl({
-    //                 start: inquiryList.length,
-    //                 size: pageSize,
-    //                 ...searchReq
-    //             })}`
-    //             // console.log('url', url)
-    //             const res = await httpRequest.get(url)
-    //             // console.log('res', res)
-    //             if (res.success) {
-    //                 dispatch({
-    //                     type: reduxActionTypes.inquiryList.get_inquiryListMore_success, payload: {
-    //                         inquiryList: res.result,
-    //                         isCompleted: (res.result.length == 0 || res.result.length % pageSize != 0),
-    //                     }
-    //                 })
-    //             } else {
-    //                 dispatch({ type: reduxActionTypes.inquiryList.get_inquiryListMore_failed, payload: { failedMsg: `${res.msg}` } })
-    //             }
-    //         } catch (err) {
-    //             dispatch({ type: reduxActionTypes.inquiryList.get_inquiryListMore_error, payload: { errorMsg: `${err}` } })
-    //         }
-    //     }
-    //     // else {
-    //     //     // ToastAndroid.show('已全部加载完毕！', 10)
-    //     // }
-    // }
+export const getLoadTaskListMore = () => async (dispatch, getState) => {
+    const { communicationSettingReducer: { data: { base_host } },
+        loginReducer: { data: { user: { id } } },
+        loadTaskListReducer: { data: { loadTaskList, isCompleted, searchParam } },
+        loadTaskListReducer } = getState()
+    let searchReq = {}
+    if (searchParam) {
+        searchReq = {
+            loadTaskId: searchParam.loadTaskId,
+            transType: searchParam.transType && searchParam.transType.id ? searchParam.transType.id : null,
+            routeStartId: searchParam.routeStart && searchParam.routeStart.id ? searchParam.routeStart.id : null,
+            routeEndId: searchParam.routeEnd && searchParam.routeEnd.id ? searchParam.routeEnd.id : null,
+            createdOnStart: searchParam.createdOnStart,
+            createdOnEnd: searchParam.createdOnEnd,
+            planDateStart: searchParam.planDateStart,
+            planDateEnd: searchParam.planDateEnd
+        }
+    }
+    if (loadTaskListReducer.getLoadTaskListMore.isResultStatus == 1) {
+        await sleep(1000)
+        dispatch(getLoadTaskListMore)
+    } else {
+        if (!isCompleted) {
+            dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskListMore_waiting, payload: {} })
+            try {
+                const url = `${base_host}/admin/${id}/routeLoadTask${ObjectToUrl({
+                    start: loadTaskList.length,
+                    size: pageSize,
+                    ...searchReq
+                })}`
+                // console.log('url', url)
+                const res = await httpRequest.get(url)
+                // console.log('res', res)
+                if (res.success) {
+                    dispatch({
+                        type: reduxActionTypes.loadTaskList.get_loadTaskListMore_success, payload: {
+                            loadTaskList: res.result,
+                            isCompleted: (res.result.length == 0 || res.result.length % pageSize != 0),
+                        }
+                    })
+                } else {
+                    dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskListMore_failed, payload: { failedMsg: `${res.msg}` } })
+                }
+            } catch (err) {
+                dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskListMore_error, payload: { errorMsg: `${err}` } })
+            }
+        }
+    }
 }

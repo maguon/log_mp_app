@@ -22,7 +22,7 @@ const initialState = {
 export default handleActions({
     [reduxActionTypes.order.modify_orderRemark_success]: (state, action) => {
         const { payload: { remark } } = action
-        console.log('remark',remark)
+        // console.log('remark',remark)
         return {
             ...state,
             data:{

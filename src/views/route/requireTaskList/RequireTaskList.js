@@ -4,14 +4,18 @@ import {
     View,
     FlatList,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl,
+    ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Icon } from 'native-base'
+import { Container, Icon, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment'
+import * as reduxActions from '../../../reduxActions'
+import { Actions } from 'react-native-router-flux';
 
 
 const renderListEmpty = () => {
@@ -35,11 +39,16 @@ const renderListFooter = props => {
 
 
 const renderItem = props => {
-    const { item: { id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type } } = props
+    // console.log('props', props)
+    const { item: { id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type },
+        setRequireTaskInfo, sceneKey, item } = props
     let _total_insure_price = total_insure_price ? total_insure_price : 0
     let _total_trans_price = total_trans_price ? total_trans_price : 0
     return (
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => {
+            setRequireTaskInfo(item)
+            Actions.requireTaskInfo({ preSceneKey: sceneKey })
+        }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>路线编号：{id ? `${id}` : ''}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
@@ -58,7 +67,7 @@ const renderItem = props => {
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={[globalStyles.midText]}>运送车辆：{car_num ? `${car_num}` : ''}</Text>
-                        <Text style={[globalStyles.midText]}>支付供应商<Text style={[globalStyles.xlText, styles.fontColor]}>{(_total_insure_price + _total_trans_price)}</Text> 元</Text>
+                        <Text style={[globalStyles.midText]}>运输费用：<Text style={[globalStyles.xlText, styles.fontColor]}>{(_total_insure_price + _total_trans_price)}</Text> 元</Text>
                     </View>
                 </View>
                 <View>
@@ -70,28 +79,47 @@ const renderItem = props => {
 }
 
 const RequireTaskList = props => {
-    console.log('props', props)
-    const { requireTaskListReducer: { data: { requireTaskList }, getRequireTaskList: { isResultStatus } } } = props
-    console.log('requireTaskList', requireTaskList)
-
-    return (
-        <Container>
-            <FlatList
-                refreshControl={<RefreshControl
-                    refreshing={isResultStatus == 1}
-                    onRefresh={() => {
-                        getLoadTaskListWaiting()
-                        InteractionManager.runAfterInteractions(getLoadTaskList)
+    // console.log('props', props)
+    const { requireTaskListReducer: {
+        data: { requireTaskList, isCompleted },
+        getRequireTaskList: { isResultStatus } },
+        requireTaskListReducer,
+        getRequireTaskListMore,
+        setRequireTaskInfo,
+        sceneKey } = props
+    // console.log('requireTaskList', requireTaskList)
+    if (isResultStatus == 1) {
+        return (
+            <Container>
+                <Spinner color={styleColor} />
+            </Container>
+        )
+    } else {
+        return (
+            <Container>
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    onEndReachedThreshold={0.2}
+                    onEndReached={() => {
+                        if (isResultStatus == 2 && !isCompleted) {
+                            getRequireTaskListMore()
+                        } else {
+                            // if (!this.state.loadListIsFinished) {
+                            //     ToastAndroid.show('已全部加载完毕！', 10)
+                            //     this.setState({
+                            //         loadListIsFinished: true
+                            //     })
+                            // }
+                        }
                     }}
-                    progressBackgroundColor={'rgba(255,255,255,0)'}
-                    tintColor={'rgba(0,0,0,0)'}
-                    colors={[styleColor]}
-                />}
-                keyExtractor={(item, index) => index}
-                data={requireTaskList}
-                renderItem={renderItem} />
-        </Container>
-    )
+                    ListEmptyComponent={requireTaskListReducer.getRequireTaskList.isResultStatus != 1 && requireTaskList.length == 0 && renderListEmpty}
+                    ListFooterComponent={requireTaskListReducer.getRequireTaskListMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
+                    data={requireTaskList}
+                    renderItem={param => renderItem({ ...param, sceneKey, setRequireTaskInfo })} />
+            </Container>
+        )
+    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -102,13 +130,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     getRequireTaskListMore: () => {
-
+        dispatch(reduxActions.requireTaskList.getRequireTaskListMore())
     },
     getRequireTaskList: () => {
-
+        dispatch(reduxActions.requireTaskList.getRequireTaskList())
     },
     getRequireTaskListWaiting: () => {
-
+        dispatch(reduxActions.requireTaskList.getRequireTaskListWaiting())
+    },
+    setRequireTaskInfo: param => {
+        dispatch(reduxActions.requireTaskInfo.setRequireTaskInfo(param))
     }
 })
 

@@ -35,6 +35,8 @@ import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recA
 // import * as loadTaskList from './views/loadTaskList/loadTaskListActionTypes'
 import * as requireTaskList from './views/route/requireTaskList/requireTaskListActionTypes'
 import * as loadTaskList from './views/route/loadTaskList/loadTaskListActionTypes'
+import * as loadTaskInfo from './views/loadTaskInfo/loadTaskInfoActionTypes'
+import * as requireTaskInfo from './views/requireTaskInfo/requireTaskInfoActionTypes'
 
 
 export {
@@ -72,5 +74,7 @@ export {
 
 
     requireTaskList,
-    loadTaskList
+    loadTaskList,
+    loadTaskInfo,
+    requireTaskInfo
 }

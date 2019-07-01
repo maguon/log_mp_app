@@ -80,6 +80,8 @@ import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorFo
 
 import LoadTaskList from './loadTaskList/LoadTaskList'
 import SearchRoute from './searchRoute/SearchRoute'
+import LoadTaskInfo from './loadTaskInfo/LoadTaskInfo'
+import RequireTaskInfo from './requireTaskInfo/RequireTaskInfo'
 
 //<<<<<<<<<<views
 
@@ -405,6 +407,7 @@ export default class App extends Component {
                         </Scene>
                         <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
+                            
                                 component={Route}
                                 title='路线'
                                 hideNavBar={false}
@@ -415,6 +418,21 @@ export default class App extends Component {
                                 component={SearchRoute}
                                 LeftButton={LeftButton}
                                 title='路线'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="loadTaskInfo"
+                                component={LoadTaskInfo}
+                                LeftButton={LeftButton}
+                                title='路线详情'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="requireTaskInfo"
+                            initial={true}
+                                component={RequireTaskInfo}
+                                LeftButton={LeftButton}
+                                title='订单详情'
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />

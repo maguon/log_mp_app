@@ -11,7 +11,7 @@ import RequireTaskList from './requireTaskList/RequireTaskList'
 import LoadTaskList from './loadTaskList/LoadTaskList'
 import { connect } from 'react-redux'
 import * as reduxActions from '../../reduxActions'
-import { reduxForm, FormSection, Field } from 'redux-form'
+import { reduxForm, FormSection, Field, getFormValues, change } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import { TextBox, DatePicker, PickerBox, Select } from '../../components/form'
@@ -19,8 +19,8 @@ import { TextBox, DatePicker, PickerBox, Select } from '../../components/form'
 const drawerWidth = 300
 
 const RequireSearch = props => {
-    const { getCityListWaiting, getCityList, sceneKey, closeDrawer } = props
-    console.log('props', props)
+    const { getCityListWaiting, getCityList, sceneKey, closeDrawer, handleSubmit, resetSection } = props
+    // console.log('props', props)
     return (
         <Container>
             <Content>
@@ -74,13 +74,13 @@ const RequireSearch = props => {
                 />
                 <Field
                     name='createdOnStart'
-                    label='创建事件（始）'
+                    label='创建时间（始）'
                     itemStyle={{ width: drawerWidth - 30 }}
                     component={DatePicker}
                 />
                 <Field
                     name='createdOnEnd'
-                    label='创建事件（终）'
+                    label='创建时间（终）'
                     itemStyle={{ width: drawerWidth - 30 }}
                     component={DatePicker}
                 />
@@ -91,10 +91,11 @@ const RequireSearch = props => {
                         borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 20,
                         borderTopLeftRadius: 20
                     }]}
-                        onPress={() => { }}>
+                        onPress={resetSection}>
                         <Text style={[globalStyles.midText, { color: '#fff' }]}>重置</Text>
                     </Button>
                     <Button onPress={() => {
+                        handleSubmit()
                         closeDrawer()
                     }} style={[{ flex: 1, marginRight: 15, backgroundColor: styleColor, marginVertical: 15, justifyContent: 'center', alignItems: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 20, borderTopRightRadius: 20 }]}>
                         <Text style={[globalStyles.midText, { color: '#fff' }]}>确定</Text>
@@ -105,10 +106,8 @@ const RequireSearch = props => {
     )
 }
 
-
 const LoadTaskSearch = props => {
-    const { getCityListWaiting, getCityList, sceneKey, closeDrawer } = props
-    console.log('props', props)
+    const { getCityListWaiting, getCityList, sceneKey, closeDrawer, handleSubmit, resetSection } = props
     return (
         <Container>
             <Content>
@@ -119,10 +118,10 @@ const LoadTaskSearch = props => {
                 />
                 <Field
                     itemStyle={{ width: drawerWidth - 30 }}
-                    label='服务方式'
-                    name='serviceType'
-                    listTitle='服务方式'
-                    itemList={[{ id: '1', value: '上门提货' }, { id: '2', value: '当地自提' }]}
+                    label='运输方式'
+                    name='transType'
+                    listTitle='运输方式'
+                    itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
                     component={PickerBox} />
                 <Field
                     name='routeStart'
@@ -162,13 +161,13 @@ const LoadTaskSearch = props => {
                 />
                 <Field
                     name='createdOnStart'
-                    label='创建事件（始）'
+                    label='创建时间（始）'
                     itemStyle={{ width: drawerWidth - 30 }}
                     component={DatePicker}
                 />
                 <Field
                     name='createdOnEnd'
-                    label='创建事件（终）'
+                    label='创建时间（终）'
                     itemStyle={{ width: drawerWidth - 30 }}
                     component={DatePicker}
                 />
@@ -191,12 +190,12 @@ const LoadTaskSearch = props => {
                         borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 20,
                         borderTopLeftRadius: 20
                     }]}
-                        onPress={() => { }}>
+                        onPress={resetSection}>
                         <Text style={[globalStyles.midText, { color: '#fff' }]}>重置</Text>
                     </Button>
                     <Button onPress={() => {
-                        // handleSubmit()
-                        this.drawer.closeDrawer()
+                        handleSubmit()
+                        closeDrawer()
                     }} style={[{ flex: 1, marginRight: 15, backgroundColor: styleColor, marginVertical: 15, justifyContent: 'center', alignItems: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 20, borderTopRightRadius: 20 }]}>
                         <Text style={[globalStyles.midText, { color: '#fff' }]}>确定</Text>
                     </Button>
@@ -232,7 +231,8 @@ class Route extends Component {
     }
 
     render() {
-        const { getCityList, getCityListWaiting, sceneKey, handleSubmit } = this.props
+        const { getCityList, getCityListWaiting, sceneKey, handleSubmit, onChangeTab, reset, resetSection } = this.props
+        // console.log('this.props', this.props)
         return (
             <DrawerLayoutAndroid
                 ref={ref => this.drawer = ref}
@@ -246,25 +246,31 @@ class Route extends Component {
                                     getCityListWaiting={getCityListWaiting}
                                     getCityList={getCityList}
                                     sceneKey={sceneKey}
-                                    closeDrawer={() => this.drawer.closeDrawer()} />
+                                    closeDrawer={() => this.drawer.closeDrawer()}
+                                    handleSubmit={handleSubmit}
+                                    resetSection={() => resetSection('requireSearch')} />
                             </FormSection>
                         )
                     } else {
                         return (
                             <FormSection name='loadTaskSearch' >
-                                <RequireSearch
+                                <LoadTaskSearch
                                     getCityListWaiting={getCityListWaiting}
                                     getCityList={getCityList}
                                     sceneKey={sceneKey}
-                                    closeDrawer={() => this.drawer.closeDrawer()} />
+                                    closeDrawer={() => this.drawer.closeDrawer()}
+                                    handleSubmit={handleSubmit}
+                                    resetSection={() => resetSection('loadTaskSearch')} />
                             </FormSection>
-
                         )
                     }
                 }}>
                 <Container>
                     <Tabs onChangeTab={param => {
-                        InteractionManager.runAfterInteractions(() => this.setState({ tabsIndex: param.i }))
+                        InteractionManager.runAfterInteractions(() => {
+                            this.setState({ tabsIndex: param.i })
+                            onChangeTab(param.i)
+                        })
                     }}>
                         <Tab
                             tabStyle={globalStyles.styleBackgroundColor}
@@ -272,8 +278,7 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="订单需求">
-                            <RequireTaskList />
-
+                            <RequireTaskList sceneKey={sceneKey}/>
                         </Tab>
                         <Tab
                             tabStyle={globalStyles.styleBackgroundColor}
@@ -281,13 +286,21 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="路线">
-                            <LoadTaskList />
-
+                            <LoadTaskList sceneKey={sceneKey}/>
                         </Tab>
                     </Tabs>
                 </Container>
             </DrawerLayoutAndroid>
         )
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        initialValues: {
+            tabsIndex: 0
+        },
+        routeSearchFormValues: getFormValues('routeSearchForm')(state)
     }
 }
 
@@ -310,12 +323,23 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getLoadTaskListWaiting: () => {
         dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
+    },
+    onChangeTab: index => {
+        dispatch(change('routeSearchForm', 'tabsIndex', index))
     }
 })
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'routeSearchForm',
     onSubmit: (values, dispatch, props) => {
-        console.log('values', values)
+        const { tabsIndex, loadTaskSearch, requireSearch } = values
+        // console.log('values',values)
+        if (tabsIndex == 0) {
+            dispatch(reduxActions.requireTaskList.getRequireTaskListWaiting())
+            InteractionManager.runAfterInteractions(() => dispatch(reduxActions.requireTaskList.getRequireTaskList(requireSearch)))
+        } else if (tabsIndex == 1) {
+            dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
+            InteractionManager.runAfterInteractions(() => dispatch(reduxActions.loadTaskList.getLoadTaskList(loadTaskSearch)))
+        }
     }
 })(Route))
