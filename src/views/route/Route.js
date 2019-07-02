@@ -1,209 +1,20 @@
 import React, { Component } from 'react'
 import {
-    Text,
-    View,
     InteractionManager,
     DrawerLayoutAndroid,
     DeviceEventEmitter
 } from 'react-native'
-import { Container, Tab, Tabs, Button, Content } from 'native-base'
+import { Container, Tab, Tabs } from 'native-base'
 import RequireTaskList from './requireTaskList/RequireTaskList'
 import LoadTaskList from './loadTaskList/LoadTaskList'
 import { connect } from 'react-redux'
 import * as reduxActions from '../../reduxActions'
-import { reduxForm, FormSection, Field, getFormValues, change } from 'redux-form'
-import { Actions } from 'react-native-router-flux'
-import globalStyles, { styleColor } from '../../style/GlobalStyles'
-import { TextBox, DatePicker, PickerBox, Select } from '../../components/form'
+import { initialize } from 'redux-form'
+import globalStyles from '../../style/GlobalStyles'
+import RequireSearch from './RequireSearch'
+import LoadTaskSearch from './LoadTaskSearch'
 
 const drawerWidth = 300
-
-const RequireSearch = props => {
-    const { getCityListWaiting, getCityList, sceneKey, closeDrawer, handleSubmit, resetSection } = props
-    // console.log('props', props)
-    return (
-        <Container>
-            <Content>
-                <Field
-                    name='orderId'
-                    label='订单编号'
-                    component={TextBox}
-                />
-                <Field
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    label='服务方式'
-                    name='serviceType'
-                    listTitle='服务方式'
-                    itemList={[{ id: '1', value: '上门提货' }, { id: '2', value: '当地自提' }]}
-                    component={PickerBox} />
-                <Field
-                    name='routeStart'
-                    label='始发城市'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={Select}
-                    onPress={({ onChange }) => {
-                        getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
-                            onSelect: (param) => {
-                                const { id, city_name } = param
-                                onChange({ id, value: city_name, item: param })
-                                Actions.popTo(sceneKey)
-                            },
-                            preSceneKey: sceneKey
-                        })
-                        InteractionManager.runAfterInteractions(getCityList)
-                    }}
-                />
-                <Field
-                    name='routeEnd'
-                    label='目的城市'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={Select}
-                    onPress={({ onChange }) => {
-                        getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
-                            onSelect: (param) => {
-                                const { id, city_name } = param
-                                onChange({ id, value: city_name, item: param })
-                                Actions.popTo(sceneKey)
-                            },
-                            preSceneKey: sceneKey
-                        })
-                        InteractionManager.runAfterInteractions(getCityList)
-                    }}
-                />
-                <Field
-                    name='createdOnStart'
-                    label='创建时间（始）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <Field
-                    name='createdOnEnd'
-                    label='创建时间（终）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <View style={[{ justifyContent: 'space-between', flexDirection: 'row' }]}>
-                    <Button style={[{
-                        flex: 1, marginLeft: 15, backgroundColor: '#ff5807',
-                        marginVertical: 15, justifyContent: 'center', alignItems: 'center',
-                        borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 20,
-                        borderTopLeftRadius: 20
-                    }]}
-                        onPress={resetSection}>
-                        <Text style={[globalStyles.midText, { color: '#fff' }]}>重置</Text>
-                    </Button>
-                    <Button onPress={() => {
-                        handleSubmit()
-                        closeDrawer()
-                    }} style={[{ flex: 1, marginRight: 15, backgroundColor: styleColor, marginVertical: 15, justifyContent: 'center', alignItems: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 20, borderTopRightRadius: 20 }]}>
-                        <Text style={[globalStyles.midText, { color: '#fff' }]}>确定</Text>
-                    </Button>
-                </View>
-            </Content>
-        </Container>
-    )
-}
-
-const LoadTaskSearch = props => {
-    const { getCityListWaiting, getCityList, sceneKey, closeDrawer, handleSubmit, resetSection } = props
-    return (
-        <Container>
-            <Content>
-                <Field
-                    name='loadTaskId'
-                    label='线路编号'
-                    component={TextBox}
-                />
-                <Field
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    label='运输方式'
-                    name='transType'
-                    listTitle='运输方式'
-                    itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
-                    component={PickerBox} />
-                <Field
-                    name='routeStart'
-                    label='始发城市'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={Select}
-                    onPress={({ onChange }) => {
-                        getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
-                            onSelect: (param) => {
-                                const { id, city_name } = param
-                                onChange({ id, value: city_name, item: param })
-                                Actions.popTo(sceneKey)
-                            },
-                            preSceneKey: sceneKey
-                        })
-                        InteractionManager.runAfterInteractions(getCityList)
-                    }}
-                />
-                <Field
-                    name='routeEnd'
-                    label='目的城市'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={Select}
-                    onPress={({ onChange }) => {
-                        getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
-                            onSelect: (param) => {
-                                const { id, city_name } = param
-                                onChange({ id, value: city_name, item: param })
-                                Actions.popTo(sceneKey)
-                            },
-                            preSceneKey: sceneKey
-                        })
-                        InteractionManager.runAfterInteractions(getCityList)
-                    }}
-                />
-                <Field
-                    name='createdOnStart'
-                    label='创建时间（始）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <Field
-                    name='createdOnEnd'
-                    label='创建时间（终）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <Field
-                    name='planDateStart'
-                    label='计划发运时间（始）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <Field
-                    name='planDateEnd'
-                    label='计划发运时间（终）'
-                    itemStyle={{ width: drawerWidth - 30 }}
-                    component={DatePicker}
-                />
-                <View style={[{ justifyContent: 'space-between', flexDirection: 'row' }]}>
-                    <Button style={[{
-                        flex: 1, marginLeft: 15, backgroundColor: '#ff5807',
-                        marginVertical: 15, justifyContent: 'center', alignItems: 'center',
-                        borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 20,
-                        borderTopLeftRadius: 20
-                    }]}
-                        onPress={resetSection}>
-                        <Text style={[globalStyles.midText, { color: '#fff' }]}>重置</Text>
-                    </Button>
-                    <Button onPress={() => {
-                        handleSubmit()
-                        closeDrawer()
-                    }} style={[{ flex: 1, marginRight: 15, backgroundColor: styleColor, marginVertical: 15, justifyContent: 'center', alignItems: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 20, borderTopRightRadius: 20 }]}>
-                        <Text style={[globalStyles.midText, { color: '#fff' }]}>确定</Text>
-                    </Button>
-                </View>
-            </Content>
-        </Container>
-    )
-}
 
 class Route extends Component {
     constructor(props) {
@@ -214,10 +25,20 @@ class Route extends Component {
     }
 
     componentDidMount() {
+        const { getRequireTaskList, getRequireTaskListWaiting, getLoadTaskListWaiting,
+            getLoadTaskList, initForm } = this.props
+
         this.listener = DeviceEventEmitter.addListener('openDrawer', (e) => {
+            const { requireTaskListReducer, loadTaskListReducer } = this.props
             this.drawer.openDrawer()
+            if (this.state.tabsIndex == 0) {
+                initForm('requireSearchForm', requireTaskListReducer.data.searchParam)
+            } else {
+                initForm('loadTaskSearchForm', loadTaskListReducer.data.searchParam)
+            }
+
         })
-        const { getRequireTaskList, getRequireTaskListWaiting, getLoadTaskListWaiting, getLoadTaskList } = this.props
+
         getRequireTaskListWaiting()
         getLoadTaskListWaiting()
         InteractionManager.runAfterInteractions(() => {
@@ -231,8 +52,7 @@ class Route extends Component {
     }
 
     render() {
-        const { getCityList, getCityListWaiting, sceneKey, handleSubmit, onChangeTab, reset, resetSection } = this.props
-        // console.log('this.props', this.props)
+        const { sceneKey } = this.props
         return (
             <DrawerLayoutAndroid
                 ref={ref => this.drawer = ref}
@@ -241,27 +61,11 @@ class Route extends Component {
                 renderNavigationView={() => {
                     if (this.state.tabsIndex == 0) {
                         return (
-                            <FormSection name='requireSearch' >
-                                <RequireSearch
-                                    getCityListWaiting={getCityListWaiting}
-                                    getCityList={getCityList}
-                                    sceneKey={sceneKey}
-                                    closeDrawer={() => this.drawer.closeDrawer()}
-                                    handleSubmit={handleSubmit}
-                                    resetSection={() => resetSection('requireSearch')} />
-                            </FormSection>
+                            <RequireSearch sceneKey={sceneKey} closeDrawer={() => this.drawer.closeDrawer()} />
                         )
                     } else {
                         return (
-                            <FormSection name='loadTaskSearch' >
-                                <LoadTaskSearch
-                                    getCityListWaiting={getCityListWaiting}
-                                    getCityList={getCityList}
-                                    sceneKey={sceneKey}
-                                    closeDrawer={() => this.drawer.closeDrawer()}
-                                    handleSubmit={handleSubmit}
-                                    resetSection={() => resetSection('loadTaskSearch')} />
-                            </FormSection>
+                            <LoadTaskSearch sceneKey={sceneKey} closeDrawer={() => this.drawer.closeDrawer()} />
                         )
                     }
                 }}>
@@ -269,7 +73,6 @@ class Route extends Component {
                     <Tabs onChangeTab={param => {
                         InteractionManager.runAfterInteractions(() => {
                             this.setState({ tabsIndex: param.i })
-                            onChangeTab(param.i)
                         })
                     }}>
                         <Tab
@@ -278,7 +81,7 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="订单需求">
-                            <RequireTaskList sceneKey={sceneKey}/>
+                            <RequireTaskList sceneKey={sceneKey} />
                         </Tab>
                         <Tab
                             tabStyle={globalStyles.styleBackgroundColor}
@@ -286,7 +89,7 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="路线">
-                            <LoadTaskList sceneKey={sceneKey}/>
+                            <LoadTaskList sceneKey={sceneKey} />
                         </Tab>
                     </Tabs>
                 </Container>
@@ -297,13 +100,10 @@ class Route extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: {
-            tabsIndex: 0
-        },
-        routeSearchFormValues: getFormValues('routeSearchForm')(state)
+        requireTaskListReducer: state.requireTaskListReducer,
+        loadTaskListReducer: state.loadTaskListReducer
     }
 }
-
 
 const mapDispatchToProps = (dispatch) => ({
     getRequireTaskList: () => {
@@ -312,34 +112,15 @@ const mapDispatchToProps = (dispatch) => ({
     getRequireTaskListWaiting: () => {
         dispatch(reduxActions.requireTaskList.getRequireTaskListWaiting())
     },
-    getCityList: () => {
-        dispatch(reduxActions.cityList.getCityList())
-    },
-    getCityListWaiting: () => {
-        dispatch(reduxActions.cityList.getCityListWaiting())
-    },
     getLoadTaskList: () => {
         dispatch(reduxActions.loadTaskList.getLoadTaskList())
     },
     getLoadTaskListWaiting: () => {
         dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
     },
-    onChangeTab: index => {
-        dispatch(change('routeSearchForm', 'tabsIndex', index))
+    initForm: (formName, searchParam) => {
+        dispatch(initialize(formName, searchParam))
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'routeSearchForm',
-    onSubmit: (values, dispatch, props) => {
-        const { tabsIndex, loadTaskSearch, requireSearch } = values
-        // console.log('values',values)
-        if (tabsIndex == 0) {
-            dispatch(reduxActions.requireTaskList.getRequireTaskListWaiting())
-            InteractionManager.runAfterInteractions(() => dispatch(reduxActions.requireTaskList.getRequireTaskList(requireSearch)))
-        } else if (tabsIndex == 1) {
-            dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
-            InteractionManager.runAfterInteractions(() => dispatch(reduxActions.loadTaskList.getLoadTaskList(loadTaskSearch)))
-        }
-    }
-})(Route))
+export default connect(mapStateToProps, mapDispatchToProps)(Route)

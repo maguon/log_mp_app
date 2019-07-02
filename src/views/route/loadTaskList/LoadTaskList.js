@@ -88,7 +88,7 @@ const renderItem = props => {
 }
 
 const LoadTaskList = props => {
-    console.log('props', props)
+    // console.log('props', props)
     const { loadTaskListReducer: {
         data: { loadTaskList, isCompleted },
         getLoadTaskList: { isResultStatus } },
