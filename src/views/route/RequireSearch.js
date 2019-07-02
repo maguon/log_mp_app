@@ -12,7 +12,6 @@ const drawerWidth = 300
 
 const RequireSearch = props => {
     const { getCityListWaiting, getCityList, sceneKey, closeDrawer, handleSubmit, dispatch } = props
-    // console.log('props', props)
     return (
         <Container>
             <Content>
@@ -99,8 +98,6 @@ const RequireSearch = props => {
         </Container>
     )
 }
-
-
 
 const mapDispatchToProps = (dispatch) => ({
     getCityListWaiting: () => {

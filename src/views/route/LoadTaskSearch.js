@@ -111,9 +111,6 @@ const LoadTaskSearch = props => {
     )
 }
 
-
-
-
 const mapDispatchToProps = (dispatch) => ({
     getCityListWaiting: () => {
         dispatch(reduxActions.cityList.getCityListWaiting())
