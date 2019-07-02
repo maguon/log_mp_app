@@ -38,6 +38,7 @@ import requireTaskListReducer from './views/route/requireTaskList/requireTaskLis
 import loadTaskListReducer from './views/route/loadTaskList/loadTaskListReducer'
 import loadTaskInfoReducer from './views/loadTaskInfo/loadTaskInfoReducer'
 import requireTaskInfoReducer from './views/requireTaskInfo/requireTaskInfoReducer'
+import orderListReducer from './views/orderList/orderListReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -75,5 +76,6 @@ export default combineReducers({
     requireTaskListReducer,
     loadTaskListReducer,
     loadTaskInfoReducer,
-    requireTaskInfoReducer
+    requireTaskInfoReducer,
+    orderListReducer
 })

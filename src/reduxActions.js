@@ -37,6 +37,7 @@ import * as requireTaskList from './views/route/requireTaskList/requireTaskListA
 import * as loadTaskList from './views/route/loadTaskList/loadTaskListActions'
 import * as loadTaskInfo from './views/loadTaskInfo/loadTaskInfoActions'
 import * as requireTaskInfo from './views/requireTaskInfo/requireTaskInfoActions'
+import * as orderList from './views/orderList/orderListActions'
 
 
 export {
@@ -77,6 +78,7 @@ export {
     requireTaskList,
     loadTaskList,
     loadTaskInfo,
-    requireTaskInfo
+    requireTaskInfo,
+    orderList
 
 }

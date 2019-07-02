@@ -11,6 +11,7 @@ import ConsultToolButton from '../components/toolButton/ConsultToolButton'
 import HomeToolButton from '../components/toolButton/HomeToolButton'
 import CreateOrderToolButton from '../components/toolButton/CreateOrderToolButton'
 import RouteToolButton from '../components/toolButton/RouteToolButton'
+import OrderListToolButton from '../components/toolButton/OrderListToolButton'
 
 import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
 import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
@@ -79,9 +80,11 @@ import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorFo
 
 
 import LoadTaskList from './loadTaskList/LoadTaskList'
-import SearchRoute from './searchRoute/SearchRoute'
 import LoadTaskInfo from './loadTaskInfo/LoadTaskInfo'
 import RequireTaskInfo from './requireTaskInfo/RequireTaskInfo'
+
+
+import OrderList from './orderList/OrderList'
 
 //<<<<<<<<<<views
 
@@ -397,29 +400,29 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
-                            <Scene key="orderb"
-                                component={Order}
+                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                            <Scene key="orderList"
+                                component={OrderList}
                                 title='订单'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderListToolButton}
+                            />
+                        <Scene key="cityListAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={CityList}
+                                title='城市列表'
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
+                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
-                            
                                 component={Route}
                                 title='路线'
                                 hideNavBar={false}
                                 navBar={NavBar}
                                 RightButton={RouteToolButton}
-                            />
-                            <Scene key="searchRoute"
-                                component={SearchRoute}
-                                LeftButton={LeftButton}
-                                title='路线'
-                                hideNavBar={false}
-                                navBar={NavBar}
                             />
                             <Scene key="loadTaskInfo"
                                 component={LoadTaskInfo}
