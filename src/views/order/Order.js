@@ -17,6 +17,7 @@ const Order = props => {
     const { orderReducer: { data: { order: { status } } },
         orderCarListReducer: { getOrderCarList: { isResultStatus } }
     } = props
+    console.log('status',status)
     if (isResultStatus == 1) {
         return (
             <Container>

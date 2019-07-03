@@ -70,11 +70,6 @@ export default handleActions({
     },
 
 
-
-
-
-    
-
     [reduxActionTypes.order.init_order]: (state, action) => {
         const { payload: { order } } = action
         return {

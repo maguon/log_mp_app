@@ -156,7 +156,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadTaskList)
 
-
 const styles = StyleSheet.create({
     listItemHeader: {
         justifyContent: 'space-between',

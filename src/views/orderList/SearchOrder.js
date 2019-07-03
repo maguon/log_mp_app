@@ -7,12 +7,38 @@ import { Container, Content, Button } from 'native-base'
 import { TextBox, DatePicker, PickerBox, Select } from '../../components/form'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import { Actions } from 'react-native-router-flux'
+import order_status from '../../config/order_status.json'
+import order_payment_status from '../../config/order_payment_status.json'
+import service_type_list from '../../config/service_type.json'
+
 
 const drawerWidth = 300
 
 const SearchOrder = props => {
     // console.log('props', props)
-    const { getCityListWaiting, getCityList, sceneKey, handleSubmit, dispatch,closeDrawer } = props
+    const { getCityListWaiting, getCityList, sceneKey, handleSubmit, dispatch, closeDrawer } = props
+
+    const orderStatusList = order_status.map(item => {
+        return {
+            id: item[0],
+            value: item[1]
+        }
+    })
+    // console.log('orderStatusList',orderStatusList)
+
+    const orderPaymentStatusList = order_payment_status.map(item => {
+        return {
+            id: item[0],
+            value: item[1]
+        }
+    })
+
+    const serviceTypeList = service_type_list.map(item => {
+        return {
+            id: item[0],
+            value: item[1]
+        }
+    })
     return (
         <Container>
             <Content>
@@ -26,21 +52,21 @@ const SearchOrder = props => {
                     label='订单状态'
                     name='status'
                     listTitle='订单状态'
-                    itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
+                    itemList={orderStatusList}
                     component={PickerBox} />
                 <Field
                     itemStyle={{ width: drawerWidth - 30 }}
                     label='支付状态'
                     name='paymentStatus'
                     listTitle='支付状态'
-                    itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
+                    itemList={orderPaymentStatusList}
                     component={PickerBox} />
                 <Field
                     itemStyle={{ width: drawerWidth - 30 }}
                     label='服务方式'
                     name='serviceType'
                     listTitle='服务方式'
-                    itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
+                    itemList={serviceTypeList}
                     component={PickerBox} />
                 <Field
                     name='routeStart'

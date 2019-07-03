@@ -343,8 +343,6 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderCarEditorToolButton}
                             />
-
-
                             <Scene key="orderCarFeeEditor"
                                 LeftButton={LeftButton}
                                 component={OrderCarFeeEditor}
@@ -354,7 +352,6 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderCarFeeEditorToolButton}
                             />
-
                             <Scene key="orderRemarkEditor"
                                 LeftButton={LeftButton}
                                 component={OrderRemarkEditor}
@@ -364,10 +361,6 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderRemarkEditorToolButton}
                             />
-
-
-
-
                             <Scene key="addOrderCar"
                                 LeftButton={LeftButton}
                                 component={AddOrderCar}
@@ -377,9 +370,6 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={AddOrderCarToolButton}
                             />
-
-
-
                             <Scene key="loadTaskListAtHome"
                                 LeftButton={LeftButton}
                                 component={LoadTaskList}
@@ -388,9 +378,6 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-
-
-
                         </Scene>
                         <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
@@ -400,7 +387,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 component={OrderList}
                                 title='订单'
@@ -408,7 +395,14 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderListToolButton}
                             />
-                        <Scene key="cityListAtOrderBlock"
+                            <Scene key="orderAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={order}
+                                title='订单详情'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="cityListAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={CityList}
                                 title='城市列表'
@@ -416,9 +410,9 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
+                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
-                            initial={true}
+                                initial={true}
                                 component={Route}
                                 title='路线'
                                 hideNavBar={false}
@@ -433,7 +427,6 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                             <Scene key="requireTaskInfo"
-                            
                                 component={RequireTaskInfo}
                                 LeftButton={LeftButton}
                                 title='订单详情'
