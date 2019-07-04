@@ -53,15 +53,16 @@ const renderItem = props => {
     const orderPaymentStatus = new Map(order_payment_status).get(payment_status)
     const serviceType = new Map(service_type_list).get(service_type)
 
-
+    const _total_insure_price = item.total_insure_price ? item.total_insure_price : 0
+    const _total_trans_price = item.total_trans_price ? item.total_trans_price : 0
 
     // console.log('orderStatus', orderStatus)
     return (
         <TouchableOpacity onPress={() => {
-            getOrderCarListWaiting()
-            initOrder({ order: item })
-            Actions.orderAtOrderBlock({ preSceneKey: sceneKey })
-            InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+            // getOrderCarListWaiting()
+            // initOrder({ order: item })
+            Actions.orderAtOrderBlock({ preSceneKey: sceneKey, order: item })
+            // InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text>订单编号：{id ? `${id}` : ''}</Text>
@@ -88,7 +89,7 @@ const renderItem = props => {
                         {created_type == 1 && <Text style={[globalStyles.midText]}>内部订单</Text>}
                         {created_type == 2 && <Text style={[globalStyles.midText]}>外部订单</Text>}
                         {created_type == 3 && <Text style={[globalStyles.midText]}>自助订单</Text>}
-                        <Text style={[globalStyles.midText]}>应付费用：<Text style={[globalStyles.xlText, styles.fontColor]}>2000</Text> 元</Text>
+                        <Text style={[globalStyles.midText]}>应付费用：<Text style={[globalStyles.xlText, styles.fontColor]}>{(_total_insure_price + _total_trans_price)}</Text> 元</Text>
                     </View>
                 </View>
                 <View>

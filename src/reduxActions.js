@@ -38,6 +38,9 @@ import * as loadTaskList from './views/route/loadTaskList/loadTaskListActions'
 import * as loadTaskInfo from './views/loadTaskInfo/loadTaskInfoActions'
 import * as requireTaskInfo from './views/requireTaskInfo/requireTaskInfoActions'
 import * as orderList from './views/orderList/orderListActions'
+import * as orderInfo from './views/orderInfo/orderInfoActions'
+import * as routeCarList from './views/routeCarList/routeCarListActions'
+import * as routeTaskListForOrder from './views/routeTaskListForOrder/routeTaskListForOrderActions'
 
 
 export {
@@ -79,6 +82,9 @@ export {
     loadTaskList,
     loadTaskInfo,
     requireTaskInfo,
-    orderList
+    orderList,
+    orderInfo,
+    routeCarList,
+    routeTaskListForOrder
 
 }

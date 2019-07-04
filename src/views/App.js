@@ -85,6 +85,7 @@ import RequireTaskInfo from './requireTaskInfo/RequireTaskInfo'
 
 
 import OrderList from './orderList/OrderList'
+import OrderInfo from './orderInfo/OrderInfo'
 
 //<<<<<<<<<<views
 
@@ -175,6 +176,7 @@ export default class App extends Component {
                                 component={InquiryInfo}
                                 title='询价详情'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
 
@@ -183,6 +185,7 @@ export default class App extends Component {
                                 component={order}
                                 title='订单详情'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="addressInfoForNotDemand"
@@ -190,6 +193,7 @@ export default class App extends Component {
                                 component={AddressInfoForNotDemand}
                                 title='收发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="addressInfoForNotPrice"
@@ -197,6 +201,7 @@ export default class App extends Component {
                                 component={AddressInfoForNotPrice}
                                 title='收发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
 
@@ -205,6 +210,7 @@ export default class App extends Component {
                                 component={Payment}
                                 title='支付信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="sendAddressInfoEditorForNotDemand"
@@ -212,6 +218,7 @@ export default class App extends Component {
                                 component={SendAddressInfoEditorForNotDemand}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={SendAddrEditorForNotDemandToolButton}
                             />
@@ -220,6 +227,7 @@ export default class App extends Component {
                                 component={SendAddressInfoEditorForNotInfo}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={SendAddrEditorForNotInfoToolButton}
                             />
@@ -228,17 +236,16 @@ export default class App extends Component {
                                 component={SendAddressInfoEditorForNotPrice}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={SendAddrEditorForNotPriceToolButton}
                             />
-
-
-
                             <Scene key="recAddrEditorForNotDemand"
                                 LeftButton={LeftButton}
                                 component={RecAddrEditorForNotDemand}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={RecAddrEditorForNotDemandToolButton}
                             />
@@ -247,6 +254,7 @@ export default class App extends Component {
                                 component={RecAddrEditorForNotInfo}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={RecAddrEditorForNotInfoToolButton}
                             />
@@ -255,16 +263,16 @@ export default class App extends Component {
                                 component={RecAddrEditorForNotPrice}
                                 title='发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={RecAddrEditorForNotPriceToolButton}
                             />
-
-
                             <Scene key="consultInfo"
                                 LeftButton={LeftButton}
                                 component={ConsultInfo}
                                 title='协商费用'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="inquiryCarList"
@@ -272,6 +280,7 @@ export default class App extends Component {
                                 component={InquiryCarList}
                                 title='运送车辆'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="inquiryCarInfo"
@@ -279,6 +288,7 @@ export default class App extends Component {
                                 component={InquiryCarInfo}
                                 title='车辆信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="consult"
@@ -286,6 +296,7 @@ export default class App extends Component {
                                 component={Consult}
                                 title='协商费用'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={ConsultToolButton}
                             />
@@ -294,6 +305,7 @@ export default class App extends Component {
                                 component={CityList}
                                 title='城市列表'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="routeCityList"
@@ -301,6 +313,7 @@ export default class App extends Component {
                                 component={RouteCityList}
                                 title='可选城市列表'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="createOrder"
@@ -308,6 +321,7 @@ export default class App extends Component {
                                 component={CreateOrder}
                                 title='创建订单'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                                 RightButton={CreateOrderToolButton}
                             />
@@ -316,6 +330,7 @@ export default class App extends Component {
                                 component={AddressInfoForNotInfo}
                                 title='收发货信息'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="orderCarList"
@@ -389,6 +404,7 @@ export default class App extends Component {
                         </Scene>
                         <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
+                                initial={true}
                                 component={OrderList}
                                 title='订单'
                                 hideNavBar={false}
@@ -397,9 +413,10 @@ export default class App extends Component {
                             />
                             <Scene key="orderAtOrderBlock"
                                 LeftButton={LeftButton}
-                                component={order}
+                                component={OrderInfo}
                                 title='订单详情'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="cityListAtOrderBlock"
@@ -407,6 +424,7 @@ export default class App extends Component {
                                 component={CityList}
                                 title='城市列表'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                         </Scene>
@@ -424,6 +442,7 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 title='路线详情'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="requireTaskInfo"
@@ -431,6 +450,7 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 title='订单详情'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                             <Scene key="cityListAtRouteBlock"
@@ -438,6 +458,7 @@ export default class App extends Component {
                                 component={CityList}
                                 title='城市列表'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                         </Scene>
@@ -453,6 +474,7 @@ export default class App extends Component {
                                 component={ChangePassword}
                                 title='修改密码'
                                 hideNavBar={false}
+                                hideTabBar={true}
                                 navBar={NavBar}
                             />
                         </Scene>
