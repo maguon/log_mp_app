@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, InteractionManager } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Icon } from 'native-base'
 import globalStyles from '../../style/GlobalStyles'
@@ -8,11 +8,12 @@ import moment from 'moment'
 import order_status from '../../config/order_status.json'
 import order_payment_status from '../../config/order_payment_status.json'
 import service_type_list from '../../config/service_type.json'
-
+import { Actions } from 'react-native-router-flux'
+import * as reduxActions from '../../reduxActions'
 
 const OrderInfo = props => {
     console.log('props', props)
-    const { order } = props
+    const { order, sceneKey, routeTaskListForOrderReducer: { data: { routeTaskListForOrder } } } = props
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
     const serviceType = new Map(service_type_list).get(order.service_type)
@@ -88,13 +89,17 @@ const OrderInfo = props => {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => { }}
+                    onPress={() => {
+                        // getRouteTaskListForOrderWaiting()
+                        Actions.routeTaskListForOrder({ preSceneKey: sceneKey, order })
+                        // InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: order.id }))
+                    }}
                     style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                     <View style={styles.listItemPadding}>
                         <Text style={globalStyles.midText}>路线安排</Text>
                     </View>
                     <View style={[styles.listItemPadding, { flexDirection: 'row', alignItems: 'center' }]}>
-                        <Text style={globalStyles.midText}>3</Text>
+                        <Text style={globalStyles.midText}>{`${routeTaskListForOrder.length}`}</Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </TouchableOpacity>
@@ -109,7 +114,7 @@ const OrderInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        orderInfoReducer: state.orderInfoReducer
+        routeTaskListForOrderReducer: state.routeTaskListForOrderReducer
     }
 }
 

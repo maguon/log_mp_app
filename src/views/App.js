@@ -86,6 +86,8 @@ import RequireTaskInfo from './requireTaskInfo/RequireTaskInfo'
 
 import OrderList from './orderList/OrderList'
 import OrderInfo from './orderInfo/OrderInfo'
+import RouteCarList from './routeCarList/RouteCarList'
+import RouteTaskListForOrder from './routeTaskListForOrder/RouteTaskListForOrder'
 
 //<<<<<<<<<<views
 
@@ -422,6 +424,22 @@ export default class App extends Component {
                             <Scene key="cityListAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={CityList}
+                                title='城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeCarList"
+                                LeftButton={LeftButton}
+                                component={RouteCarList}
+                                title='城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeTaskListForOrder"
+                                LeftButton={LeftButton}
+                                component={RouteTaskListForOrder}
                                 title='城市列表'
                                 hideNavBar={false}
                                 hideTabBar={true}
