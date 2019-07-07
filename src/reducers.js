@@ -42,6 +42,7 @@ import orderListReducer from './views/orderList/orderListReducer'
 import orderInfoReducer from './views/orderInfo/orderInfoReducer'
 import routeCarListReducer from './views/routeCarList/routeCarListReducer'
 import routeTaskListForOrderReducer from './views/routeTaskListForOrder/routeTaskListForOrderReducer'
+import feePriceReducer from './views/feePrice/feePriceReducer'
 
 
 export default combineReducers({
@@ -84,5 +85,6 @@ export default combineReducers({
     orderListReducer,
     orderInfoReducer,
     routeCarListReducer,
-    routeTaskListForOrderReducer
+    routeTaskListForOrderReducer,
+    feePriceReducer
 })

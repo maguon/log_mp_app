@@ -1,0 +1,4 @@
+export const get_transAndInsurePriceForFee_success = 'get_transAndInsurePriceForFee_success'
+export const get_transAndInsurePriceForFee_failed = 'get_transAndInsurePriceForFee_failed'
+export const get_transAndInsurePriceForFee_waiting = 'get_transAndInsurePriceForFee_waiting'
+export const get_transAndInsurePriceForFee_error = 'get_transAndInsurePriceForFee_error'

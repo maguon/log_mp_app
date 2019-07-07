@@ -396,15 +396,31 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
+                        <Scene key="feePriceBlock" initial={true} icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
                                 component={FeePrice}
                                 title='询价'
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
+                            <Scene key="cityListAtFeePriceBlock"
+                                LeftButton={LeftButton}
+                                component={CityList}
+                                title='城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeCityListAtFeePriceBlock"
+                                LeftButton={LeftButton}
+                                component={RouteCityList}
+                                title='可选城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
                         </Scene>
-                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock"  icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
