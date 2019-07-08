@@ -15,6 +15,7 @@ import ModalWaiting from '../../components/ModalWaiting'
 import carModal from '../../config/car_modal.json'
 import * as reduxActions from '../../reduxActions'
 import { Actions } from 'react-native-router-flux'
+import globalStyles from '../../style/GlobalStyles'
 
 const startCityRequiredValidator = requiredObj('始发城市必选')
 const endCityRequiredValidator = requiredObj('目的城市必选')
@@ -22,8 +23,14 @@ const serviceTypeRequiredValidator = requiredObj('服务方式必选')
 const departureTimeRequiredValidator = required('发运日期必选')
 
 const FeePrice = props => {
-    console.log('props', props)
-    const { getRouteCityListWaiting, getRouteCityList, getCityListWaiting, getCityList, formValues, sceneKey, dispatch } = props
+    // console.log('props', props)
+    const { getRouteCityListWaiting, getRouteCityList, validatRoute, getCityListWaiting,
+        getCityList, formValues, sceneKey, feePriceReducer: { data: { transAndInsurePrice: { insure, trans } } } } = props
+
+    // console.log('transAndInsurePrice', transAndInsurePrice)
+    const _insure = insure ? insure : 0
+    const _trans = trans ? trans : 0
+    const totalfee = _insure + _trans
 
     const carModalList = carModal.map(item => {
         return {
@@ -46,6 +53,8 @@ const FeePrice = props => {
                                 const { id, city_name } = param
                                 onChange({ id, value: city_name, item: param })
                                 Actions.popTo('feePrice')
+                                if (formValues && formValues.endCity)
+                                    validatRoute({ routeStartId: id, routeEndId: formValues.endCity.id })
                             },
                             preSceneKey: sceneKey
                         })
@@ -62,8 +71,8 @@ const FeePrice = props => {
                             getRouteCityListWaiting()
                             Actions.routeCityListAtFeePriceBlock({
                                 onSelect: (param) => {
-                                    const { id, value } = param
-                                    onChange({ id, value, item: param })
+                                    const { id, value, item: { distance }, item } = param
+                                    onChange({ id, value: `${value} ${distance}km`, item })
                                     Actions.popTo('feePrice')
                                 },
                                 preSceneKey: sceneKey,
@@ -84,7 +93,6 @@ const FeePrice = props => {
                     component={PickerBox} />
                 <Field
                     label='车型'
-                    last
                     name='modelType'
                     listTitle='车型列表'
                     itemList={carModalList}
@@ -114,6 +122,20 @@ const FeePrice = props => {
                         component={SwitchBox}
                     />
                 </View>
+                <View style={[{ backgroundColor: '#f5edf3' }]}>
+                    <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}>预计运费</Text>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}><Text style={styles.fontColor}>{`${_trans}`}</Text> 元</Text>
+                    </View>
+                    <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}>预计保费</Text>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}><Text style={styles.fontColor}>{`${_insure}`}</Text> 元</Text>
+                    </View>
+                    <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}>预计费用</Text>
+                        <Text style={[styles.listItemPadding, globalStyles.midText]}><Text style={styles.fontColor}>{`${totalfee}`}</Text> 元</Text>
+                    </View>
+                </View>
             </Content>
         </Container>
     )
@@ -125,9 +147,11 @@ const mapStateToProps = (state, ownProps) => {
             safeStatus: false,
             oldCar: false,
             actInsurePrice: '0.00',
-            actTransPrice: '0.00'
+            actTransPrice: '0.00',
+            startCity: {},
+            endCity: {}
         },
-        // addOrderCarReducer: state.addOrderCarReducer,
+        feePriceReducer: state.feePriceReducer,
         formValues: getFormValues('feePriceForm')(state)
     }
 }
@@ -146,29 +170,25 @@ const mapDispatchToProps = (dispatch) => ({
     getRouteCityList: req => {
         dispatch(reduxActions.routeCityList.getRouteCityList(req))
     },
-    changeRouteCity:req=>{
-        
+    validatRoute: req => {
+        dispatch(reduxActions.feePrice.validatRoute(req))
     }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'feePriceForm',
-    onSubmit: (values, dispatch, props) => {
-        // console.log('addOrderCarForm')
-        // dispatch(reduxActions.addOrderCar.addOrderCar({ formValues: values, order: props.order }))
-    },
     onChange: (values, dispatch, props, previousValues) => {
-        // console.log('props', props)
-        // if (values.modelType && values.valuation) {
-        //     if (!previousValues.modelType
-        //         || !previousValues.valuation
-        //         || values.modelType.id != previousValues.modelType.id
-        //         || values.valuation != previousValues.valuation
-        //         || values.safeStatus != previousValues.safeStatus
-        //         || values.oldCar != previousValues.oldCar) {
-        //         dispatch(reduxActions.addOrderCar.getTransAndInsurePrice({ formValues: values, order: props.order }))
-        //     }
-        // }
+        if (values.startCity && values.endCity && values.serviceType && values.modelType && values.valuation) {
+            if ( values.endCity.id != previousValues.endCity.id
+                || values.endCity.item.distance != previousValues.endCity.item.distance
+                || values.modelType.id != previousValues.modelType.id
+                || values.serviceType.id != previousValues.serviceType.id
+                || values.valuation != previousValues.valuation
+                || values.safeStatus != previousValues.safeStatus
+                || values.oldCar != previousValues.oldCar) {
+                dispatch(reduxActions.feePrice.getTransAndInsurePrice({ formValues: values }))
+            }
+        }
     }
 })(FeePrice))
 
@@ -185,7 +205,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff'
     },
     fontColor: {
         color: '#bd417c'

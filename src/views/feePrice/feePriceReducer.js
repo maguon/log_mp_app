@@ -10,11 +10,16 @@ const initialState = {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
+    },
+    validatRoute:{
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
     }
 }
 
 export default handleActions({
-    [reduxActionTypes.addOrderCar.get_transAndInsurePrice_success]: (state, action) => {
+    [reduxActionTypes.feePrice.get_transAndInsurePriceForFee_success]: (state, action) => {
         const { payload: { transAndInsurePrice } } = action
         return {
             ...state,
@@ -27,7 +32,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.addOrderCar.get_transAndInsurePrice_failed]: (state, action) => {
+    [reduxActionTypes.feePrice.get_transAndInsurePriceForFee_failed]: (state, action) => {
         const { payload: { failedMsg } } = action
         return {
             ...state,
@@ -38,7 +43,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.addOrderCar.get_transAndInsurePrice_waiting]: (state, action) => {
+    [reduxActionTypes.feePrice.get_transAndInsurePriceForFee_waiting]: (state, action) => {
         return {
             ...state,
             getTransAndInsurePrice: {
@@ -47,7 +52,55 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.addOrderCar.get_transAndInsurePrice_error]: (state, action) => {
+    [reduxActionTypes.feePrice.get_transAndInsurePriceForFee_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getTransAndInsurePrice: {
+                ...state.getTransAndInsurePrice,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.feePrice.get_validatRoute_success]: (state, action) => {
+        const { payload: { transAndInsurePrice } } = action
+        return {
+            ...state,
+            data:{
+                transAndInsurePrice
+            },
+            getTransAndInsurePrice: {
+                ...state.getTransAndInsurePrice,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.feePrice.get_validatRoute_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getTransAndInsurePrice: {
+                ...state.getTransAndInsurePrice,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.feePrice.get_validatRoute_waiting]: (state, action) => {
+        return {
+            ...state,
+            getTransAndInsurePrice: {
+                ...state.getTransAndInsurePrice,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.feePrice.get_validatRoute_error]: (state, action) => {
         const { payload: { errorMsg } } = action
         return {
             ...state,
