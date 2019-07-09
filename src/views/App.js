@@ -164,7 +164,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock"  initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -396,7 +396,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="feePriceBlock" initial={true} icon={TabBarIcon} online='logo-yen' >
+                        <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
                                 component={FeePrice}
                                 title='询价'
@@ -429,9 +429,26 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderListToolButton}
                             />
-                            <Scene key="orderAtOrderBlock"
+                            <Scene key="createOrderAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={CreateOrder}
+                                title='创建订单'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={CreateOrderToolButton}
+                            />
+                            <Scene key="orderInfoAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={OrderInfo}
+                                title='订单详情'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="orderAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={order}
                                 title='订单详情'
                                 hideNavBar={false}
                                 hideTabBar={true}
@@ -441,6 +458,14 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 component={CityList}
                                 title='城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeCityListAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={RouteCityList}
+                                title='可选城市列表'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
@@ -460,6 +485,15 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
+                            />
+                            <Scene key="orderRemarkEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={OrderRemarkEditor}
+                                title='客服备注'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderRemarkEditorToolButton}
                             />
                         </Scene>
                         <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >

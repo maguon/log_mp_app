@@ -25,21 +25,42 @@ export const recAddrEditor = (sceneName) => {
 }
 
 
-export const orderRemarkEditor = (sceneName) => {
-    if (sceneName === 'notInfo') {
-        return Actions.orderNotInfoRemarkEditor
+
+export const cityList = (parent) => {
+    if (parent === 'homeBlock') {
+        return Actions.cityList
     }
-    if (sceneName === 'notDemand') {
-        return Actions.orderNotDemandRemarkEditor
+    if (parent === 'orderBlock') {
+        return Actions.cityListAtOrderBlock
     }
-    if (sceneName === 'notPrice') {
-        return Actions.orderNotPriceRemarkEditor
+    if (parent === 'feePriceBlock') {
+        return Actions.cityListAtFeePriceBlock
     }
-    if (sceneName === 'notRoute') {
-        return Actions.orderNotRouteRemarkEditor
+    if (parent === 'routeBlock') {
+        return Actions.cityListAtRouteBlock
     }
 }
 
+export const routeCityList = (parent) => {
+    if (parent === 'homeBlock') {
+        return Actions.routeCityList
+    }
+    if (parent === 'orderBlock') {
+        return Actions.routeCityListAtOrderBlock
+    }
+    if (parent === 'feePriceBlock') {
+        return Actions.routeCityListAtFeePriceBlock
+    }
+}
+
+export const orderRemarkEditor= parent=>{
+    if (parent === 'homeBlock') {
+        return Actions.orderRemarkEditor
+    }
+    if (parent === 'orderBlock') {
+        return Actions.orderRemarkEditorAtOrderBlock
+    }
+}
 
 
 

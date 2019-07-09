@@ -34,7 +34,6 @@ const renderListEmpty = () => {
     )
 }
 
-
 const renderListFooter = props => {
     return (
         <View style={styles.footerContainer}>
@@ -44,11 +43,10 @@ const renderListFooter = props => {
     )
 }
 
-
 const renderItem = props => {
-    // console.log('props', props)
+
     const { item: { id, created_on, start_city, end_city, car_num, status, service_type, created_type, payment_status }, item,
-        sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting, initOrder } = props
+        sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,getOrderCarList,getOrderCarListWaiting, initOrder } = props
     const orderStatus = new Map(order_status).get(status)
     const orderPaymentStatus = new Map(order_payment_status).get(payment_status)
     const serviceType = new Map(service_type_list).get(service_type)
@@ -56,12 +54,22 @@ const renderItem = props => {
     const _total_insure_price = item.total_insure_price ? item.total_insure_price : 0
     const _total_trans_price = item.total_trans_price ? item.total_trans_price : 0
 
-    // console.log('orderStatus', orderStatus)
+    // console.log('props', props)
     return (
         <TouchableOpacity onPress={() => {
-            getRouteTaskListForOrderWaiting()
-            Actions.orderAtOrderBlock({ preSceneKey: sceneKey, order: item })
-            InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: id }))
+            if (status == 4 || status == 8 || status == 9) {
+                getRouteTaskListForOrderWaiting()
+                Actions.orderInfoAtOrderBlock({ preSceneKey: sceneKey, order: item })
+                InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: id }))
+            }
+
+            if (status == 0 || status == 1 || status == 2 || status == 3) {
+                getOrderCarListWaiting()
+                initOrder({ order: item })
+                Actions.orderAtOrderBlock({ preSceneKey: sceneKey })
+                InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+            }
+
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text>订单编号：{id ? `${id}` : ''}</Text>
@@ -122,8 +130,10 @@ class OrderList extends Component {
 
     render() {
         // console.log('this.props', this.props)
+
         const { sceneKey, getOrderListMore, initOrder, orderListReducer,
             getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
+            getOrderCarList,getOrderCarListWaiting,
             orderListReducer: { data: { orderList, isCompleted }, getOrderList: { isResultStatus } } } = this.props
         if (isResultStatus == 1) {
             return (
@@ -160,7 +170,8 @@ class OrderList extends Component {
                             ListFooterComponent={orderListReducer.getOrderListMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                             data={orderList}
                             renderItem={param => renderItem({
-                                ...param, sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting, initOrder
+                                ...param, sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
+                                getOrderCarList,getOrderCarListWaiting, initOrder
                             })} />
                     </DrawerLayoutAndroid>
                 </Container>
@@ -182,6 +193,7 @@ const mapDispatchToProps = (dispatch) => ({
     getOrderList: () => {
         dispatch(reduxActions.orderList.getOrderList())
     },
+
     getOrderListWaiting: () => {
         dispatch(reduxActions.orderList.getOrderListWaiting())
     },

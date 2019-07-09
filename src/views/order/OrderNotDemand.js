@@ -16,10 +16,10 @@ import { Actions } from 'react-native-router-flux'
 import moment from 'moment'
 import serviceTypeList from '../../config/service_type.json'
 import orderPaymentStatusList from '../../config/order_payment_status.json'
-
+import * as routerDirection from '../../util/RouterDirection'
 
 const OrderNotDemand = props => {
-    console.log('props', props)
+    // console.log('props', props)
     const {
         orderReducer:
         {
@@ -36,7 +36,8 @@ const OrderNotDemand = props => {
         cancelOrder,
         changeOrderStatus,
         getPaymentList,
-        getPaymentListWaiting
+        getPaymentListWaiting,
+        parent
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     const orderPaymentStatus = new Map(orderPaymentStatusList).get(payment_status)
@@ -128,7 +129,7 @@ const OrderNotDemand = props => {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
+                    onPress={() => routerDirection.orderRemarkEditor(parent)({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>客服备注</Text>
                     </View>

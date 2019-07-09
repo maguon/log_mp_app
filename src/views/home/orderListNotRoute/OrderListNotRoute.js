@@ -11,6 +11,7 @@ import { moneyFormat } from '../../../util/util'
 import serviceTypeList from '../../../config/service_type.json'
 import { Actions } from 'react-native-router-flux'
 
+
 const renderListEmpty = () => {
     return (
         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 80 }}>

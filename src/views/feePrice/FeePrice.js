@@ -10,24 +10,15 @@ import { reduxForm, Field, getFormValues, change } from 'redux-form'
 import { connect } from 'react-redux'
 import { TextBox, PickerBox, CheckBox, SwitchBox, Select } from '../../components/form'
 import { Container, Content } from 'native-base'
-import { requiredObj, required } from '../../util/Validator'
-import ModalWaiting from '../../components/ModalWaiting'
 import carModal from '../../config/car_modal.json'
 import * as reduxActions from '../../reduxActions'
 import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../style/GlobalStyles'
 
-const startCityRequiredValidator = requiredObj('始发城市必选')
-const endCityRequiredValidator = requiredObj('目的城市必选')
-const serviceTypeRequiredValidator = requiredObj('服务方式必选')
-const departureTimeRequiredValidator = required('发运日期必选')
 
 const FeePrice = props => {
-    // console.log('props', props)
     const { getRouteCityListWaiting, getRouteCityList, validatRoute, getCityListWaiting,
         getCityList, formValues, sceneKey, feePriceReducer: { data: { transAndInsurePrice: { insure, trans } } } } = props
-
-    // console.log('transAndInsurePrice', transAndInsurePrice)
     const _insure = insure ? insure : 0
     const _trans = trans ? trans : 0
     const totalfee = _insure + _trans
@@ -45,7 +36,6 @@ const FeePrice = props => {
                     name='startCity'
                     label='始发城市'
                     component={Select}
-                    validate={[startCityRequiredValidator]}
                     onPress={({ onChange }) => {
                         getCityListWaiting()
                         Actions.cityListAtFeePriceBlock({
@@ -65,7 +55,6 @@ const FeePrice = props => {
                     name='endCity'
                     label='目的城市'
                     component={Select}
-                    validate={[endCityRequiredValidator]}
                     onPress={({ onChange }) => {
                         if (formValues && formValues.startCity) {
                             getRouteCityListWaiting()
@@ -85,7 +74,6 @@ const FeePrice = props => {
                     }}
                 />
                 <Field
-                    validate={[serviceTypeRequiredValidator]}
                     label='服务方式'
                     name='serviceType'
                     listTitle='服务方式'
@@ -146,8 +134,6 @@ const mapStateToProps = (state, ownProps) => {
         initialValues: {
             safeStatus: false,
             oldCar: false,
-            actInsurePrice: '0.00',
-            actTransPrice: '0.00',
             startCity: {},
             endCity: {}
         },
@@ -177,9 +163,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'feePriceForm',
+    destroyOnUnmount: false,
+    enableReinitialize: true,
     onChange: (values, dispatch, props, previousValues) => {
         if (values.startCity && values.endCity && values.serviceType && values.modelType && values.valuation) {
-            if ( values.endCity.id != previousValues.endCity.id
+            if (values.endCity.id != previousValues.endCity.id
                 || values.endCity.item.distance != previousValues.endCity.item.distance
                 || values.modelType.id != previousValues.modelType.id
                 || values.serviceType.id != previousValues.serviceType.id

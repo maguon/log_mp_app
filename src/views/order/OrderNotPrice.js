@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment'
 import serviceTypeList from '../../config/service_type.json'
-
+import * as routerDirection from '../../util/RouterDirection'
 
 const OrderNotPrice = props => {
     // console.log('props', props)
@@ -33,7 +33,8 @@ const OrderNotPrice = props => {
         },
         sceneKey,
         cancelOrder,
-        changeOrderStatus
+        changeOrderStatus,
+        parent
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
@@ -107,7 +108,7 @@ const OrderNotPrice = props => {
                     </View>
                 </View>
                 <TouchableOpacity style={[styles.listItemPadding, styles.listItemBorderBottom]}
-                    onPress={() => Actions.orderRemarkEditor({ preSceneKey: sceneKey, order })}>
+                    onPress={() => routerDirection.orderRemarkEditor(parent)({ preSceneKey: sceneKey, order })}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>客服备注</Text>
                     </View>

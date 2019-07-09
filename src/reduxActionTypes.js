@@ -42,6 +42,7 @@ import * as orderInfo from './views/orderInfo/orderInfoActionTypes'
 import * as routeCarList from './views/routeCarList/routeCarListActionTypes'
 import * as routeTaskListForOrder from './views/routeTaskListForOrder/routeTaskListForOrderActionTypes'
 import * as feePrice from './views/feePrice/feePriceActionTypes'
+import * as addrEditor from './views/addrEditor/addrEditorActionTypes'
 
 
 export {
@@ -86,5 +87,6 @@ export {
     orderInfo,
     routeCarList,
     routeTaskListForOrder,
-    feePrice
+    feePrice,
+    addrEditor
 }

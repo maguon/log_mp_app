@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import { requiredObj, required } from '../../util/Validator'
 import ModalWaiting from '../../components/ModalWaiting'
+import * as routerDirection from '../../util/RouterDirection'
 
 const startCityRequiredValidator = requiredObj('始发城市必选')
 const endCityRequiredValidator = requiredObj('目的城市必选')
@@ -20,8 +21,8 @@ const departureTimeRequiredValidator = required('发运日期必选')
 
 const CreateOrder = props => {
     const { getCityList, getCityListWaiting, sceneKey, getRouteCityListWaiting, getRouteCityList, formValues,
-        createOrderReducer } = props
-    // console.log('props', props)
+        createOrderReducer, parent } = props
+    console.log('props', props)
     return (
         <Container>
             <Content>
@@ -33,11 +34,11 @@ const CreateOrder = props => {
                     onPress={({ onChange }) => {
                         if (formValues && formValues.endCity) {
                             getRouteCityListWaiting()
-                            Actions.routeCityList({
+                            routerDirection.routeCityList(parent)({
                                 onSelect: (param) => {
                                     const { id, value } = param
                                     onChange({ id, value, item: param })
-                                    Actions.popTo('createOrder')
+                                    Actions.popTo(sceneKey)
                                 },
                                 preSceneKey: sceneKey,
                                 routeStartId: formValues.endCity.id
@@ -45,11 +46,11 @@ const CreateOrder = props => {
                             InteractionManager.runAfterInteractions(() => getRouteCityList({ routeStartId: formValues.endCity.id }))
                         } else {
                             getCityListWaiting()
-                            Actions.cityList({
+                            routerDirection.cityList(parent)({
                                 onSelect: (param) => {
                                     const { id, city_name } = param
                                     onChange({ id, value: city_name, item: param })
-                                    Actions.popTo('createOrder')
+                                    Actions.popTo(sceneKey)
                                 },
                                 preSceneKey: sceneKey
                             })
@@ -65,11 +66,11 @@ const CreateOrder = props => {
                     onPress={({ onChange }) => {
                         if (formValues && formValues.startCity) {
                             getRouteCityListWaiting()
-                            Actions.routeCityList({
+                            routerDirection.routeCityList(parent)({
                                 onSelect: (param) => {
                                     const { id, value } = param
                                     onChange({ id, value, item: param })
-                                    Actions.popTo('createOrder')
+                                    Actions.popTo(sceneKey)
                                 },
                                 preSceneKey: sceneKey,
                                 routeStartId: formValues.startCity.id
@@ -77,11 +78,11 @@ const CreateOrder = props => {
                             InteractionManager.runAfterInteractions(() => getRouteCityList({ routeStartId: formValues.startCity.id }))
                         } else {
                             getCityListWaiting()
-                            Actions.cityList({
+                            routerDirection.cityList(parent)({
                                 onSelect: (param) => {
                                     const { id, city_name } = param
                                     onChange({ id, value: city_name, item: param })
-                                    Actions.popTo('createOrder')
+                                    Actions.popTo(sceneKey)
                                 },
                                 preSceneKey: sceneKey
                             })
