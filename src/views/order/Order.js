@@ -71,6 +71,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getLoadTaskListWaiting: () => {
         dispatch(reduxActions.loadTaskList.getLoadTaskListWaiting())
+    },
+    setOrder: req => {
+        dispatch(reduxActions.addrEditor.setOrder(req))
     }
 })
 

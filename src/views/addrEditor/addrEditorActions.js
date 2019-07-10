@@ -6,7 +6,7 @@ import { ToastAndroid } from 'react-native'
 
 export const saveSendAddr = req => async (dispatch, getState) => {
     try {
-        dispatch({ type: reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_waiting, payload: {} })
+        dispatch({ type: reduxActionTypes.addrEditor.save_sendAddr_waiting, payload: {} })
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order/${req.orderId}/sendInfo`
@@ -16,21 +16,37 @@ export const saveSendAddr = req => async (dispatch, getState) => {
             sendAddress: req.sendAddress
         })
         if (res.success) {
-            // dispatch(reduxActions.orderListNotDemand.getOrderNotDemandById({ orderId: req.orderId }))
-            dispatch({ type: reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_success, payload: {} })
-            ToastAndroid.show('保存成功！', 10)
+            const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
+            const orderRes = await httpRequest.get(orderUrl)
+            if (orderRes.success) {
+                // console.log('req', req)
+                if (req.sceneName == 'notInfo') {
+                    dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                } else if (req.sceneName == 'notDemand') {
+                    dispatch({ type: reduxActionTypes.orderListNotDemand.set_orderForNotDemand, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                } else if (req.sceneName == 'notPrice') {
+                    dispatch({ type: reduxActionTypes.orderListNotPrice.set_orderForNotPrice, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                }
+                dispatch({ type: reduxActionTypes.addrEditor.save_sendAddr_success, payload: { order: orderRes.result[0] } })
+                ToastAndroid.show('保存成功！', 10)
+            } else {
+                dispatch({ type: reduxActionTypes.addrEditor.save_sendAddr_failed, payload: { failedMsg: `${orderRes.msg}` } })
+            }
         } else {
-            dispatch({ type: reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_failed, payload: { failedMsg: `${res.msg}` } })
+            dispatch({ type: reduxActionTypes.addrEditor.save_sendAddr_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        dispatch({ type: reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_error, payload: { errorMsg: `${err}` } })
+        dispatch({ type: reduxActionTypes.addrEditor.save_sendAddr_error, payload: { errorMsg: `${err}` } })
     }
 }
 
 
-export const receiveAddressInfo = req => async (dispatch, getState) => {
+export const saveRecAddr = req => async (dispatch, getState) => {
     try {
-        dispatch({ type: reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_waiting, payload: {} })
+        dispatch({ type: reduxActionTypes.addrEditor.save_recAddr_waiting, payload: {} })
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order/${req.orderId}/receiveInfo`
@@ -40,13 +56,34 @@ export const receiveAddressInfo = req => async (dispatch, getState) => {
             recvAddress: req.receiveAddress
         })
         if (res.success) {
-            // dispatch(reduxActions.orderListNotDemand.getOrderNotDemandById({ orderId: req.orderId }))
-            dispatch({ type: reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_success, payload: {} })
-            ToastAndroid.show('保存成功！', 10)
+            const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
+            const orderRes = await httpRequest.get(orderUrl)
+            if (orderRes.success) {
+                // console.log('req', req)
+                if (req.sceneName == 'notInfo') {
+                    dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                } else if (req.sceneName == 'notDemand') {
+                    dispatch({ type: reduxActionTypes.orderListNotDemand.set_orderForNotDemand, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                } else if (req.sceneName == 'notPrice') {
+                    dispatch({ type: reduxActionTypes.orderListNotPrice.set_orderForNotPrice, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                }
+                dispatch({ type: reduxActionTypes.addrEditor.save_recAddr_success, payload: { order: orderRes.result[0] } })
+                ToastAndroid.show('保存成功！', 10)
+            } else {
+                dispatch({ type: reduxActionTypes.addrEditor.save_recAddr_failed, payload: { failedMsg: `${orderRes.msg}` } })
+            }
         } else {
-            dispatch({ type: reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_failed, payload: { failedMsg: `${res.msg}` } })
+            dispatch({ type: reduxActionTypes.addrEditor.save_recAddr_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        dispatch({ type: reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_error, payload: { errorMsg: `${err}` } })
+        dispatch({ type: reduxActionTypes.addrEditor.save_recAddr_error, payload: { errorMsg: `${err}` } })
     }
+}
+
+
+export const setOrder = req => (dispatch) => {
+    dispatch({ type: reduxActionTypes.addrEditor.set_orderForAddrEditor, payload: { order: req.order } })
 }

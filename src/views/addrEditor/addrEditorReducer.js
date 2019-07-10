@@ -6,7 +6,7 @@ const initialState = {
         order: {}
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
-    receiveAddressInfo: {
+    saveRecAddr: {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
@@ -19,41 +19,45 @@ const initialState = {
 }
 
 export default handleActions({
-    [reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_success]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_recAddr_success]: (state, action) => {
+        const { payload: { order } } = action
         return {
             ...state,
-            receiveAddressInfo: {
-                ...state.receiveAddressInfo,
+            data:{
+                order
+            },
+            saveRecAddr: {
+                ...state.saveRecAddr,
                 isResultStatus: 2
             }
         }
     },
-    [reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_failed]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_recAddr_failed]: (state, action) => {
         const { payload: { failedMsg } } = action
         return {
             ...state,
-            receiveAddressInfo: {
-                ...state.receiveAddressInfo,
+            saveRecAddr: {
+                ...state.saveRecAddr,
                 isResultStatus: 4,
                 failedMsg
             }
         }
     },
-    [reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_waiting]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_recAddr_waiting]: (state, action) => {
         return {
             ...state,
-            receiveAddressInfo: {
-                ...state.receiveAddressInfo,
+            saveRecAddr: {
+                ...state.saveRecAddr,
                 isResultStatus: 1
             }
         }
     },
-    [reduxActionTypes.recAddrEditorForNotDemand.save_recAddrForNotDemand_error]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_recAddr_error]: (state, action) => {
         const { payload: { errorMsg } } = action
         return {
             ...state,
-            receiveAddressInfo: {
-                ...state.receiveAddressInfo,
+            saveRecAddr: {
+                ...state.saveRecAddr,
                 isResultStatus: 3,
                 errorMsg
             }
@@ -64,16 +68,20 @@ export default handleActions({
 
 
 
-    [reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_success]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_sendAddr_success]: (state, action) => {
+        const { payload: { order } } = action
         return {
             ...state,
+            data:{
+                order
+            },
             saveSendAddr: {
                 ...state.saveSendAddr,
                 isResultStatus: 2
             }
         }
     },
-    [reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_failed]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_sendAddr_failed]: (state, action) => {
         const { payload: { failedMsg } } = action
         return {
             ...state,
@@ -84,7 +92,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_waiting]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_sendAddr_waiting]: (state, action) => {
         return {
             ...state,
             saveSendAddr: {
@@ -93,7 +101,7 @@ export default handleActions({
             }
         }
     },
-    [reduxActionTypes.sendAddrEditorForNotDemand.save_sendAddrForNotDemand_error]: (state, action) => {
+    [reduxActionTypes.addrEditor.save_sendAddr_error]: (state, action) => {
         const { payload: { errorMsg } } = action
         return {
             ...state,
@@ -101,6 +109,19 @@ export default handleActions({
                 ...state.saveSendAddr,
                 isResultStatus: 3,
                 errorMsg
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.addrEditor.set_orderForAddrEditor]: (state, action) => {
+        const { payload: { order } } = action
+        return {
+            ...state,
+            data: {
+                order
             }
         }
     }

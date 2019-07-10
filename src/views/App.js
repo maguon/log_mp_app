@@ -12,14 +12,16 @@ import HomeToolButton from '../components/toolButton/HomeToolButton'
 import CreateOrderToolButton from '../components/toolButton/CreateOrderToolButton'
 import RouteToolButton from '../components/toolButton/RouteToolButton'
 import OrderListToolButton from '../components/toolButton/OrderListToolButton'
+import SendAddrEditorToolButton from '../components/toolButton/SendAddrEditorToolButton'
+import RecAddrEditorToolButton from '../components/toolButton/RecAddrEditorToolButton'
 
-import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
-import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
-import SendAddrEditorForNotInfoToolButton from '../components/toolButton/SendAddrEditorForNotInfoToolButton'
+// import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
+// import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
+// import SendAddrEditorForNotInfoToolButton from '../components/toolButton/SendAddrEditorForNotInfoToolButton'
 
-import RecAddrEditorForNotDemandToolButton from '../components/toolButton/RecAddrEditorForNotDemandToolButton'
-import RecAddrEditorForNotInfoToolButton from '../components/toolButton/RecAddrEditorForNotInfoToolButton'
-import RecAddrEditorForNotPriceToolButton from '../components/toolButton/RecAddrEditorForNotPriceToolButton'
+// import RecAddrEditorForNotDemandToolButton from '../components/toolButton/RecAddrEditorForNotDemandToolButton'
+// import RecAddrEditorForNotInfoToolButton from '../components/toolButton/RecAddrEditorForNotInfoToolButton'
+// import RecAddrEditorForNotPriceToolButton from '../components/toolButton/RecAddrEditorForNotPriceToolButton'
 
 
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
@@ -63,18 +65,18 @@ import OrderRemarkEditorToolButton from '../components/toolButton/OrderRemarkEdi
 
 
 
-import AddressInfoForNotDemand from './addressInfo/AddressInfoForNotDemand'
-import AddressInfoForNotPrice from './addressInfo/AddressInfoForNotPrice'
-import AddressInfoForNotInfo from './addressInfo/AddressInfoForNotInfo'
+// import AddressInfoForNotDemand from './addressInfo/AddressInfoForNotDemand'
+// import AddressInfoForNotPrice from './addressInfo/AddressInfoForNotPrice'
+// import AddressInfoForNotInfo from './addressInfo/AddressInfoForNotInfo'
 
 
-import SendAddressInfoEditorForNotDemand from './sendAddressInfoEditor/sendAddrEditorForNotDemand/SendAddrEditorForNotDemand'
-import SendAddressInfoEditorForNotInfo from './sendAddressInfoEditor/sendAddrEditorForNotInfo/SendAddrEditorForNotInfo'
-import SendAddressInfoEditorForNotPrice from './sendAddressInfoEditor/sendAddrEditorForNotPrice/SendAddrEditorForNotPrice'
+// import SendAddressInfoEditorForNotDemand from './sendAddressInfoEditor/sendAddrEditorForNotDemand/SendAddrEditorForNotDemand'
+// import SendAddressInfoEditorForNotInfo from './sendAddressInfoEditor/sendAddrEditorForNotInfo/SendAddrEditorForNotInfo'
+// import SendAddressInfoEditorForNotPrice from './sendAddressInfoEditor/sendAddrEditorForNotPrice/SendAddrEditorForNotPrice'
 
-import RecAddrEditorForNotDemand from './receiveAddressInfoEditor/recAddrEditorForNotDemand/RecAddrEditorForNotDemand'
-import RecAddrEditorForNotInfo from './receiveAddressInfoEditor/recAddrEditorForNotInfo/RecAddrEditorForNotInfo'
-import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorForNotPrice/RecAddrEditorForNotPrice'
+// import RecAddrEditorForNotDemand from './receiveAddressInfoEditor/recAddrEditorForNotDemand/RecAddrEditorForNotDemand'
+// import RecAddrEditorForNotInfo from './receiveAddressInfoEditor/recAddrEditorForNotInfo/RecAddrEditorForNotInfo'
+// import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorForNotPrice/RecAddrEditorForNotPrice'
 
 
 
@@ -89,6 +91,10 @@ import OrderInfo from './orderInfo/OrderInfo'
 import RouteCarList from './routeCarList/RouteCarList'
 import RouteTaskListForOrder from './routeTaskListForOrder/RouteTaskListForOrder'
 
+
+import AddrEditor from './addrEditor/AddrEditor'
+import RecAddrEditor from './addrEditor/RecAddrEditor'
+import SendAddrEditor from './addrEditor/SendAddrEditor'
 //<<<<<<<<<<views
 
 const styles = StyleSheet.create({
@@ -164,7 +170,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock"  initial={true} icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -190,7 +196,7 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            <Scene key="addressInfoForNotDemand"
+                            {/* <Scene key="addressInfoForNotDemand"
                                 LeftButton={LeftButton}
                                 component={AddressInfoForNotDemand}
                                 title='收发货信息'
@@ -205,8 +211,33 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
+                            /> */}
+                            <Scene key="addrEditorAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={AddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
                             />
-
+                            <Scene key="recAddrEditorAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={RecAddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={RecAddrEditorToolButton}
+                            />
+                            <Scene key="sendAddrEditorAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={SendAddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={SendAddrEditorToolButton}
+                            />
                             <Scene key="payment"
                                 LeftButton={LeftButton}
                                 component={Payment}
@@ -215,60 +246,7 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            <Scene key="sendAddressInfoEditorForNotDemand"
-                                LeftButton={LeftButton}
-                                component={SendAddressInfoEditorForNotDemand}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={SendAddrEditorForNotDemandToolButton}
-                            />
-                            <Scene key="sendAddressInfoEditorForNotInfo"
-                                LeftButton={LeftButton}
-                                component={SendAddressInfoEditorForNotInfo}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={SendAddrEditorForNotInfoToolButton}
-                            />
-                            <Scene key="sendAddressInfoEditorForNotPrice"
-                                LeftButton={LeftButton}
-                                component={SendAddressInfoEditorForNotPrice}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={SendAddrEditorForNotPriceToolButton}
-                            />
-                            <Scene key="recAddrEditorForNotDemand"
-                                LeftButton={LeftButton}
-                                component={RecAddrEditorForNotDemand}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={RecAddrEditorForNotDemandToolButton}
-                            />
-                            <Scene key="recAddrEditorForNotInfo"
-                                LeftButton={LeftButton}
-                                component={RecAddrEditorForNotInfo}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={RecAddrEditorForNotInfoToolButton}
-                            />
-                            <Scene key="recAddrEditorForNotPrice"
-                                LeftButton={LeftButton}
-                                component={RecAddrEditorForNotPrice}
-                                title='发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={RecAddrEditorForNotPriceToolButton}
-                            />
+
                             <Scene key="consultInfo"
                                 LeftButton={LeftButton}
                                 component={ConsultInfo}
@@ -327,14 +305,14 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={CreateOrderToolButton}
                             />
-                            <Scene key="addressInfoForNotInfo"
+                            {/* <Scene key="addressInfoForNotInfo"
                                 LeftButton={LeftButton}
                                 component={AddressInfoForNotInfo}
                                 title='收发货信息'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
-                            />
+                            /> */}
                             <Scene key="orderCarList"
                                 LeftButton={LeftButton}
                                 component={OrderCarList}
@@ -420,7 +398,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock"  icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -552,3 +530,61 @@ export default class App extends Component {
         )
     }
 }
+
+
+
+
+{/* <Scene key="sendAddressInfoEditorForNotDemand"
+LeftButton={LeftButton}
+component={SendAddressInfoEditorForNotDemand}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={SendAddrEditorForNotDemandToolButton}
+/>
+<Scene key="sendAddressInfoEditorForNotInfo"
+LeftButton={LeftButton}
+component={SendAddressInfoEditorForNotInfo}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={SendAddrEditorForNotInfoToolButton}
+/>
+<Scene key="sendAddressInfoEditorForNotPrice"
+LeftButton={LeftButton}
+component={SendAddressInfoEditorForNotPrice}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={SendAddrEditorForNotPriceToolButton}
+/>
+<Scene key="recAddrEditorForNotDemand"
+LeftButton={LeftButton}
+component={RecAddrEditorForNotDemand}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={RecAddrEditorForNotDemandToolButton}
+/>
+<Scene key="recAddrEditorForNotInfo"
+LeftButton={LeftButton}
+component={RecAddrEditorForNotInfo}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={RecAddrEditorForNotInfoToolButton}
+/>
+<Scene key="recAddrEditorForNotPrice"
+LeftButton={LeftButton}
+component={RecAddrEditorForNotPrice}
+title='发货信息'
+hideNavBar={false}
+hideTabBar={true}
+navBar={NavBar}
+RightButton={RecAddrEditorForNotPriceToolButton}
+/> */}

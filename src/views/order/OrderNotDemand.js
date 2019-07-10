@@ -37,7 +37,8 @@ const OrderNotDemand = props => {
         changeOrderStatus,
         getPaymentList,
         getPaymentListWaiting,
-        parent
+        parent,
+        setOrder
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     const orderPaymentStatus = new Map(orderPaymentStatusList).get(payment_status)
@@ -72,7 +73,10 @@ const OrderNotDemand = props => {
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => Actions.addressInfoForNotDemand({ preSceneKey: sceneKey, orderId, sceneName: "notDemand" })}>
+                    onPress={() => {
+                        setOrder({ order })
+                        routerDirection.addrEditor(parent)({ preSceneKey: sceneKey, sceneName: "notDemand" })
+                    }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
                     </View>

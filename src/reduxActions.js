@@ -18,18 +18,18 @@ import * as addOrderCar from './views/addOrderCar/addOrderCarActions'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActions'
 import * as payment from './views/payment/paymentActions'
 
-import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActions'
-import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActions'
-import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActions'
+// import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActions'
+// import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActions'
+// import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActions'
 
 
 import * as order from './views/order/orderActions'
 import * as orderCarFeeEditor from './views/orderCarFeeEditor/orderCarFeeEditorActions'
 
 
-import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActions'
-import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActions'
-import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
+// import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActions'
+// import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActions'
+// import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
 
 
 // import * as loadTaskList from './views/loadTaskList/loadTaskListActions'
@@ -68,14 +68,14 @@ export {
 
 
 
-    sendAddrEditorForNotDemand,
-    sendAddrEditorForNotInfo,
-    sendAddrEditorForNotPrice,
+    // sendAddrEditorForNotDemand,
+    // sendAddrEditorForNotInfo,
+    // sendAddrEditorForNotPrice,
 
 
-    recAddrEditorForNotDemand,
-    recAddrEditorForNotInfo,
-    recAddrEditorForNotPrice,
+    // recAddrEditorForNotDemand,
+    // recAddrEditorForNotInfo,
+    // recAddrEditorForNotPrice,
     order,
     payment,
 

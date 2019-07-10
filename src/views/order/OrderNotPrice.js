@@ -26,7 +26,7 @@ const OrderNotPrice = props => {
             {
                 order,
                 order: {
-                    id, created_on, total_trans_price, total_insure_price, admin_mark,admin_name,
+                    id, created_on, total_trans_price, total_insure_price, admin_mark, admin_name,
                     start_city, created_type, end_city, service_type, car_num, departure_time
                 }
             }
@@ -34,7 +34,8 @@ const OrderNotPrice = props => {
         sceneKey,
         cancelOrder,
         changeOrderStatus,
-        parent
+        parent,
+        setOrder
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
@@ -68,7 +69,10 @@ const OrderNotPrice = props => {
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => Actions.addressInfoForNotPrice({ preSceneKey: sceneKey, orderId, sceneName: "notPrice" })}>
+                    onPress={() => {
+                        setOrder({ order })
+                        routerDirection.addrEditor(parent)({ preSceneKey: sceneKey, sceneName: "notPrice" })
+                    }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
                     </View>

@@ -24,12 +24,12 @@ import * as orderCarFeeEditor from './views/orderCarFeeEditor/orderCarFeeEditorA
 import * as payment from './views/payment/paymentActionTypes'
 
 
-import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActionTypes'
-import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActionTypes'
-import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActionTypes'
-import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActionTypes'
-import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActionTypes'
-import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActionTypes'
+// import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActionTypes'
+// import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActionTypes'
+// import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActionTypes'
+// import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActionTypes'
+// import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActionTypes'
+// import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActionTypes'
 
 
 // import * as loadTaskList from './views/loadTaskList/loadTaskListActionTypes'
@@ -68,12 +68,12 @@ export {
     orderCarFeeEditor,
 
 
-    sendAddrEditorForNotDemand,
-    sendAddrEditorForNotInfo,
-    sendAddrEditorForNotPrice,
-    recAddrEditorForNotDemand,
-    recAddrEditorForNotInfo,
-    recAddrEditorForNotPrice,
+    // sendAddrEditorForNotDemand,
+    // sendAddrEditorForNotInfo,
+    // sendAddrEditorForNotPrice,
+    // recAddrEditorForNotDemand,
+    // recAddrEditorForNotInfo,
+    // recAddrEditorForNotPrice,
     order,
     payment,
 

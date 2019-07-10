@@ -1,4 +1,0 @@
-export const save_sendAddrForNotDemand_success = 'save_sendAddrForNotDemand_success'
-export const save_sendAddrForNotDemand_failed = 'save_sendAddrForNotDemand_failed'
-export const save_sendAddrForNotDemand_waiting = 'save_sendAddrForNotDemand_waiting'
-export const save_sendAddrForNotDemand_error = 'save_sendAddrForNotDemand_error'

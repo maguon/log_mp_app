@@ -1,4 +1,0 @@
-export const save_recAddrForNotPrice_success = 'save_recAddrForNotPrice_success'
-export const save_recAddrForNotPrice_failed = 'save_recAddrForNotPrice_failed'
-export const save_recAddrForNotPrice_waiting = 'save_recAddrForNotPrice_waiting'
-export const save_recAddrForNotPrice_error = 'save_recAddrForNotPrice_error'

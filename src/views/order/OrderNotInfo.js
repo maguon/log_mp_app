@@ -32,8 +32,10 @@ const OrderNotInfo = props => {
         sceneKey,
         cancelOrder,
         changeOrderStatus,
-        parent
+        parent,
+        setOrder
     } = props
+    
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
         <Container>
@@ -66,7 +68,10 @@ const OrderNotInfo = props => {
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
-                    onPress={() => Actions.addressInfoForNotInfo({ preSceneKey: sceneKey, orderId: id, sceneName: "notInfo" })}>
+                    onPress={() => {
+                        setOrder({ order })
+                        routerDirection.addrEditor(parent)({ preSceneKey: sceneKey, sceneName: "notInfo" })
+                    }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
                     </View>

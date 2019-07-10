@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { TextBox, RichTextBox } from '../../../components/form'
+import { TextBox, RichTextBox } from '../../components/form'
 import { Container, Content } from 'native-base'
 import { connect } from 'react-redux'
-import * as reduxActions from '../../../reduxActions'
-import ModalWaiting from '../../../components/ModalWaiting'
+import * as reduxActions from '../../reduxActions'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const RecAddrEditor = props => {
-    const { recAddrEditorForNotDemandReducer: { receiveAddressInfo: { isResultStatus } } } = props
+    const { addrEditorReducer: {
+        saveRecAddr: { isResultStatus }
+    } } = props
+    // console.log('props', props)
     return (
         <Container>
             <Content>
@@ -34,23 +37,32 @@ const RecAddrEditor = props => {
 
 
 const mapStateToProps = (state, ownProps) => {
-    const { orderListNotDemandReducer: { data: { orderListNotDemand } } } = state
-    const { orderId } = ownProps
-    const order = orderListNotDemand.find(item => item.id == orderId)
+    const {
+        addrEditorReducer: {
+            data: {
+                order
+            }
+        }
+    } = state
     return {
         initialValues: {
             receiver: order.recv_name,
             receivePhone: order.recv_phone,
             receiveAddress: order.recv_address
         },
-        recAddrEditorForNotDemandReducer: state.recAddrEditorForNotDemandReducer
+        addrEditorReducer: state.addrEditorReducer
     }
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: 'recAddrForNDForm',
+    form: 'recAddrEditorForm',
     onSubmit: (values, dispatch, props) => {
-        const { orderId } = props
-        dispatch(reduxActions.recAddrEditorForNotDemand.receiveAddressInfo({ orderId, ...values }))
+        const {
+            addrEditorReducer: {
+                data: {
+                    order
+                }
+            }, sceneName } = props
+        dispatch(reduxActions.addrEditor.saveRecAddr({ orderId: order.id, sceneName, ...values }))
     }
 })(RecAddrEditor))

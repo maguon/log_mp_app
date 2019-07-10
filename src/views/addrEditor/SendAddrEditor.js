@@ -4,14 +4,14 @@ import {
     View
 } from 'react-native'
 import { reduxForm, Field } from 'redux-form'
-import { TextBox, RichTextBox } from '../../../components/form'
+import { TextBox, RichTextBox } from '../../components/form'
 import { Container, Content, Button } from 'native-base'
-import * as reduxActions from '../../../reduxActions'
+import * as reduxActions from '../../reduxActions'
 import { connect } from 'react-redux'
-import ModalWaiting from '../../../components/ModalWaiting'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const SendAddrEditor = props => {
-    const { sendAddrEditorForNotDemandReducer: { saveSendAddr: { isResultStatus } } } = props
+    const { addrEditorReducer: { saveSendAddr: { isResultStatus } } } = props
     return (
         <Container>
             <Content>
@@ -37,23 +37,32 @@ const SendAddrEditor = props => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { orderListNotDemandReducer: { data: { orderListNotDemand } } } = state
-    const { orderId } = ownProps
-    const order = orderListNotDemand.find(item => item.id == orderId)
+    const {
+        addrEditorReducer: {
+            data: {
+                order
+            }
+        }
+    } = state
     return {
         initialValues: {
             sender: order.send_name,
             sendPhone: order.send_phone,
             sendAddress: order.send_address
         },
-        sendAddrEditorForNotDemandReducer: state.sendAddrEditorForNotDemandReducer,
+        addrEditorReducer: state.addrEditorReducer,
     }
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: 'sendAddrForNDForm',
+    form: 'sendAddrEditorForm',
     onSubmit: (values, dispatch, props) => {
-        const { orderId } = props
-        dispatch(reduxActions.sendAddrEditorForNotDemand.saveSendAddr({ orderId, ...values }))
+        const {
+            addrEditorReducer: {
+                data: {
+                    order
+                }
+            } , sceneName} = props
+        dispatch(reduxActions.addrEditor.saveSendAddr({ orderId: order.id, ...values,sceneName }))
     }
 })(SendAddrEditor))
