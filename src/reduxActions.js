@@ -44,6 +44,9 @@ import * as routeTaskListForOrder from './views/routeTaskListForOrder/routeTaskL
 import * as feePrice from './views/feePrice/feePriceActions'
 import * as addrEditor from './views/addrEditor/addrEditorActions'
 
+import * as pickUpAddrEditor from './views/pickUpAddrEditor/pickUpAddrEditorActions'
+import * as pickUpAddrList from './views/list/pickUpAddrList/pickUpAddrListActions'
+
 
 export {
     initView,
@@ -89,6 +92,8 @@ export {
     routeCarList,
     routeTaskListForOrder,
     feePrice,
-    addrEditor
+    addrEditor,
+    pickUpAddrEditor,
+    pickUpAddrList
 
 }

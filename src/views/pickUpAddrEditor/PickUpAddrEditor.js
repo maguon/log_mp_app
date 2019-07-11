@@ -10,7 +10,7 @@ import globalStyles from '../../style/GlobalStyles'
 import serviceTypeList from '../../config/service_type.json'
 
 
-const AddressInfo = props => {
+const PickUpAddrEditor = props => {
     const {  order: { service_type, send_address, send_name, send_phone, recv_phone, recv_name, recv_address } } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default AddressInfo
+export default PickUpAddrEditor

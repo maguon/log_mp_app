@@ -64,21 +64,7 @@ import OrderRemarkEditor from './orderRemarkEditor/OrderRemarkEditor'
 import OrderRemarkEditorToolButton from '../components/toolButton/OrderRemarkEditorToolButton'
 
 
-
-// import AddressInfoForNotDemand from './addressInfo/AddressInfoForNotDemand'
-// import AddressInfoForNotPrice from './addressInfo/AddressInfoForNotPrice'
-// import AddressInfoForNotInfo from './addressInfo/AddressInfoForNotInfo'
-
-
-// import SendAddressInfoEditorForNotDemand from './sendAddressInfoEditor/sendAddrEditorForNotDemand/SendAddrEditorForNotDemand'
-// import SendAddressInfoEditorForNotInfo from './sendAddressInfoEditor/sendAddrEditorForNotInfo/SendAddrEditorForNotInfo'
-// import SendAddressInfoEditorForNotPrice from './sendAddressInfoEditor/sendAddrEditorForNotPrice/SendAddrEditorForNotPrice'
-
-// import RecAddrEditorForNotDemand from './receiveAddressInfoEditor/recAddrEditorForNotDemand/RecAddrEditorForNotDemand'
-// import RecAddrEditorForNotInfo from './receiveAddressInfoEditor/recAddrEditorForNotInfo/RecAddrEditorForNotInfo'
-// import RecAddrEditorForNotPrice from './receiveAddressInfoEditor/recAddrEditorForNotPrice/RecAddrEditorForNotPrice'
-
-
+import AddressInfo from './addressInfo/AddressInfo'
 
 
 import LoadTaskList from './loadTaskList/LoadTaskList'
@@ -170,7 +156,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -196,25 +182,17 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            {/* <Scene key="addressInfoForNotDemand"
+                            <Scene key="addrEditorAtHomeBlock"
                                 LeftButton={LeftButton}
-                                component={AddressInfoForNotDemand}
+                                component={AddrEditor}
                                 title='收发货信息'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            <Scene key="addressInfoForNotPrice"
+                            <Scene key="addressInfoAtHomeBlock"
                                 LeftButton={LeftButton}
-                                component={AddressInfoForNotPrice}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            /> */}
-                            <Scene key="addrEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={AddrEditor}
+                                component={AddressInfo}
                                 title='收发货信息'
                                 hideNavBar={false}
                                 hideTabBar={true}
@@ -305,14 +283,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={CreateOrderToolButton}
                             />
-                            {/* <Scene key="addressInfoForNotInfo"
-                                LeftButton={LeftButton}
-                                component={AddressInfoForNotInfo}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            /> */}
+
                             <Scene key="orderCarList"
                                 LeftButton={LeftButton}
                                 component={OrderCarList}
@@ -398,7 +369,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -534,57 +505,3 @@ export default class App extends Component {
 
 
 
-{/* <Scene key="sendAddressInfoEditorForNotDemand"
-LeftButton={LeftButton}
-component={SendAddressInfoEditorForNotDemand}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={SendAddrEditorForNotDemandToolButton}
-/>
-<Scene key="sendAddressInfoEditorForNotInfo"
-LeftButton={LeftButton}
-component={SendAddressInfoEditorForNotInfo}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={SendAddrEditorForNotInfoToolButton}
-/>
-<Scene key="sendAddressInfoEditorForNotPrice"
-LeftButton={LeftButton}
-component={SendAddressInfoEditorForNotPrice}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={SendAddrEditorForNotPriceToolButton}
-/>
-<Scene key="recAddrEditorForNotDemand"
-LeftButton={LeftButton}
-component={RecAddrEditorForNotDemand}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={RecAddrEditorForNotDemandToolButton}
-/>
-<Scene key="recAddrEditorForNotInfo"
-LeftButton={LeftButton}
-component={RecAddrEditorForNotInfo}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={RecAddrEditorForNotInfoToolButton}
-/>
-<Scene key="recAddrEditorForNotPrice"
-LeftButton={LeftButton}
-component={RecAddrEditorForNotPrice}
-title='发货信息'
-hideNavBar={false}
-hideTabBar={true}
-navBar={NavBar}
-RightButton={RecAddrEditorForNotPriceToolButton}
-/> */}

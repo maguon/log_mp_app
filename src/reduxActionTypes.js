@@ -44,6 +44,9 @@ import * as routeTaskListForOrder from './views/routeTaskListForOrder/routeTaskL
 import * as feePrice from './views/feePrice/feePriceActionTypes'
 import * as addrEditor from './views/addrEditor/addrEditorActionTypes'
 
+import * as pickUpAddrEditor from './views/pickUpAddrEditor/pickUpAddrEditorActionTypes'
+import * as pickUpAddrList from './views/list/pickUpAddrList/pickUpAddrListActionTypes'
+
 
 export {
     login,
@@ -88,5 +91,10 @@ export {
     routeCarList,
     routeTaskListForOrder,
     feePrice,
-    addrEditor
+    addrEditor,
+
+
+
+    pickUpAddrEditor,
+    pickUpAddrList
 }

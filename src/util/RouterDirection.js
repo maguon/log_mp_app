@@ -80,5 +80,11 @@ export const addrEditor = parent => {
     }
 }
 
+export const addressInfo =parent =>{
+    if (parent === 'homeBlock') {
+        return Actions.addressInfoAtHomeBlock
+    }
+}
+
 
 

@@ -83,7 +83,7 @@ const OrderNotRoute = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        //Actions.addressInfoForNotDemand({ preSceneKey: sceneKey, orderId })  
+                        routerDirection.addressInfo(parent)({ preSceneKey: sceneKey, order})  
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
