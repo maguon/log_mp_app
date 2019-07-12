@@ -27,6 +27,7 @@ import RecAddrEditorToolButton from '../components/toolButton/RecAddrEditorToolB
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
 import OrderCarEditorToolButton from '../components/toolButton/OrderCarEditorToolButton'
 import OrderCarFeeEditorToolButton from '../components/toolButton/OrderCarFeeEditorToolButton'
+import PickUpAddrEditorToolButton from '../components/toolButton/PickUpAddrEditorToolButton'
 
 //<<<<<<<<<<components
 
@@ -81,6 +82,11 @@ import RouteTaskListForOrder from './routeTaskListForOrder/RouteTaskListForOrder
 import AddrEditor from './addrEditor/AddrEditor'
 import RecAddrEditor from './addrEditor/RecAddrEditor'
 import SendAddrEditor from './addrEditor/SendAddrEditor'
+
+
+import PickUpAddrList from './list/pickUpAddrList/PickUpAddrList'
+import PickUpAddrEditor from './pickUpAddrEditor/PickUpAddrEditor'
+
 //<<<<<<<<<<views
 
 const styles = StyleSheet.create({
@@ -370,6 +376,7 @@ export default class App extends Component {
                             />
                         </Scene>
                         <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -426,6 +433,21 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
+                            />
+                            <Scene key="pickUpAddrList"
+                                LeftButton={LeftButton}
+                                component={PickUpAddrList}
+                                title='收发货地址列表'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="pickUpAddrEditor"
+                                LeftButton={LeftButton}
+                                component={PickUpAddrEditor}
+                                title='修改收发货地址'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={PickUpAddrEditorToolButton}
                             />
                             <Scene key="routeTaskListForOrder"
                                 LeftButton={LeftButton}

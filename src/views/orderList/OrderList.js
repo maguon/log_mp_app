@@ -46,7 +46,7 @@ const renderListFooter = props => {
 const renderItem = props => {
 
     const { item: { id, created_on, start_city, end_city, car_num, status, service_type, created_type, payment_status }, item,
-        sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,getOrderCarList,getOrderCarListWaiting, initOrder } = props
+        sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting, setOrderInfo, getOrderCarList, getOrderCarListWaiting, initOrder } = props
     const orderStatus = new Map(order_status).get(status)
     const orderPaymentStatus = new Map(order_payment_status).get(payment_status)
     const serviceType = new Map(service_type_list).get(service_type)
@@ -59,6 +59,7 @@ const renderItem = props => {
         <TouchableOpacity onPress={() => {
             if (status == 4 || status == 8 || status == 9) {
                 getRouteTaskListForOrderWaiting()
+                setOrderInfo(item)
                 Actions.orderInfoAtOrderBlock({ preSceneKey: sceneKey, order: item })
                 InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: id }))
             }
@@ -131,9 +132,9 @@ class OrderList extends Component {
     render() {
         // console.log('this.props', this.props)
 
-        const { sceneKey, getOrderListMore, initOrder, orderListReducer,
+        const { sceneKey, getOrderListMore, initOrder, orderListReducer, setOrderInfo,
             getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
-            getOrderCarList,getOrderCarListWaiting,
+            getOrderCarList, getOrderCarListWaiting,
             orderListReducer: { data: { orderList, isCompleted }, getOrderList: { isResultStatus } } } = this.props
         if (isResultStatus == 1) {
             return (
@@ -171,7 +172,7 @@ class OrderList extends Component {
                             data={orderList}
                             renderItem={param => renderItem({
                                 ...param, sceneKey, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
-                                getOrderCarList,getOrderCarListWaiting, initOrder
+                                getOrderCarList, getOrderCarListWaiting, initOrder, setOrderInfo
                             })} />
                     </DrawerLayoutAndroid>
                 </Container>
@@ -193,7 +194,6 @@ const mapDispatchToProps = (dispatch) => ({
     getOrderList: () => {
         dispatch(reduxActions.orderList.getOrderList())
     },
-
     getOrderListWaiting: () => {
         dispatch(reduxActions.orderList.getOrderListWaiting())
     },
@@ -211,6 +211,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getRouteTaskListForOrderWaiting: () => {
         dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+    },
+    setOrderInfo: req => {
+        dispatch(reduxActions.orderInfo.setOrderInfo(req))
     }
 })
 

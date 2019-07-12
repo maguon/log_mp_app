@@ -3,7 +3,7 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 
 const initialState = {
     data: {
-        orderInfo: {}
+        order: {}
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
 
@@ -13,12 +13,14 @@ const initialState = {
 export default handleActions({
 
     [reduxActionTypes.orderInfo.set_orderInfo]: (state, action) => {
-        const { payload: { orderInfo } } = action
+        const { payload: { order } } = action
+        console.log('action',action)
+        console.log('order',order)
         return {
             ...state,
             data:{
                 ...state.data,
-                orderInfo
+                order
             }
         }
     }

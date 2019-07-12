@@ -12,8 +12,9 @@ import { Actions } from 'react-native-router-flux'
 import * as reduxActions from '../../reduxActions'
 
 const OrderInfo = props => {
-    console.log('props', props)
-    const { order, sceneKey, routeTaskListForOrderReducer: { data: { routeTaskListForOrder } } } = props
+    // console.log('props', props)
+    const { orderInfoReducer: { data: { order } }, sceneKey, setOrderForpickUpAddr,
+        routeTaskListForOrderReducer: { data: { routeTaskListForOrder } } } = props
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
     const serviceType = new Map(service_type_list).get(order.service_type)
@@ -52,7 +53,10 @@ const OrderInfo = props => {
                     </View>
                 </View>
                 <TouchableOpacity
-                    onPress={() => { }}
+                    onPress={() => {
+                        setOrderForpickUpAddr({ order })
+                        Actions.pickUpAddrEditor({ preSceneKey: sceneKey })
+                    }}
                     style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                     <View style={styles.listItemPadding}>
                         <Text style={globalStyles.midText}>收发货信息</Text>
@@ -114,11 +118,19 @@ const OrderInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        routeTaskListForOrderReducer: state.routeTaskListForOrderReducer
+        routeTaskListForOrderReducer: state.routeTaskListForOrderReducer,
+        orderInfoReducer: state.orderInfoReducer
     }
 }
 
-export default connect(mapStateToProps)(OrderInfo)
+const mapDispatchToProps = (dispatch) => ({
+    setOrderForpickUpAddr: req => {
+        // console.log('req',req)
+        dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderInfo)
 
 const styles = StyleSheet.create({
     listItemHeader: {

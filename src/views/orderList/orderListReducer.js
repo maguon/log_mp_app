@@ -121,6 +121,24 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+
+    [reduxActionTypes.orderList.set_orderForOrderList]: (state, action) => {
+        const { payload: { order } } = action
+        // console.log('order',order)
+        return {
+            ...state,
+            data: {
+                orderList: state.data.orderList.map(item => {
+                    if (item.id == order.id) {
+                        return order
+                    } else {
+                        return item
+                    }
+                })
+            }
+        }
     }
 
 

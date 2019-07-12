@@ -44,6 +44,8 @@ import routeCarListReducer from './views/routeCarList/routeCarListReducer'
 import routeTaskListForOrderReducer from './views/routeTaskListForOrder/routeTaskListForOrderReducer'
 import feePriceReducer from './views/feePrice/feePriceReducer'
 import addrEditorReducer from './views/addrEditor/addrEditorReducer'
+import pickUpAddrEditorReducer from './views/pickUpAddrEditor/pickUpAddrEditorReducer'
+import pickUpAddrListReducer from './views/list/pickUpAddrList/pickUpAddrListReducer'
 
 
 export default combineReducers({
@@ -88,5 +90,9 @@ export default combineReducers({
     routeCarListReducer,
     routeTaskListForOrderReducer,
     feePriceReducer,
-    addrEditorReducer
+    addrEditorReducer,
+
+
+    pickUpAddrEditorReducer,
+    pickUpAddrListReducer
 })
