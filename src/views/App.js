@@ -375,7 +375,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
 
                             <Scene key="orderList"
                                 initial={true}
@@ -467,7 +467,7 @@ export default class App extends Component {
                                 RightButton={OrderRemarkEditorToolButton}
                             />
                         </Scene>
-                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
+                        <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
                                 initial={true}
                                 component={Route}

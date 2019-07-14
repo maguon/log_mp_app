@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment'
 import * as reduxActions from '../../../reduxActions'
-import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux'
 
 
 const renderListEmpty = () => {
@@ -40,7 +40,7 @@ const renderListFooter = props => {
 
 const renderItem = props => {
     // console.log('props', props)
-    const { item: { id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type },
+    const { item: { order_id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type },
         setRequireTaskInfo, sceneKey, item } = props
     let _total_insure_price = total_insure_price ? total_insure_price : 0
     let _total_trans_price = total_trans_price ? total_trans_price : 0
@@ -50,7 +50,7 @@ const renderItem = props => {
             Actions.requireTaskInfo({ preSceneKey: sceneKey })
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
-                <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>路线编号：{id ? `${id}` : ''}</Text>
+                <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>订单编号：{order_id ? `${order_id}` : ''}</Text>
                 <Text style={[globalStyles.midText, styles.listItemHeaderDate]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
             </View>
             <View style={[styles.listItemPadding, styles.listItemBorderBottom, { flexDirection: 'row', alignItems: 'center' }]}>
