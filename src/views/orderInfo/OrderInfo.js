@@ -94,9 +94,9 @@ const OrderInfo = props => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        // getRouteTaskListForOrderWaiting()
+                        getRouteTaskListForOrderWaiting()
                         Actions.routeTaskListForOrder({ preSceneKey: sceneKey, order })
-                        // InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: order.id }))
+                        InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: order.id }))
                     }}
                     style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                     <View style={styles.listItemPadding}>
@@ -127,6 +127,12 @@ const mapDispatchToProps = (dispatch) => ({
     setOrderForpickUpAddr: req => {
         // console.log('req',req)
         dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
+    },
+    getRouteTaskListForOrderWaiting:()=>{
+
+    },
+    getRouteTaskListForOrder:()=>{
+        
     }
 })
 
