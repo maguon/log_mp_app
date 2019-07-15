@@ -3,8 +3,9 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 
 
 const initialState = {
-    data:{
-        order:{}
+    data: {
+        order: {},
+        requireTaskInfo: {}
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
     getOrder: {
@@ -12,10 +13,15 @@ const initialState = {
         errorMsg: '',
         failedMsg: ''
     },
-    modifyOrderRemark:{
+    modifyOrderRemark: {
         isResultStatus: 0,
         errorMsg: '',
-        failedMsg: ''  
+        failedMsg: ''
+    },
+    getRequireTaskForOrder: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
     }
 }
 
@@ -25,8 +31,9 @@ export default handleActions({
         // console.log('remark',remark)
         return {
             ...state,
-            data:{
-                order:{
+            data: {
+                ...state.data,
+                order: {
                     ...state.data.order,
                     admin_mark: remark
                 }
@@ -70,11 +77,60 @@ export default handleActions({
     },
 
 
+    [reduxActionTypes.order.get_requireTaskForOrder_success]: (state, action) => {
+        const { payload: { requireTaskInfo } } = action
+        // console.log('remark',remark)
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                requireTaskInfo
+            },
+            getRequireTaskForOrder: {
+                ...state.getRequireTaskForOrder,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.order.get_requireTaskForOrder_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getRequireTaskForOrder: {
+                ...state.getRequireTaskForOrder,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.order.get_requireTaskForOrder_waiting]: (state, action) => {
+        return {
+            ...state,
+            getRequireTaskForOrder: {
+                ...state.getRequireTaskForOrder,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.order.get_requireTaskForOrder_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getRequireTaskForOrder: {
+                ...state.getRequireTaskForOrder,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
     [reduxActionTypes.order.init_order]: (state, action) => {
         const { payload: { order } } = action
         return {
             ...state,
-            data:{
+            data: {
+            ...state.data,
+
                 order
             }
         }

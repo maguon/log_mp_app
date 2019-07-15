@@ -18,7 +18,7 @@ import serviceTypeList from '../../config/service_type.json'
 import * as routerDirection from '../../util/RouterDirection'
 
 const OrderNotRoute = props => {
-    // console.log('props', props)
+    console.log('props', props)
     const {
         orderReducer:
         {
@@ -28,6 +28,9 @@ const OrderNotRoute = props => {
                 order: {
                     id, created_on, total_trans_price, total_insure_price, admin_mark,
                     start_city, created_type, end_city, service_type, car_num, admin_name
+                },
+                requireTaskInfo:{
+                    status
                 }
             }
         },
@@ -113,13 +116,13 @@ const OrderNotRoute = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        getRouteTaskInfoWaiting()
-                        getLoadTaskListWaiting()
-                        Actions.loadTaskList({ preSceneKey: sceneKey })
-                        InteractionManager.runAfterInteractions(async () => {
-                            await getRouteTaskInfo({ order })
-                            getLoadTaskList({ order })
-                        })
+                        // getRouteTaskInfoWaiting()
+                        // getLoadTaskListWaiting()
+                        Actions.loadTaskListAtHome({ preSceneKey: sceneKey })
+                        // InteractionManager.runAfterInteractions(async () => {
+                        //     await getRouteTaskInfo({ order })
+                        //     getLoadTaskList({ order })
+                        // })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>路线安排</Text></Text>

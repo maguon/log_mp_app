@@ -38,6 +38,7 @@ const OrderNotDemand = props => {
         getPaymentList,
         getPaymentListWaiting,
         parent,
+        createRequireTask,
         setOrder
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
@@ -164,7 +165,7 @@ const OrderNotDemand = props => {
                                 '确定生成运输需求？',
                                 [
                                     { text: '取消', onPress: () => { }, style: 'cancel' },
-                                    { text: '确定', onPress: () => changeOrderStatus({ order, targetStatus: 3 }) },
+                                    { text: '确定', onPress: () => createRequireTask({ order }) },
                                 ],
                                 { cancelable: false }
                             )

@@ -74,6 +74,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     setOrder: req => {
         dispatch(reduxActions.addrEditor.setOrder(req))
+    },
+    createRequireTask: req => {
+        dispatch(reduxActions.order.createRequireTask(req))
     }
 })
 

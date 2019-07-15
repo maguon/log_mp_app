@@ -18,21 +18,9 @@ import * as addOrderCar from './views/addOrderCar/addOrderCarActions'
 import * as orderCarEditor from './views/orderCarEditor/orderCarEditorActions'
 import * as payment from './views/payment/paymentActions'
 
-// import * as sendAddrEditorForNotDemand from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandActions'
-// import * as sendAddrEditorForNotInfo from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoActions'
-// import * as sendAddrEditorForNotPrice from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceActions'
-
-
 import * as order from './views/order/orderActions'
 import * as orderCarFeeEditor from './views/orderCarFeeEditor/orderCarFeeEditorActions'
 
-
-// import * as recAddrEditorForNotDemand from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandActions'
-// import * as recAddrEditorForNotInfo from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoActions'
-// import * as recAddrEditorForNotPrice from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceActions'
-
-
-// import * as loadTaskList from './views/loadTaskList/loadTaskListActions'
 import * as requireTaskList from './views/route/requireTaskList/requireTaskListActions'
 import * as loadTaskList from './views/route/loadTaskList/loadTaskListActions'
 import * as loadTaskInfo from './views/loadTaskInfo/loadTaskInfoActions'
@@ -46,6 +34,8 @@ import * as addrEditor from './views/addrEditor/addrEditorActions'
 
 import * as pickUpAddrEditor from './views/pickUpAddrEditor/pickUpAddrEditorActions'
 import * as pickUpAddrList from './views/list/pickUpAddrList/pickUpAddrListActions'
+import * as routeForOrder from './views/routeForOrder/routeForOrderActions'
+import * as createRoute from './views/createRoute/createRouteActions'
 
 
 export {
@@ -69,16 +59,6 @@ export {
     orderCarEditor,
     orderCarFeeEditor,
 
-
-
-    // sendAddrEditorForNotDemand,
-    // sendAddrEditorForNotInfo,
-    // sendAddrEditorForNotPrice,
-
-
-    // recAddrEditorForNotDemand,
-    // recAddrEditorForNotInfo,
-    // recAddrEditorForNotPrice,
     order,
     payment,
 
@@ -94,6 +74,8 @@ export {
     feePrice,
     addrEditor,
     pickUpAddrEditor,
-    pickUpAddrList
+    pickUpAddrList,
+    routeForOrder,
+    createRoute
 
 }

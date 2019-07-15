@@ -25,15 +25,6 @@ import orderReducer from './views/order/orderReducer'
 import paymentReucer from './views/payment/paymentReucer'
 import orderCarFeeEditorReducer from './views/orderCarFeeEditor/orderCarFeeEditorReducer'
 
-// import sendAddrEditorForNotDemandReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotDemand/sendAddrEditorForNotDemandReducer'
-// import sendAddrEditorForNotInfoReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotInfo/sendAddrEditorForNotInfoReducer'
-// import sendAddrEditorForNotPriceReducer from './views/sendAddressInfoEditor/sendAddrEditorForNotPrice/sendAddrEditorForNotPriceReducer'
-
-// import recAddrEditorForNotDemandReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotDemand/recAddrEditorForNotDemandReducer'
-// import recAddrEditorForNotInfoReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotInfo/recAddrEditorForNotInfoReducer'
-// import recAddrEditorForNotPriceReducer from './views/receiveAddressInfoEditor/recAddrEditorForNotPrice/recAddrEditorForNotPriceReducer'
-
-// import loadTaskListReducer from './views/loadTaskList/loadTaskListReducer'
 import requireTaskListReducer from './views/route/requireTaskList/requireTaskListReducer'
 import loadTaskListReducer from './views/route/loadTaskList/loadTaskListReducer'
 import loadTaskInfoReducer from './views/loadTaskInfo/loadTaskInfoReducer'
@@ -46,6 +37,8 @@ import feePriceReducer from './views/feePrice/feePriceReducer'
 import addrEditorReducer from './views/addrEditor/addrEditorReducer'
 import pickUpAddrEditorReducer from './views/pickUpAddrEditor/pickUpAddrEditorReducer'
 import pickUpAddrListReducer from './views/list/pickUpAddrList/pickUpAddrListReducer'
+import routeForOrderReducer from './views/routeForOrder/routeForOrderReducer'
+import createRouteReducer from './views/createRoute/createRouteReducer'
 
 
 export default combineReducers({
@@ -70,12 +63,6 @@ export default combineReducers({
     addOrderCarReducer,
     orderCarEditorReducer,
 
-    // sendAddrEditorForNotDemandReducer,
-    // sendAddrEditorForNotInfoReducer,
-    // sendAddrEditorForNotPriceReducer,
-    // recAddrEditorForNotDemandReducer,
-    // recAddrEditorForNotInfoReducer,
-    // recAddrEditorForNotPriceReducer,
     orderCarFeeEditorReducer,
 
     orderReducer,
@@ -94,5 +81,7 @@ export default combineReducers({
 
 
     pickUpAddrEditorReducer,
-    pickUpAddrListReducer
+    pickUpAddrListReducer,
+    routeForOrderReducer,
+    createRouteReducer
 })

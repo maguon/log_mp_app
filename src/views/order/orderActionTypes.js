@@ -19,3 +19,10 @@ export const change_orderStatus_success = 'change_orderStatus_success'
 export const change_orderStatus_failed = 'change_orderStatus_failed'
 export const change_orderStatus_waiting = 'change_orderStatus_waiting'
 export const change_orderStatus_error = 'change_orderStatus_error'
+
+
+export const get_requireTaskForOrder_success = 'get_requireTaskForOrder_success'
+export const get_requireTaskForOrder_failed = 'get_requireTaskForOrder_failed'
+export const get_requireTaskForOrder_error = 'get_requireTaskForOrder_error'
+export const get_requireTaskForOrder_waiting = 'get_requireTaskForOrder_waiting'
+

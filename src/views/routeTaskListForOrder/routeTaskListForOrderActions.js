@@ -5,7 +5,7 @@ export const getRouteTaskListForOrder = req =>async (dispatch, getState) => {
     try {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
-        const requireTaskUrl = `${base_host}/admin/${3}/requireTask?orderId=${req.orderId}`
+        const requireTaskUrl = `${base_host}/admin/${id}/requireTask?orderId=${req.orderId}`
         const requireTaskRes =await httpRequest.get(requireTaskUrl)
         if (requireTaskRes.success && requireTaskRes.result[0]) {
             const url = `${base_host}/admin/${id}/order/${req.orderId}/require/${requireTaskRes.result[0].id}/loadTask`

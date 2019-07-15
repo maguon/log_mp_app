@@ -23,14 +23,21 @@ const renderListEmpty = () => {
 const renderListItem = props => {
     const { item: { id, created_on, car_num, total_trans_price, total_insure_price,
         end_city, start_city, service_type, created_type }, sceneKey, item, initOrder,
-        getOrderCarListWaiting, getOrderCarList } = props
+        getOrderCarListWaiting, getOrderCarList, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
+        getRequireTaskWaiting, getRequireTask } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
     return (
         <TouchableOpacity onPress={() => {
+            getRouteTaskListForOrderWaiting()
             getOrderCarListWaiting()
+            getRequireTaskWaiting()
             initOrder({ order: item })
             Actions.order({ preSceneKey: sceneKey })
-            InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId: id }))
+            InteractionManager.runAfterInteractions(() => {
+                getOrderCarList({ orderId: id })
+                getRouteTaskListForOrder({ orderId: id })
+                getRequireTask({ orderId: id })
+            })
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>询价编号：{`${id}`}</Text>
@@ -104,8 +111,9 @@ class OrderListNotRoute extends Component {
     render() {
         const { orderListNotRouteReducer: { getOrderListNotRoute: { isResultStatus }, data: { orderListNotRoute, isCompleted } },
             getOrderListNotRoute, orderListNotRouteReducer, getOrderListNotRouteMore, getOrderListNotRouteWaiting, sceneKey,
-            initOrder, getOrderCarListWaiting, getOrderCarList } = this.props
-        // console.log('this.props', this.props)
+            initOrder, getOrderCarListWaiting, getOrderCarList, getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
+            getRequireTaskWaiting, getRequireTask } = this.props
+
         return (
             <Container>
                 <FlatList
@@ -136,7 +144,10 @@ class OrderListNotRoute extends Component {
                     contentContainerStyle={[styles.list]}
                     keyExtractor={(item, index) => index}
                     data={orderListNotRoute}
-                    renderItem={param => renderListItem({ ...param, sceneKey, initOrder, getOrderCarListWaiting, getOrderCarList })}
+                    renderItem={param => renderListItem({
+                        ...param, sceneKey, initOrder, getOrderCarListWaiting, getOrderCarList,
+                        getRouteTaskListForOrder, getRouteTaskListForOrderWaiting, getRequireTaskWaiting, getRequireTask
+                    })}
                     ListFooterComponent={orderListNotRouteReducer.getOrderListNotRouteMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                 />
             </Container>
@@ -239,8 +250,20 @@ const mapDispatchToProps = (dispatch) => ({
     getOrderCarListWaiting: () => {
         dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
     },
+    getRouteTaskListForOrder: req => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder(req))
+    },
+    getRouteTaskListForOrderWaiting: () => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+    },
     initOrder: req => {
         dispatch(reduxActions.order.initOrder(req))
+    },
+    getRequireTask: req => {
+        dispatch(reduxActions.order.getRequireTask(req))
+    },
+    getRequireTaskWaiting: () => {
+        dispatch(reduxActions.order.getRequireTaskWaiting())
     }
 })
 

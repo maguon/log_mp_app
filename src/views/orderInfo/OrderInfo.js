@@ -10,16 +10,22 @@ import order_payment_status from '../../config/order_payment_status.json'
 import service_type_list from '../../config/service_type.json'
 import { Actions } from 'react-native-router-flux'
 import * as reduxActions from '../../reduxActions'
+import * as routerDirection from '../../util/RouterDirection'
 
 const OrderInfo = props => {
     // console.log('props', props)
     const { orderInfoReducer: { data: { order } }, sceneKey, setOrderForpickUpAddr,
-        routeTaskListForOrderReducer: { data: { routeTaskListForOrder } } } = props
+        routeTaskListForOrderReducer: { data: { routeTaskListForOrder } },parent } = props
+
+
+
+
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
     const serviceType = new Map(service_type_list).get(order.service_type)
     const _total_insure_price = order.total_insure_price ? order.total_insure_price : 0
     const _total_trans_price = order.total_trans_price ? order.total_trans_price : 0
+
     return (
         <Container>
             <Content>
@@ -94,9 +100,7 @@ const OrderInfo = props => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        getRouteTaskListForOrderWaiting()
-                        Actions.routeTaskListForOrder({ preSceneKey: sceneKey, order })
-                        InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: order.id }))
+                        routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, order })
                     }}
                     style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                     <View style={styles.listItemPadding}>
@@ -127,12 +131,6 @@ const mapDispatchToProps = (dispatch) => ({
     setOrderForpickUpAddr: req => {
         // console.log('req',req)
         dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
-    },
-    getRouteTaskListForOrderWaiting:()=>{
-
-    },
-    getRouteTaskListForOrder:()=>{
-        
     }
 })
 

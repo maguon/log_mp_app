@@ -1,31 +1,5 @@
 import { Actions } from 'react-native-router-flux'
 
-// export const sendAddressInfoEditor = (sceneName) => {
-//     if (sceneName === 'notInfo') {
-//         return Actions.sendAddressInfoEditorForNotInfo
-//     }
-//     if (sceneName === 'notDemand') {
-//         return Actions.sendAddressInfoEditorForNotDemand
-//     }
-//     if (sceneName === 'notPrice') {
-//         return Actions.sendAddressInfoEditorForNotPrice
-//     }
-// }
-
-// export const recAddrEditor = (sceneName) => {
-//     if (sceneName === 'notInfo') {
-//         return Actions.recAddrEditorForNotInfo
-//     }
-//     if (sceneName === 'notDemand') {
-//         return Actions.recAddrEditorForNotDemand
-//     }
-//     if (sceneName === 'notPrice') {
-//         return Actions.recAddrEditorForNotPrice
-//     }
-// }
-
-
-
 export const cityList = (parent) => {
     if (parent === 'homeBlock') {
         return Actions.cityList
@@ -80,9 +54,18 @@ export const addrEditor = parent => {
     }
 }
 
-export const addressInfo =parent =>{
+export const addressInfo = parent => {
     if (parent === 'homeBlock') {
         return Actions.addressInfoAtHomeBlock
+    }
+}
+
+export const routeTaskListForOrder = parent => {
+    if (parent === 'orderBlock') {
+        return Actions.routeTaskListForOrderAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.routeTaskListForOrderAtRouteBlock
     }
 }
 

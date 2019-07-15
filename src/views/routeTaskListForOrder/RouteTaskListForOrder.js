@@ -109,7 +109,13 @@ const RouteTaskListForOrder = props => {
                 keyExtractor={(item, index) => index}
                 data={routeTaskListForOrder}
                 ListEmptyComponent={routeTaskListForOrderReducer.getRouteTaskListForOrder.isResultStatus != 1 && routeTaskListForOrder.length == 0 && renderListEmpty}
-                ListFooterComponent={() => renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })}
+                ListFooterComponent={() => {
+                    if(routeTaskListForOrder.length>0){
+                        return renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })
+                    }else{
+                        return <View />
+                    }
+                }}
                 renderItem={param => renderItem({ ...param, order, getRouteCarListWaiting, getRouteCarList, sceneKey })}
             />
         </Container>

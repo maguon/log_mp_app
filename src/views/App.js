@@ -68,7 +68,7 @@ import OrderRemarkEditorToolButton from '../components/toolButton/OrderRemarkEdi
 import AddressInfo from './addressInfo/AddressInfo'
 
 
-import LoadTaskList from './loadTaskList/LoadTaskList'
+import LoadTaskList from './route/loadTaskList/LoadTaskList'
 import LoadTaskInfo from './loadTaskInfo/LoadTaskInfo'
 import RequireTaskInfo from './requireTaskInfo/RequireTaskInfo'
 
@@ -162,7 +162,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -449,10 +449,10 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={PickUpAddrEditorToolButton}
                             />
-                            <Scene key="routeTaskListForOrder"
+                            <Scene key="routeTaskListForOrderAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={RouteTaskListForOrder}
-                                title='城市列表'
+                                title='路线安排'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
@@ -467,7 +467,7 @@ export default class App extends Component {
                                 RightButton={OrderRemarkEditorToolButton}
                             />
                         </Scene>
-                        <Scene key="routeBlock" initial={true} icon={TabBarIcon} online='ios-infinite' >
+                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
                                 initial={true}
                                 component={Route}
@@ -496,6 +496,14 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 component={CityList}
                                 title='城市列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeTaskListForOrderAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={RouteTaskListForOrder}
+                                title='路线安排'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
