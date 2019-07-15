@@ -86,6 +86,7 @@ import SendAddrEditor from './addrEditor/SendAddrEditor'
 
 import PickUpAddrList from './list/pickUpAddrList/PickUpAddrList'
 import PickUpAddrEditor from './pickUpAddrEditor/PickUpAddrEditor'
+import CreateRoute from './createRoute/CreateRoute'
 
 //<<<<<<<<<<views
 
@@ -164,7 +165,7 @@ export default class App extends Component {
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                         <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
-                                initial={true}
+
                                 component={Home}
                                 title='首页'
                                 hideNavBar={false}
@@ -179,7 +180,6 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-
                             <Scene key="order"
                                 LeftButton={LeftButton}
                                 component={order}
@@ -346,6 +346,15 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 component={LoadTaskList}
                                 title='线路安排'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="createRouteAtHomeBlock"
+                                initial={true}
+                                LeftButton={LeftButton}
+                                component={CreateRoute}
+                                title='增加线路'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
