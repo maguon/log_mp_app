@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList, StyleSheet, TouchableOpacity, InteractionManager } from 'react-native'
-import { Container, Icon } from 'native-base'
+import { Container, Icon, Spinner } from 'native-base'
 import { connect } from 'react-redux'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import moment from 'moment'
@@ -8,17 +8,20 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as reduxActions from '../../reduxActions'
 import { Actions } from 'react-native-router-flux'
+import * as routerDirection from '../../util/RouterDirection'
 
 const renderItem = props => {
-    const { item, getRouteCarListWaiting, getRouteCarList, sceneKey, order } = props
+    const { item, getRouteCarListWaiting, getRouteCarList, sceneKey, parent } = props
+    console.log('item', item)
+    console.log('parent', parent)
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
     return (
         <TouchableOpacity style={styles.listItemBorderBottom}
             onPress={() => {
                 getRouteCarListWaiting()
-                Actions.routeCarList({ preSceneKey: sceneKey })
-                InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: item.id, orderId: order.id }))
+                routerDirection.routeCarList(parent)({ preSceneKey: sceneKey })
+                InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: item.id, orderId: item.order_id }))
             }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={globalStyles.midText}>线路编号：{item.id ? `${item.id}` : ''}</Text>
@@ -42,7 +45,7 @@ const renderItem = props => {
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={globalStyles.midText}>{item.supplier_short ? `${item.supplier_short}` : ''}</Text>
-                        <Text style={globalStyles.midText}>运送车辆：{item.car_count ? `${item.car_count}` : ''}</Text>
+                        <Text style={globalStyles.midText}>运送车辆：{item.car_count ? `${item.car_count}` : '0'}</Text>
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={globalStyles.midText}>计划发运时间：{item.plan_date ? `${item.plan_date}` : ''}</Text>
@@ -90,8 +93,10 @@ const renderListFooter = props => {
 
 
 const RouteTaskListForOrder = props => {
-    const { routeTaskListForOrderReducer: { data: { routeTaskListForOrder } }, routeTaskListForOrderReducer,
-        getRouteCarListWaiting, getRouteCarList, sceneKey, order } = props
+    const { routeTaskListForOrderReducer: { data: { routeTaskListForOrder },
+        getRouteTaskListForOrder: { isResultStatus } },
+        routeTaskListForOrderReducer,
+        getRouteCarListWaiting, getRouteCarList, sceneKey, order, parent } = props
     const totalSupplierInsurePrice = routeTaskListForOrder.reduce((prev, curr) => {
         const currSupplierInsurePrice = curr.supplier_insure_price ? curr.supplier_insure_price : 0
         return prev + currSupplierInsurePrice
@@ -103,23 +108,31 @@ const RouteTaskListForOrder = props => {
     }, 0)
 
     // console.log('props', props)
-    return (
-        <Container>
-            <FlatList
-                keyExtractor={(item, index) => index}
-                data={routeTaskListForOrder}
-                ListEmptyComponent={routeTaskListForOrderReducer.getRouteTaskListForOrder.isResultStatus != 1 && routeTaskListForOrder.length == 0 && renderListEmpty}
-                ListFooterComponent={() => {
-                    if(routeTaskListForOrder.length>0){
-                        return renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })
-                    }else{
-                        return <View />
-                    }
-                }}
-                renderItem={param => renderItem({ ...param, order, getRouteCarListWaiting, getRouteCarList, sceneKey })}
-            />
-        </Container>
-    )
+    if (isResultStatus == 1) {
+        return (
+            <Container>
+                <Spinner color={styleColor} />
+            </Container>
+        )
+    } else {
+        return (
+            <Container>
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={routeTaskListForOrder}
+                    ListEmptyComponent={routeTaskListForOrderReducer.getRouteTaskListForOrder.isResultStatus != 1 && routeTaskListForOrder.length == 0 && renderListEmpty}
+                    ListFooterComponent={() => {
+                        if (routeTaskListForOrder.length > 0) {
+                            return renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })
+                        } else {
+                            return <View />
+                        }
+                    }}
+                    renderItem={param => renderItem({ ...param, order, getRouteCarListWaiting, parent, getRouteCarList, sceneKey })}
+                />
+            </Container>
+        )
+    }
 }
 
 const mapStateToProps = (state) => {

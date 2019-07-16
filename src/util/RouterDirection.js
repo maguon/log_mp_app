@@ -70,4 +70,20 @@ export const routeTaskListForOrder = parent => {
 }
 
 
+export const supplierList = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.supplierListAtHomeBlock
+    }
+}
 
+export const routeCarList = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.routeCarListAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.routeCarListAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.routeCarListAtRouteBlock
+    }
+}

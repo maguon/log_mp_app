@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import * as reduxActions from '../../reduxActions'
-import { Container, Content, Icon, Button } from 'native-base'
+import { Container, Content, Icon, Button, ActionSheet } from 'native-base'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
@@ -29,9 +29,10 @@ const OrderNotRoute = props => {
                     id, created_on, total_trans_price, total_insure_price, admin_mark,
                     start_city, created_type, end_city, service_type, car_num, admin_name
                 },
-                requireTaskInfo:{
+                requireTaskInfo: {
                     status
-                }
+                },
+                requireTaskInfo
             }
         },
         sceneKey,
@@ -41,6 +42,7 @@ const OrderNotRoute = props => {
         getLoadTaskList,
         getLoadTaskListWaiting,
         changeOrderStatus,
+        setRequireTaskInfo,
         parent
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
@@ -79,14 +81,14 @@ const OrderNotRoute = props => {
                     </View>
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
-                    <View style={styles.listItemPadding}>
+                    <View style={[styles.listItemPadding, { alignSelf: 'flex-end' }]}>
                         <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>需求创建时间：2018-08-26 11:20:31</Text>
                     </View>
                 </View>
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        routerDirection.addressInfo(parent)({ preSceneKey: sceneKey, order})  
+                        routerDirection.addressInfo(parent)({ preSceneKey: sceneKey, order })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>收发货信息：</Text></Text>
@@ -118,7 +120,9 @@ const OrderNotRoute = props => {
                     onPress={() => {
                         // getRouteTaskInfoWaiting()
                         // getLoadTaskListWaiting()
-                        Actions.loadTaskListAtHome({ preSceneKey: sceneKey })
+                        setRequireTaskInfo(requireTaskInfo)
+                        Actions.routeForOrderAtHome({ preSceneKey: sceneKey })
+                        // Actions.loadTaskListAtHome({ preSceneKey: sceneKey })
                         // InteractionManager.runAfterInteractions(async () => {
                         //     await getRouteTaskInfo({ order })
                         //     getLoadTaskList({ order })

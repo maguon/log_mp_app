@@ -3,7 +3,7 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 
 const initialState = {
     data:{
-        routeTaskInfo:{}
+        requireTaskInfo:{}
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
     changeRouteStatus:{
@@ -15,11 +15,11 @@ const initialState = {
 
 export default handleActions({
     [reduxActionTypes.routeForOrder.change_routeStatus_success]: (state, action) => {
-        const { payload: { routeTaskInfo } } = action
+        const { payload: { requireTaskInfo } } = action
         return {
             ...state,
             data:{
-                routeTaskInfo
+                requireTaskInfo
             },
             changeRouteStatus: {
                 ...state.changeRouteStatus,
@@ -58,4 +58,15 @@ export default handleActions({
             }
         }
     },
+
+
+    [reduxActionTypes.routeForOrder.set_requireTaskInfoForRoute]: (state, action) => {
+        const { payload: { requireTaskInfo } } = action
+        return {
+            ...state,
+            data:{
+                requireTaskInfo
+            }
+        }
+    }
 }, initialState)

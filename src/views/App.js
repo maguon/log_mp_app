@@ -63,6 +63,7 @@ import AddOrderCar from '../views/addOrderCar/AddOrderCar'
 import order from './order/Order'
 import OrderRemarkEditor from './orderRemarkEditor/OrderRemarkEditor'
 import OrderRemarkEditorToolButton from '../components/toolButton/OrderRemarkEditorToolButton'
+import CreateRouteToolButton from '../components/toolButton/CreateRouteToolButton'
 
 
 import AddressInfo from './addressInfo/AddressInfo'
@@ -87,6 +88,8 @@ import SendAddrEditor from './addrEditor/SendAddrEditor'
 import PickUpAddrList from './list/pickUpAddrList/PickUpAddrList'
 import PickUpAddrEditor from './pickUpAddrEditor/PickUpAddrEditor'
 import CreateRoute from './createRoute/CreateRoute'
+import SupplierList from './list/supplierList/SupplierList'
+import RouteForOrder from './routeForOrder/RouteForOrder'
 
 //<<<<<<<<<<views
 
@@ -165,7 +168,7 @@ export default class App extends Component {
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                         <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
-
+                                initial={true}
                                 component={Home}
                                 title='首页'
                                 hideNavBar={false}
@@ -350,11 +353,36 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
+                            <Scene key="routeForOrderAtHome"
+                                LeftButton={LeftButton}
+                                component={RouteForOrder}
+                                title='线路安排'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
                             <Scene key="createRouteAtHomeBlock"
-                                initial={true}
+
                                 LeftButton={LeftButton}
                                 component={CreateRoute}
                                 title='增加线路'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={CreateRouteToolButton}
+                            />
+                            <Scene key="supplierListAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={SupplierList}
+                                title='供应商列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="routeCarListAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={RouteCarList}
+                                title='运输车辆列表'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
@@ -435,10 +463,10 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            <Scene key="routeCarList"
+                            <Scene key="routeCarListAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={RouteCarList}
-                                title='城市列表'
+                                title='运输车辆列表'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
@@ -484,6 +512,14 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                                 RightButton={RouteToolButton}
+                            />
+                            <Scene key="routeCarListAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={RouteCarList}
+                                title='运输车辆列表'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
                             />
                             <Scene key="loadTaskInfo"
                                 component={LoadTaskInfo}

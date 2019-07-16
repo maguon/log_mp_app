@@ -39,6 +39,7 @@ import pickUpAddrEditorReducer from './views/pickUpAddrEditor/pickUpAddrEditorRe
 import pickUpAddrListReducer from './views/list/pickUpAddrList/pickUpAddrListReducer'
 import routeForOrderReducer from './views/routeForOrder/routeForOrderReducer'
 import createRouteReducer from './views/createRoute/createRouteReducer'
+import supplierListReducer from './views/list/supplierList/supplierListReducer'
 
 
 export default combineReducers({
@@ -83,5 +84,6 @@ export default combineReducers({
     pickUpAddrEditorReducer,
     pickUpAddrListReducer,
     routeForOrderReducer,
-    createRouteReducer
+    createRouteReducer,
+    supplierListReducer
 })

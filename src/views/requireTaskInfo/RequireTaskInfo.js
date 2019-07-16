@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Button, Icon } from 'native-base'
@@ -10,6 +12,8 @@ import globalStyles from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
 import service_type_list from '../../config/service_type.json'
+import * as routerDirection from '../../util/RouterDirection'
+import * as reduxActions from '../../reduxActions'
 
 
 const RequireTaskInfo = props => {
@@ -18,8 +22,8 @@ const RequireTaskInfo = props => {
         data: {
             requireTaskInfo: {
                 order_id, created_on, route_start, route_end, real_name, departure_time, order_created_on, car_num,
-                order_remark, admin_mark, total_insure_price, total_trans_price, service_type,status
-            }, requireTaskInfo } } } = props
+                order_remark, admin_mark, total_insure_price, id, total_trans_price, service_type, status
+            }, requireTaskInfo } }, parent, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder } = props
     console.log('requireTaskInfo', requireTaskInfo)
     const _total_trans_price = total_trans_price ? total_trans_price : 0
     const _total_insure_price = total_insure_price ? total_insure_price : 0
@@ -84,7 +88,14 @@ const RequireTaskInfo = props => {
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </View>
-                <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                    onPress={() => {
+                        getRouteTaskListForOrderWaiting()
+                        routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey })
+                        InteractionManager.runAfterInteractions(() => {
+                            getRouteTaskListForOrder({ orderId: order_id })
+                        })
+                    }}>
                     <View style={[styles.listItemPadding]}>
                         <Text style={[globalStyles.midText]}>路线安排</Text>
                     </View>
@@ -92,7 +103,7 @@ const RequireTaskInfo = props => {
                         <Text style={[globalStyles.midText]}>3</Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>总费用</Text>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>{(_total_trans_price + _total_insure_price)}元</Text>
@@ -117,7 +128,16 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(RequireTaskInfo)
+const mapDispatchToProps = (dispatch) => ({
+    getRouteTaskListForOrderWaiting: () => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+    },
+    getRouteTaskListForOrder: req => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder(req))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequireTaskInfo)
 
 const styles = StyleSheet.create({
     listItemHeader: {

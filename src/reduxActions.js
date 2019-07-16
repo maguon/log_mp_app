@@ -36,6 +36,7 @@ import * as pickUpAddrEditor from './views/pickUpAddrEditor/pickUpAddrEditorActi
 import * as pickUpAddrList from './views/list/pickUpAddrList/pickUpAddrListActions'
 import * as routeForOrder from './views/routeForOrder/routeForOrderActions'
 import * as createRoute from './views/createRoute/createRouteActions'
+import * as supplierList from './views/list/supplierList/supplierListActions'
 
 
 export {
@@ -76,6 +77,7 @@ export {
     pickUpAddrEditor,
     pickUpAddrList,
     routeForOrder,
-    createRoute
+    createRoute,
+    supplierList
 
 }

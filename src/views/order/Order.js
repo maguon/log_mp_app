@@ -77,6 +77,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     createRequireTask: req => {
         dispatch(reduxActions.order.createRequireTask(req))
+    },
+    setRequireTaskInfo:req=>{
+        dispatch(reduxActions.routeForOrder.setRequireTaskInfo(req))
     }
 })
 

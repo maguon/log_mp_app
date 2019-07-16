@@ -20,13 +20,13 @@ const renderListItem = props => {
     const { i, onSelect, item: { cityPY, city_name = '' }, item } = props
     if (cityPY && cityPY.length == 1) {
         return (
-            <ListItem key={i} last itemDivider>
+            <ListItem key={i} itemDivider>
                 <Text>{city_name}</Text>
             </ListItem>
         )
     } else {
         return (
-            <ListItem key={i} last onPress={() => { onSelect(item) }}>
+            <ListItem key={i} onPress={() => { onSelect(item) }}>
                 <Text>{city_name}</Text>
             </ListItem>
         )

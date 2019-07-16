@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, InteractionManager } from 'react-native'
 import { Select, DatePicker, RichTextBox, TextBox, PickerBox } from '../../components/form'
 import { Container, Content } from 'native-base'
 import { reduxForm, Field } from 'redux-form'
 import * as reduxActions from '../../reduxActions'
 import { connect } from 'react-redux'
+import * as routerDirection from '../../util/RouterDirection'
+import { Actions } from 'react-native-router-flux'
 
 const CreateRoute = props => {
-    const { getCityListWaiting, getCityList } = props
+    const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey } = props
     return (
         <Container>
             <Content>
@@ -17,7 +19,7 @@ const CreateRoute = props => {
                     component={Select}
                     onPress={({ onChange }) => {
                         getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
+                        routerDirection.cityList(parent)({
                             onSelect: (param) => {
                                 const { id, city_name } = param
                                 onChange({ id, value: city_name, item: param })
@@ -29,7 +31,7 @@ const CreateRoute = props => {
                     }}
                 />
                 <Field
-                    name='routeStartAddr'
+                    name='routeStartDetail'
                     label='始发地址'
                     component={TextBox}
                 />
@@ -39,7 +41,7 @@ const CreateRoute = props => {
                     component={Select}
                     onPress={({ onChange }) => {
                         getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
+                        routerDirection.cityList(parent)({
                             onSelect: (param) => {
                                 const { id, city_name } = param
                                 onChange({ id, value: city_name, item: param })
@@ -51,25 +53,26 @@ const CreateRoute = props => {
                     }}
                 />
                 <Field
-                    name='routeEndAddr'
+                    name='routeEndDetail'
                     label='目的地址'
                     component={TextBox}
                 />
                 <Field
-                    name='routeEnd'
+                    name='supplier'
                     label='供应商'
                     component={Select}
                     onPress={({ onChange }) => {
-                        getCityListWaiting()
-                        Actions.cityListAtRouteBlock({
+                        getSupplierListWaiting()
+                        routerDirection.supplierList(parent)({
                             onSelect: (param) => {
-                                const { id, city_name } = param
-                                onChange({ id, value: city_name, item: param })
+                                console.log('param', param)
+                                const { id, supplier_short } = param
+                                onChange({ id, value: supplier_short, item: param })
                                 Actions.popTo(sceneKey)
                             },
                             preSceneKey: sceneKey
                         })
-                        InteractionManager.runAfterInteractions(getCityList)
+                        InteractionManager.runAfterInteractions(getSupplierList)
                     }}
                 />
                 <Field
@@ -79,7 +82,7 @@ const CreateRoute = props => {
                     itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
                     component={PickerBox} />
                 <Field
-                    name='planDateEnd'
+                    name='planDate'
                     label='计划发运日期'
                     component={DatePicker}
                 />
@@ -95,12 +98,18 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getCityList: () => {
         dispatch(reduxActions.cityList.getCityList())
+    },
+    getSupplierList: () => {
+        dispatch(reduxActions.supplierList.getSupplierList())
+    },
+    getSupplierListWaiting: () => {
+        dispatch(reduxActions.supplierList.getSupplierListWaiting())
     }
 })
 
 export default connect(null, mapDispatchToProps)(reduxForm({
     form: 'createRouteForm',
     onSubmit: (values, dispatch, props) => {
-
+        dispatch(reduxActions.createRoute.createRoute({ values }))
     }
 })(CreateRoute))
