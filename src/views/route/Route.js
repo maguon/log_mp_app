@@ -52,7 +52,7 @@ class Route extends Component {
     }
 
     render() {
-        const { sceneKey } = this.props
+        const { sceneKey,parent } = this.props
         return (
             <DrawerLayoutAndroid
                 ref={ref => this.drawer = ref}
@@ -81,7 +81,7 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="订单需求">
-                            <RequireTaskList sceneKey={sceneKey} />
+                            <RequireTaskList sceneKey={sceneKey}  parent={parent}/>
                         </Tab>
                         <Tab
                             tabStyle={globalStyles.styleBackgroundColor}
@@ -89,7 +89,7 @@ class Route extends Component {
                             activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
                             textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                             heading="路线">
-                            <LoadTaskList sceneKey={sceneKey} />
+                            <LoadTaskList sceneKey={sceneKey} parent={parent} />
                         </Tab>
                     </Tabs>
                 </Container>

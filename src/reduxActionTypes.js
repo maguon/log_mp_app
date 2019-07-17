@@ -39,6 +39,7 @@ import * as pickUpAddrList from './views/list/pickUpAddrList/pickUpAddrListActio
 import * as routeForOrder from './views/routeForOrder/routeForOrderActionTypes'
 import * as createRoute from './views/createRoute/createRouteActionTypes'
 import * as supplierList from './views/list/supplierList/supplierListActionTypes'
+import * as carListForRoute from './views/list/carListForRoute/carListForRouteActionTypes'
 
 export {
     login,
@@ -82,5 +83,6 @@ export {
     pickUpAddrList,
     routeForOrder,
     createRoute,
-    supplierList
+    supplierList,
+    carListForRoute
 }

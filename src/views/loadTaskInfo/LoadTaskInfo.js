@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native'
 import { Button, Container, Content } from 'native-base'
 import globalStyles from '../../style/GlobalStyles'
@@ -11,9 +13,11 @@ import { connect } from 'react-redux'
 import * as reduxActions from '../../reduxActions'
 import moment from 'moment'
 import ModalWaiting from '../../components/ModalWaiting'
+import * as routerDirection from '../../util/RouterDirection'
 
 const LoadTaskInfo = props => {
-    const { loadTaskInfoReducer: { data: { loadTaskInfo } }, loadTaskInfoReducer, changeLoadTaskStatus } = props
+    const { loadTaskInfoReducer: { data: { loadTaskInfo } }, loadTaskInfoReducer, changeLoadTaskStatus,
+        getRouteCarList, getRouteCarListWaiting, parent, sceneKey } = props
     console.log('loadTaskInfo', loadTaskInfo)
 
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
@@ -60,15 +64,22 @@ const LoadTaskInfo = props => {
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>计划发运日期</Text>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>{loadTaskInfo.plan_date ? `${loadTaskInfo.plan_date}` : ''}</Text>
                 </View>
-                <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                <TouchableOpacity
+                    style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                    onPress={() => {
+                        getRouteCarListWaiting()
+                        routerDirection.routeCarList(parent)({ preSceneKey: sceneKey })
+                        InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: loadTaskInfo.id, orderId: loadTaskInfo.order_id }))
+                    }}
+                >
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}>运输车辆</Text>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
-                        <Text style={[globalStyles.midText]}>{loadTaskInfo.car_count ? `${loadTaskInfo.car_count}` : ''}</Text>
+                        <Text style={[globalStyles.midText]}>{loadTaskInfo.car_count ? `${loadTaskInfo.car_count}` : '0'}</Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>支付供应商</Text>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}><Text style={[styles.fontColor]}>{(_supplier_insure_price + _supplier_trans_price)}</Text> 元</Text>
@@ -98,7 +109,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
     changeLoadTaskStatus: req => {
         dispatch(reduxActions.loadTaskInfo.changeLoadTaskStatus(req))
-    }
+    },
+    getRouteCarList: req => {
+        dispatch(reduxActions.routeCarList.getRouteCarList(req))
+    },
+    getRouteCarListWaiting: () => {
+        dispatch(reduxActions.routeCarList.getRouteCarListWaiting())
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadTaskInfo)

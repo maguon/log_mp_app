@@ -387,6 +387,14 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
+                            <Scene key="loadTaskInfoAtHomeBlock"
+                                component={LoadTaskInfo}
+                                LeftButton={LeftButton}
+                                title='路线详情'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
                         </Scene>
                         <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
@@ -503,6 +511,14 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderRemarkEditorToolButton}
                             />
+                            <Scene key="loadTaskInfoAtOrderBlock"
+                                component={LoadTaskInfo}
+                                LeftButton={LeftButton}
+                                title='路线详情'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
                         </Scene>
                         <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
@@ -521,7 +537,7 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
-                            <Scene key="loadTaskInfo"
+                            <Scene key="loadTaskInfoAtRouteBlock"
                                 component={LoadTaskInfo}
                                 LeftButton={LeftButton}
                                 title='路线详情'

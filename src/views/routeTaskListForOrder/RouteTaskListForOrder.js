@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux'
 import * as routerDirection from '../../util/RouterDirection'
 
 const renderItem = props => {
-    const { item, getRouteCarListWaiting, getRouteCarList, sceneKey, parent } = props
+    const { item,  setLoadTaskInfo, sceneKey, parent } = props
     console.log('item', item)
     console.log('parent', parent)
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
@@ -19,9 +19,12 @@ const renderItem = props => {
     return (
         <TouchableOpacity style={styles.listItemBorderBottom}
             onPress={() => {
-                getRouteCarListWaiting()
-                routerDirection.routeCarList(parent)({ preSceneKey: sceneKey })
-                InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: item.id, orderId: item.order_id }))
+                //
+                setLoadTaskInfo(item)
+                routerDirection.loadTaskInfo(parent)({ preSceneKey: sceneKey })
+                // routerDirection.routeCarList(parent)({ preSceneKey: sceneKey }) 
+
+                // InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: item.id, orderId: item.order_id }))
             }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={globalStyles.midText}>线路编号：{item.id ? `${item.id}` : ''}</Text>
@@ -95,8 +98,8 @@ const renderListFooter = props => {
 const RouteTaskListForOrder = props => {
     const { routeTaskListForOrderReducer: { data: { routeTaskListForOrder },
         getRouteTaskListForOrder: { isResultStatus } },
-        routeTaskListForOrderReducer,
-        getRouteCarListWaiting, getRouteCarList, sceneKey, order, parent } = props
+        routeTaskListForOrderReducer, setLoadTaskInfo,
+         sceneKey, order, parent } = props
     const totalSupplierInsurePrice = routeTaskListForOrder.reduce((prev, curr) => {
         const currSupplierInsurePrice = curr.supplier_insure_price ? curr.supplier_insure_price : 0
         return prev + currSupplierInsurePrice
@@ -128,7 +131,7 @@ const RouteTaskListForOrder = props => {
                             return <View />
                         }
                     }}
-                    renderItem={param => renderItem({ ...param, order, getRouteCarListWaiting, parent, getRouteCarList, sceneKey })}
+                    renderItem={param => renderItem({ ...param, order,  setLoadTaskInfo, parent, sceneKey })}
                 />
             </Container>
         )
@@ -142,11 +145,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    getRouteCarList: req => {
-        dispatch(reduxActions.routeCarList.getRouteCarList(req))
-    },
-    getRouteCarListWaiting: () => {
-        dispatch(reduxActions.routeCarList.getRouteCarListWaiting())
+    setLoadTaskInfo: param => {
+        dispatch(reduxActions.loadTaskInfo.setLoadTaskInfo(param))
     }
 })
 

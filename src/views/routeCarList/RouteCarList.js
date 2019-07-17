@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList, StyleSheet } from 'react-native'
-import { Container, Icon } from 'native-base'
+import { Container, Icon, Spinner } from 'native-base'
 import { connect } from 'react-redux'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -86,7 +86,7 @@ const renderListHeader = props => {
 }
 
 const RouteCarList = props => {
-    const { routeCarListReducer: { data: { routeCarList } }, routeCarListReducer } = props
+    const { routeCarListReducer: { data: { routeCarList }, getRouteCarList: { isResultStatus } }, routeCarListReducer } = props
     const totalSupplierInsurePrice = routeCarList.reduce((prev, curr) => {
         const currSupplierInsurePrice = curr.supplier_insure_price ? curr.supplier_insure_price : 0
         return prev + currSupplierInsurePrice
@@ -97,18 +97,41 @@ const RouteCarList = props => {
         const currSupplierTransPrice = curr.supplier_trans_price ? curr.supplier_trans_price : 0
         return prev + currSupplierTransPrice
     }, 0)
-    return (
-        <Container style={{ backgroundColor: '#f4f0f4' }}>
-            <FlatList
-                keyExtractor={(item, index) => index}
-                data={routeCarList}
-                ListHeaderComponent={() => renderListHeader({ car_count: routeCarList.length })}
-                ListEmptyComponent={routeCarListReducer.getRouteCarList.isResultStatus != 1 && routeCarList.length == 0 && renderListEmpty}
-                ListFooterComponent={() => renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })}
-                renderItem={renderItem}
-            />
-        </Container>
-    )
+
+    console.log('isResultStatus', isResultStatus)
+    if (isResultStatus == 1) {
+        return (
+            <Container>
+                <Spinner color={styleColor} />
+            </Container>
+        )
+    } else {
+        return (
+            <Container style={{ backgroundColor: '#f4f0f4' }}>
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={routeCarList}
+                    ListHeaderComponent={() => {
+                        if (routeCarList.length > 0) {
+                            return renderListHeader({ car_count: routeCarList.length })
+                        } else {
+                            return <View />
+                        }
+                    }}
+                    ListEmptyComponent={routeCarListReducer.getRouteCarList.isResultStatus != 1 && routeCarList.length == 0 && renderListEmpty}
+                    ListFooterComponent={() => {
+                        if (routeCarList.length > 0) {
+                            return renderListFooter({ totalSupplierInsurePrice, totalSupplierTransPrice })
+                        } else {
+                            return <View />
+                        }
+                    }}
+                    renderItem={renderItem}
+                />
+            </Container>
+        )
+    }
+
 }
 
 

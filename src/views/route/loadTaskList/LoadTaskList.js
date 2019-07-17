@@ -17,6 +17,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment'
 import { Actions } from 'react-native-router-flux';
+import * as routerDirection from '../../../util/RouterDirection'
 
 
 const renderListEmpty = () => {
@@ -38,16 +39,17 @@ const renderListFooter = props => {
 }
 
 const renderItem = props => {
-    // console.log('props', props)
-    const { item: { id, created_on, plan_date, route_start,load_task_status, route_end, car_count, require_status, supplier_short, trans_type,
-        supplier_trans_price, supplier_insure_price },item, sceneKey ,setLoadTaskInfo} = props
+    const { item: { id, created_on, plan_date, route_start, load_task_status, route_end, car_count, require_status, supplier_short, trans_type,
+        supplier_trans_price, supplier_insure_price }, item, sceneKey, setLoadTaskInfo, parent } = props
+     console.log('parent', parent)
+
     let _supplier_insure_price = supplier_insure_price ? supplier_insure_price : 0
     let _supplier_trans_price = supplier_trans_price ? supplier_trans_price : 0
 
     return (
         <TouchableOpacity onPress={() => {
             setLoadTaskInfo(item)
-            Actions.loadTaskInfo({ preSceneKey: sceneKey })
+            routerDirection.loadTaskInfo(parent)({ preSceneKey: sceneKey })
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>路线编号：{id ? `${id}` : ''}</Text>
@@ -69,7 +71,7 @@ const renderItem = props => {
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={[globalStyles.midText]}>{supplier_short ? `${supplier_short}` : ''}</Text>
-                        <Text style={[globalStyles.midText]}>运送车辆：{car_count ? `${car_count}` : ''}</Text>
+                        <Text style={[globalStyles.midText]}>运送车辆：{car_count ? `${car_count}` : '0'}</Text>
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={[globalStyles.midText]}>计划发运日期：{plan_date ? `${moment(plan_date).format('YYYY-MM-DD')}` : ''}</Text>
@@ -97,7 +99,10 @@ const LoadTaskList = props => {
         getLoadTaskListWaiting,
         getLoadTaskList,
         setLoadTaskInfo,
-        sceneKey, } = props
+        sceneKey,
+        parent } = props
+     console.log('parent', parent)
+
     // console.log('loadTaskList', loadTaskList)
     if (isResultStatus == 1) {
         return (
@@ -126,7 +131,7 @@ const LoadTaskList = props => {
                     ListEmptyComponent={loadTaskListReducer.getLoadTaskList.isResultStatus != 1 && loadTaskList.length == 0 && renderListEmpty}
                     ListFooterComponent={loadTaskListReducer.getLoadTaskListMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                     data={loadTaskList}
-                    renderItem={param => renderItem({ ...param, sceneKey,setLoadTaskInfo })} />
+                    renderItem={param => renderItem({ ...param, sceneKey, setLoadTaskInfo, parent })} />
             </Container>
         )
     }

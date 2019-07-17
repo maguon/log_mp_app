@@ -87,3 +87,16 @@ export const routeCarList = parent => {
         return Actions.routeCarListAtRouteBlock
     }
 }
+
+
+export const loadTaskInfo =parent=>{
+    if (parent === 'homeBlock') {
+        return Actions.loadTaskInfoAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.loadTaskInfoAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.loadTaskInfoAtRouteBlock
+    }
+}
