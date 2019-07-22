@@ -89,7 +89,7 @@ export const routeCarList = parent => {
 }
 
 
-export const loadTaskInfo =parent=>{
+export const loadTaskInfo = parent => {
     if (parent === 'homeBlock') {
         return Actions.loadTaskInfoAtHomeBlock
     }
@@ -98,5 +98,18 @@ export const loadTaskInfo =parent=>{
     }
     if (parent === 'routeBlock') {
         return Actions.loadTaskInfoAtRouteBlock
+    }
+}
+
+export const carListForRoute = parent => {
+    
+    if (parent === 'homeBlock') {
+        return Actions.carListForRouteAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.carListForRouteAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.carListForRouteAtRouteBlock
     }
 }

@@ -1,0 +1,4 @@
+export const get_carListForSyncedRoute_success = 'get_carListForSyncedRoute_success'
+export const get_carListForSyncedRoute_failed = 'get_carListForSyncedRoute_failed'
+export const get_carListForSyncedRoute_error = 'get_carListForSyncedRoute_error'
+export const get_carListForSyncedRoute_waiting = 'get_carListForSyncedRoute_waiting'

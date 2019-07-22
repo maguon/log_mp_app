@@ -14,6 +14,7 @@ import RouteToolButton from '../components/toolButton/RouteToolButton'
 import OrderListToolButton from '../components/toolButton/OrderListToolButton'
 import SendAddrEditorToolButton from '../components/toolButton/SendAddrEditorToolButton'
 import RecAddrEditorToolButton from '../components/toolButton/RecAddrEditorToolButton'
+import RouteCarListToolButton from '../components/toolButton/RouteCarListToolButton'
 
 // import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
 // import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
@@ -91,6 +92,11 @@ import CreateRoute from './createRoute/CreateRoute'
 import SupplierList from './list/supplierList/SupplierList'
 import RouteForOrder from './routeForOrder/RouteForOrder'
 
+import CarListForSyncedRoute from './carListForSyncedRoute/CarListForSyncedRoute'
+import SyncedRoute from './syncedRoute/SyncedRoute'
+
+import CarListForRoute from './list/carListForRoute/CarListForRoute'
+
 //<<<<<<<<<<views
 
 const styles = StyleSheet.create({
@@ -166,7 +172,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -380,6 +386,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                             <Scene key="routeCarListAtHomeBlock"
+                                RightButton={RouteCarListToolButton}
                                 LeftButton={LeftButton}
                                 component={RouteCarList}
                                 title='运输车辆列表'
@@ -391,6 +398,14 @@ export default class App extends Component {
                                 component={LoadTaskInfo}
                                 LeftButton={LeftButton}
                                 title='路线详情'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="carListForRouteAtHomeBlock"
+                                component={CarListForRoute}
+                                LeftButton={LeftButton}
+                                title='选择车辆'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
@@ -420,8 +435,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
-
+                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -472,6 +486,8 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                             <Scene key="routeCarListAtOrderBlock"
+                                RightButton={RouteCarListToolButton}
+
                                 LeftButton={LeftButton}
                                 component={RouteCarList}
                                 title='运输车辆列表'
@@ -519,6 +535,31 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
+                            <Scene key="syncedRoute"
+                                // initial={true}
+                                component={SyncedRoute}
+                                LeftButton={LeftButton}
+                                title='同步信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="carListForSyncedRoute"
+                                component={CarListForSyncedRoute}
+                                LeftButton={LeftButton}
+                                title='同步信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="carListForRouteAtOrderBlock"
+                                component={CarListForRoute}
+                                LeftButton={LeftButton}
+                                title='选择车辆'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
                         </Scene>
                         <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
                             <Scene key="route"
@@ -530,6 +571,8 @@ export default class App extends Component {
                                 RightButton={RouteToolButton}
                             />
                             <Scene key="routeCarListAtRouteBlock"
+                                RightButton={RouteCarListToolButton}
+
                                 LeftButton={LeftButton}
                                 component={RouteCarList}
                                 title='运输车辆列表'
@@ -565,6 +608,14 @@ export default class App extends Component {
                                 LeftButton={LeftButton}
                                 component={RouteTaskListForOrder}
                                 title='路线安排'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="carListForRouteAtRouteBlock"
+                                component={CarListForRoute}
+                                LeftButton={LeftButton}
+                                title='选择车辆'
                                 hideNavBar={false}
                                 hideTabBar={true}
                                 navBar={NavBar}
