@@ -132,7 +132,6 @@ export default handleActions({
 
     [reduxActionTypes.loadTaskList.get_loadTaskById_success]: (state, action) => {
         const { payload: { loadTaskInfo } } = action
-        // console.log('loadTaskInfo', loadTaskInfo)
         return {
             ...state,
             data: {

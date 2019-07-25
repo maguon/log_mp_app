@@ -11,7 +11,6 @@ import { moneyFormat } from '../../util/util'
 import ModalWaiting from '../../components/ModalWaiting'
 
 const AddOrderCar = props => {
-    // console.log('props', props)
     const { addOrderCarReducer: { data: { transAndInsurePrice: { insure, trans } },addOrderCar:{isResultStatus} }, dispatch, formValues } = props
     const actTransPrice = formValues && formValues.actTransPrice && !isNaN(parseFloat(formValues.actTransPrice)) ? parseFloat(formValues.actTransPrice) : 0.00
     const actInsurePrice = formValues && formValues.actInsurePrice && !isNaN(parseFloat(formValues.actInsurePrice)) ? parseFloat(formValues.actInsurePrice) : 0.00
@@ -180,11 +179,9 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(reduxForm({
     form: 'addOrderCarForm',
     onSubmit: (values, dispatch, props) => {
-        // console.log('addOrderCarForm')
         dispatch(reduxActions.addOrderCar.addOrderCar({ formValues: values, order: props.order }))
     },
     onChange: (values, dispatch, props, previousValues) => {
-        // console.log('props', props)
         if (values.modelType && values.valuation) {
             if (!previousValues.modelType
                 || !previousValues.valuation

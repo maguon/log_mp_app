@@ -11,7 +11,6 @@ export const changeRouteStatus = req => async (dispatch, getState) => {
         if (res.success) {
             const routeTaskUrl = `${base_host}/admin/${id}/requireTask?requireId=${req.requireTaskId}`
             const routeTaskRes = await httpRequest.get(routeTaskUrl)
-            console.log('routeTaskRes', routeTaskRes)
             if (routeTaskRes.success) {
                 dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })
             } else {
@@ -21,7 +20,6 @@ export const changeRouteStatus = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        console.log('err', err)
         dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_waiting, payload: { errorMsg: `${err}` } })
     }
 }

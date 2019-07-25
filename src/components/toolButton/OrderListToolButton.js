@@ -7,9 +7,7 @@ import globalStyles from '../../style/GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 
 const OrderListToolButton = props => {
-    // console.log('props', props)
     const { dispatch, orderListReducer: { data: { searchParam } } ,sceneKey} = props
-    // console.log('searchParam', searchParam)
     return (
         <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={() => {

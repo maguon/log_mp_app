@@ -12,19 +12,16 @@ import * as routerDirection from '../../util/RouterDirection'
 
 const renderItem = props => {
     const { item,  setLoadTaskInfo, sceneKey, parent } = props
-    console.log('item', item)
-    console.log('parent', parent)
+
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
     return (
         <TouchableOpacity style={styles.listItemBorderBottom}
             onPress={() => {
-                //
+
                 setLoadTaskInfo(item)
                 routerDirection.loadTaskInfo(parent)({ preSceneKey: sceneKey })
-                // routerDirection.routeCarList(parent)({ preSceneKey: sceneKey }) 
-
-                // InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: item.id, orderId: item.order_id }))
+               
             }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={globalStyles.midText}>线路编号：{item.id ? `${item.id}` : ''}</Text>
@@ -110,7 +107,7 @@ const RouteTaskListForOrder = props => {
         return prev + currSupplierTransPrice
     }, 0)
 
-    // console.log('props', props)
+
     if (isResultStatus == 1) {
         return (
             <Container>

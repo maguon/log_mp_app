@@ -6,9 +6,7 @@ export const getRouteCityList = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/route?routeStartId=${req.routeStartId}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.routeCityList.get_routeCityList_success, payload: { routeCityList: res.result } })
         } else {

@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     RefreshControl,
-    ActivityIndicator
+    ActivityIndicator,
+    InteractionManager
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Icon, Spinner } from 'native-base'
@@ -39,15 +40,16 @@ const renderListFooter = props => {
 
 
 const renderItem = props => {
-    // console.log('props', props)
     const { item: { order_id, created_on, route_start, route_end, car_num, total_insure_price, total_trans_price, service_type },
-        setRequireTaskInfo, sceneKey, item } = props
+        setRequireTaskInfo, sceneKey, getRouteTaskListForOrderWaiting,getRouteTaskListForOrder, item } = props
     let _total_insure_price = total_insure_price ? total_insure_price : 0
     let _total_trans_price = total_trans_price ? total_trans_price : 0
     return (
         <TouchableOpacity onPress={() => {
+            getRouteTaskListForOrderWaiting()
             setRequireTaskInfo(item)
             Actions.requireTaskInfo({ preSceneKey: sceneKey })
+            InteractionManager.runAfterInteractions(() => getRouteTaskListForOrder({ orderId: order_id }))
         }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={[globalStyles.midText, styles.listItemHeaderNo]}>订单编号：{order_id ? `${order_id}` : ''}</Text>
@@ -79,15 +81,15 @@ const renderItem = props => {
 }
 
 const RequireTaskList = props => {
-    // console.log('props', props)
     const { requireTaskListReducer: {
         data: { requireTaskList, isCompleted },
         getRequireTaskList: { isResultStatus } },
         requireTaskListReducer,
         getRequireTaskListMore,
         setRequireTaskInfo,
+        getRouteTaskListForOrderWaiting,
+        getRouteTaskListForOrder,
         sceneKey } = props
-    // console.log('requireTaskList', requireTaskList)
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -115,7 +117,7 @@ const RequireTaskList = props => {
                     ListEmptyComponent={requireTaskListReducer.getRequireTaskList.isResultStatus != 1 && requireTaskList.length == 0 && renderListEmpty}
                     ListFooterComponent={requireTaskListReducer.getRequireTaskListMore.isResultStatus == 1 ? renderListFooter : <View style={{ height: 15 }} />}
                     data={requireTaskList}
-                    renderItem={param => renderItem({ ...param, sceneKey, setRequireTaskInfo })} />
+                    renderItem={param => renderItem({ ...param, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder, setRequireTaskInfo })} />
             </Container>
         )
     }
@@ -140,6 +142,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     setRequireTaskInfo: param => {
         dispatch(reduxActions.requireTaskInfo.setRequireTaskInfo(param))
+    },
+    getRouteTaskListForOrderWaiting: () => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+    },
+    getRouteTaskListForOrder: req => {
+        dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder(req))
     }
 })
 

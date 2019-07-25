@@ -13,7 +13,6 @@ import * as reduxActions from '../../reduxActions'
 import * as routerDirection from '../../util/RouterDirection'
 
 const OrderInfo = props => {
-    // console.log('props', props)
     const { orderInfoReducer: { data: { order } }, sceneKey, setOrderForpickUpAddr, parent,
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } } } = props
 
@@ -135,7 +134,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     setOrderForpickUpAddr: req => {
-        // console.log('req',req)
         dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
     }
 })

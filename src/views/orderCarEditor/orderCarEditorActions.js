@@ -24,10 +24,7 @@ export const updateOrderCar = req => async (dispatch, getState) => {
         })
         if (res.success) {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.order.id}`
-            console.log('orderUrl', orderUrl)
             const orderRes = await httpRequest.get(orderUrl)
-            console.log('orderRes', orderRes)
-
 
             if (orderRes.success) {
                 dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_success, payload: {} })
@@ -54,7 +51,6 @@ export const updateOrderCar = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        console.log('err', err)
         dispatch({ type: reduxActionTypes.orderCarEditor.update_orderCar_error, payload: { errorMsg: `${err}` } })
     }
 }

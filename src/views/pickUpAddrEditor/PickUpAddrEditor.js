@@ -56,7 +56,6 @@ const PickUpAddrEditor = props => {
         getPickUpAddrList,
         sceneKey } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
-    // console.log('props', props)
     return (
         <Container>
             <Content>

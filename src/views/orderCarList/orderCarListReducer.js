@@ -136,7 +136,6 @@ export default handleActions({
 
     [reduxActionTypes.orderCarList.get_orderCarByCarId_success]: (state, action) => {
         const { payload: { orderCar } } = action
-        // console.log('orderCar', orderCar)
         return {
             ...state,
             data: {

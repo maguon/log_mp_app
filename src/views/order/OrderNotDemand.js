@@ -19,7 +19,6 @@ import orderPaymentStatusList from '../../config/order_payment_status.json'
 import * as routerDirection from '../../util/RouterDirection'
 
 const OrderNotDemand = props => {
-    // console.log('props', props)
     const {
         orderReducer:
         {

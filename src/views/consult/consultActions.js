@@ -8,19 +8,16 @@ import { Actions } from 'react-native-router-flux'
 
 export const consultPrice = req => async (dispatch, getState) => {
     try {
-        // console.log('req', req)
         const { inquiry: { user_id, id }, formValues: { totalTransPrice, totalInsurePrice, remark } } = req
         dispatch({ type: reduxActionTypes.consult.consultPrice_waiting, payload: {} })
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user } } } = getState()
         const url = `${base_host}/admin/${user.id}/user/${user_id}/inquiry/${id}/feePrice`
-        // console.log('url', url)
         const res = await httpRequest.put(url, objectExceptNull({
             totalTransPrice,
             totalInsurePrice,
             remark
         }))
-        // console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.consult.consultPrice_success, payload: {} })
             dispatch(reduxActions.home.getInquiryById({ inquiryId: id }))

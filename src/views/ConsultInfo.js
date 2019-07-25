@@ -8,7 +8,6 @@ import { Container, Content } from 'native-base'
 import globalStyles from '../style/GlobalStyles'
 
 const ConsultInfo = props => {
-    // console.log('props', props)
     const { inquiry: { total_insure_price, total_trans_price } } = props
     return (
         <Container>

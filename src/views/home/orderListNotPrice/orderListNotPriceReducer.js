@@ -221,7 +221,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotPrice.set_orderForNotPrice]: (state, action) => {
         const { payload: { order } } = action
-        console.log('order',order)
         return {
             ...state,
             data: {

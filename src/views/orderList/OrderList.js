@@ -54,7 +54,6 @@ const renderItem = props => {
     const _total_insure_price = item.total_insure_price ? item.total_insure_price : 0
     const _total_trans_price = item.total_trans_price ? item.total_trans_price : 0
 
-    // console.log('props', props)
     return (
         <TouchableOpacity onPress={() => {
             if (status == 4 || status == 8 || status == 9) {
@@ -130,8 +129,6 @@ class OrderList extends Component {
     }
 
     render() {
-        // console.log('this.props', this.props)
-
         const { sceneKey, getOrderListMore, initOrder, orderListReducer, setOrderInfo,
             getRouteTaskListForOrder, getRouteTaskListForOrderWaiting,
             getOrderCarList, getOrderCarListWaiting,

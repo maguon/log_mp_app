@@ -27,7 +27,6 @@ const SwitchBox = props => {
                 <Switch
                     style={[styles.input]}
                     onValueChange={param => {
-                        // console.log('param', param)
                         onChange(param)
                     }}
                     {...restProps} />

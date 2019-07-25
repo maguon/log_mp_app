@@ -6,7 +6,6 @@ const pageSize = 20
 
 export const getLoadTaskList = req => async (dispatch, getState) => {
     try {
-        // console.log('req', req)
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         let searchParam = {}
@@ -22,15 +21,12 @@ export const getLoadTaskList = req => async (dispatch, getState) => {
                 planDateEnd: req.planDateEnd
             }
         }
-        // console.log('searchParam', searchParam)
         const url = `${base_host}/admin/${id}/routeLoadTask${ObjectToUrl({
             start: 0,
             size: pageSize,
             ...searchParam
         })}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({
                 type: reduxActionTypes.loadTaskList.get_loadTaskList_success, payload: {
@@ -81,9 +77,7 @@ export const getLoadTaskListMore = () => async (dispatch, getState) => {
                     size: pageSize,
                     ...searchReq
                 })}`
-                // console.log('url', url)
                 const res = await httpRequest.get(url)
-                // console.log('res', res)
                 if (res.success) {
                     dispatch({
                         type: reduxActionTypes.loadTaskList.get_loadTaskListMore_success, payload: {

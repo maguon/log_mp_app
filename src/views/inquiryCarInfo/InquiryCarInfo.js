@@ -11,9 +11,7 @@ import { connect } from 'react-redux'
 import carModal from '../../config/car_modal.json'
 
 const InquiryCarInfo = props => {
-    // console.log('props', props)
     const { inquiryCar: { car_num, model_id, one_trans_price, one_insure_price, plan_total, safe_status, old_car }, inquiryCar } = props
-    // console.log('inquiryCar', inquiryCar)
     const model = new Map(carModal).get(model_id)
 
     return (
@@ -61,7 +59,6 @@ const InquiryCarInfo = props => {
 const mapStateToProps = (state, ownProps) => {
     const { inquiryCarListReducer: { data: { inquiryCarList } } } = state
     const { inquiryCarId } = ownProps
-    // console.log('ownProps',ownProps)
     return {
         inquiryCar: inquiryCarList.find(item => item.id == inquiryCarId)
     }

@@ -126,7 +126,6 @@ export default handleActions({
 
     [reduxActionTypes.orderList.set_orderForOrderList]: (state, action) => {
         const { payload: { order } } = action
-        // console.log('order',order)
         return {
             ...state,
             data: {

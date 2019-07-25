@@ -39,7 +39,7 @@ class Setting extends Component {
         const { sceneKey, getScanCountList, getScanCountListWaiting,
             initViewReducer: { data: { version: { currentVersion = '', force_update, url } } },
             loginReducer: { data: { user: { avatar_image, phone = '', user_name = '', gender } } } } = this.props
-        console.log('this.props', this.props)
+
         return (
             <Container style={globalStyles.container}>
                 <Content>

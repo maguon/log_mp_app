@@ -2,3 +2,8 @@ export const get_routeTaskListForOrder_success = 'get_routeTaskListForOrder_succ
 export const get_routeTaskListForOrder_failed = 'get_routeTaskListForOrder_failed'
 export const get_routeTaskListForOrder_error = 'get_routeTaskListForOrder_error'
 export const get_routeTaskListForOrder_waiting = 'get_routeTaskListForOrder_waiting'
+
+export const get_routeTaskListForOrderById_success = 'get_routeTaskListForOrderById_success'
+export const get_routeTaskListForOrderById_failed = 'get_routeTaskListForOrderById_failed'
+export const get_routeTaskListForOrderById_error = 'get_routeTaskListForOrderById_error'
+export const get_routeTaskListForOrderById_waiting = 'get_routeTaskListForOrderById_waiting'

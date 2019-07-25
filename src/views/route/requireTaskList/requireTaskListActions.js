@@ -19,15 +19,12 @@ export const getRequireTaskList = req => async (dispatch, getState) => {
                 serviceType: req.serviceType && req.serviceType.id ? req.serviceType.id : null
             }
         }
-        // console.log('searchReq', searchReq)
         const url = `${base_host}/admin/${id}/requireTask${ObjectToUrl({
             start: 0,
             size: pageSize,
             ...searchReq
         })}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({
                 type: reduxActionTypes.requireTaskList.get_requireTaskList_success, payload: {
@@ -40,7 +37,6 @@ export const getRequireTaskList = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.requireTaskList.get_requireTaskList_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        // console.log('err', err)
         dispatch({ type: reduxActionTypes.requireTaskList.get_requireTaskList_error, payload: { errorMsg: `${err}` } })
     }
 }
@@ -66,7 +62,6 @@ export const getRequireTaskListMore = () => async (dispatch, getState) => {
             serviceType: searchParam.serviceType && searchParam.serviceType.id ? searchParam.serviceType.id : null
         }
     }
-    // console.log('searchReq',searchReq)
     if (requireTaskListReducer.getRequireTaskListMore.isResultStatus == 1) {
         await sleep(1000)
         dispatch(getRequireTaskListMore)
@@ -79,10 +74,7 @@ export const getRequireTaskListMore = () => async (dispatch, getState) => {
                     size: pageSize,
                     ...searchReq
                 })}`
-
-                // console.log('url', url)
                 const res = await httpRequest.get(url)
-                // console.log('res', res)
                 if (res.success) {
                     dispatch({
                         type: reduxActionTypes.requireTaskList.get_requireTaskListMore_success, payload: {

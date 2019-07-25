@@ -15,7 +15,7 @@ import service_type_list from '../../config/service_type.json'
 const drawerWidth = 300
 
 const SearchOrder = props => {
-    // console.log('props', props)
+
     const { getCityListWaiting, getCityList, sceneKey, handleSubmit, dispatch, closeDrawer } = props
 
     const orderStatusList = order_status.map(item => {
@@ -24,7 +24,6 @@ const SearchOrder = props => {
             value: item[1]
         }
     })
-    // console.log('orderStatusList',orderStatusList)
 
     const orderPaymentStatusList = order_payment_status.map(item => {
         return {

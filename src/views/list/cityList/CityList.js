@@ -36,11 +36,8 @@ const renderListItem = props => {
 
 const CityList = props => {
     const { cityListReducer: { data: { cityList }, getCityList: { isResultStatus } }, onSelect } = props
-    // console.log('props', props)
-    // console.log('cityList', cityList)
 
     const renderList = cityList.map((item, i) => renderListItem({ item, i, onSelect }))
-    // console.log('renderList', renderList)
     if (isResultStatus == 1) {
         return (
             <Container style={{justifyContent:'center',alignItems:'center'}}>

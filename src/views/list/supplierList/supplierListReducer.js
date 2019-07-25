@@ -16,7 +16,6 @@ const initialState = {
 export default handleActions({
     [reduxActionTypes.supplierList.get_supplierList_success]: (state, action) => {
         const { payload: { supplierList } } = action
-        console.log('supplierList',supplierList)
         return {
             ...state,
             data: {

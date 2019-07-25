@@ -101,7 +101,7 @@ class OrderListNotInfo extends Component {
         const { orderListNotInfoReducer: { getOrderListNotInfo: { isResultStatus }, data: { orderListNotInfo, isCompleted } },
             getOrderListNotInfoMore, orderListNotInfoReducer, getOrderListNotInfo, getOrderListNotInfoWaiting, initOrder,
             getOrderCarList, getOrderCarListWaiting, sceneKey } = this.props
-        // console.log('this.props', this.props)
+
         return (
             <Container>
                 <FlatList

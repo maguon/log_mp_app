@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, StyleSheet } from 'react-native'
+import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { Container, Icon, Spinner } from 'native-base'
 import { connect } from 'react-redux'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import car_modal_list from '../../config/car_modal.json'
+import * as reduxActions from '../../reduxActions'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const renderItem = props => {
-    const { item } = props
+    const { item, delloadTaskDetail } = props
     const car_modal = new Map(car_modal_list).get(item.model_type)
-
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
+    
     return (
         <View onPress={() => { }}
             style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom, { marginTop: 10, backgroundColor: '#fff' }]}>
@@ -29,6 +31,13 @@ const renderItem = props => {
                         {item.safe_status == 1 && <View style={{ backgroundColor: '#47a11d', width: 24, height: 24, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
                             <Text style={[globalStyles.midText, { color: '#fff' }]}>保</Text>
                         </View>}
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={() => {
+                            delloadTaskDetail({ loadTaskId: item.dp_load_task_id, loadTaskDetailId: item.load_task_detail_id })
+                        }}>
+                            <Icon name='ios-close' style={styles.fontColor} />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBody]}>
@@ -86,7 +95,10 @@ const renderListHeader = props => {
 }
 
 const RouteCarList = props => {
-    const { routeCarListReducer: { data: { routeCarList }, getRouteCarList: { isResultStatus } }, routeCarListReducer } = props
+    const { routeCarListReducer: { data: { routeCarList }, getRouteCarList: { isResultStatus } },
+        routeCarListReducer, delloadTaskDetail } = props
+
+
     const totalSupplierInsurePrice = routeCarList.reduce((prev, curr) => {
         const currSupplierInsurePrice = curr.supplier_insure_price ? curr.supplier_insure_price : 0
         return prev + currSupplierInsurePrice
@@ -98,7 +110,6 @@ const RouteCarList = props => {
         return prev + currSupplierTransPrice
     }, 0)
 
-    console.log('isResultStatus', isResultStatus)
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -126,8 +137,10 @@ const RouteCarList = props => {
                             return <View />
                         }
                     }}
-                    renderItem={renderItem}
+                    renderItem={param => renderItem({ ...param, delloadTaskDetail })}
                 />
+                <ModalWaiting visible={routeCarListReducer.delloadTaskDetail.isResultStatus == 1} title={'删除中...'} />
+                <ModalWaiting visible={routeCarListReducer.addLoadTaskDetail.isResultStatus == 1} title={'添加中...'} />
             </Container>
         )
     }
@@ -141,7 +154,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(RouteCarList)
+const mapDispatchToProps = (dispatch) => ({
+    delloadTaskDetail: req => {
+        dispatch(reduxActions.routeCarList.delloadTaskDetail(req))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RouteCarList)
 
 
 const styles = StyleSheet.create({

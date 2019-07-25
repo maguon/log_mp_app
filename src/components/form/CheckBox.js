@@ -14,7 +14,6 @@ const margin = 15
 
 const CheckBox = props => {
     const { input: { onChange, value, },label = ''} = props
-    // console.log('props',props)
     return (
         <View style={[styles.body, styles.inputContainer]} >
             <TouchableOpacity onPress={()=>{

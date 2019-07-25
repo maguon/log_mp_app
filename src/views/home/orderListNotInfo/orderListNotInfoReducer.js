@@ -325,7 +325,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotInfo.set_orderForNotInfo]: (state, action) => {
         const { payload: { order } } = action
-        // console.log('order',order)
         return {
             ...state,
             data: {

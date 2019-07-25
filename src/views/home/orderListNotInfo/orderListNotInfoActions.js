@@ -75,10 +75,7 @@ export const getOrderNotInfoById = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
-        console.log('url',url)
         const res = await httpRequest.get(url)
-        console.log('res',res)
-
         if (res.success) {
             dispatch({ type: reduxActionTypes.orderListNotInfo.get_orderNotInfoById_success, payload: { order: res.result[0] } })
 
@@ -98,9 +95,7 @@ export const changeOrderStatus = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getstate()
         const url = `${base_host}/admin/${id}/order/${req.orderId}/status/0`
-        console.log('url', url)
         const res = await httpRequest.put(url, {})
-        console.log('res', res)
         if (res.success) {
 
         } else {

@@ -18,8 +18,7 @@ class InitView extends Component {
 
     render() {
         const { initViewReducer: { initApp: { step } } } = this.props
-        console.log('step', step)
-        console.log('this.props.initViewReducer', this.props.initViewReducer)
+
         return (
             <View>
                 <Text>InitView</Text>

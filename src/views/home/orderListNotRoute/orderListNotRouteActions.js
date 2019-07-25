@@ -14,11 +14,9 @@ export const getOrderListNotRoute = req => async (dispatch, getState) => {
             start: 0,
             size: pageSize
         })}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
-            // console.log('res.result',res.result)
+
             dispatch({
                 type: reduxActionTypes.orderListNotRoute.get_orderListNotRoute_success, payload: {
                     orderListNotRoute: res.result,
@@ -29,7 +27,6 @@ export const getOrderListNotRoute = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.orderListNotRoute.get_orderListNotRoute_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        // console.log('err',err)
         dispatch({ type: reduxActionTypes.orderListNotRoute.get_orderListNotRoute_error, payload: { errorMsg: `${err}` } })
     }
 }
@@ -55,9 +52,7 @@ export const getOrderListNotRouteMore = () => async (dispatch, getState) => {
                     start: orderListNotRoute.length,
                     size: pageSize
                 })}`
-                // console.log('url', url)
                 const res = await httpRequest.get(url)
-                // console.log('res', res)
                 if (res.success) {
                     dispatch({
                         type: reduxActionTypes.orderListNotRoute.get_orderListNotRouteMore_success, payload: {
@@ -69,7 +64,6 @@ export const getOrderListNotRouteMore = () => async (dispatch, getState) => {
                     dispatch({ type: reduxActionTypes.orderListNotRoute.get_orderListNotRouteMore_failed, payload: { failedMsg: `${res.msg}` } })
                 }
             } catch (err) {
-                // console.log('err',err)
                 dispatch({ type: reduxActionTypes.orderListNotRoute.get_orderListNotRouteMore_error, payload: { errorMsg: `${err}` } })
             }
         }

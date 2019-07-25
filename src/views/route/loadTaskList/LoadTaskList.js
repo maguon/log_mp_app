@@ -41,7 +41,7 @@ const renderListFooter = props => {
 const renderItem = props => {
     const { item: { id, created_on, plan_date, route_start, load_task_status, route_end, car_count, require_status, supplier_short, trans_type,
         supplier_trans_price, supplier_insure_price }, item, sceneKey, setLoadTaskInfo, parent } = props
-     console.log('parent', parent)
+
 
     let _supplier_insure_price = supplier_insure_price ? supplier_insure_price : 0
     let _supplier_trans_price = supplier_trans_price ? supplier_trans_price : 0
@@ -90,7 +90,7 @@ const renderItem = props => {
 }
 
 const LoadTaskList = props => {
-    // console.log('props', props)
+
     const { loadTaskListReducer: {
         data: { loadTaskList, isCompleted },
         getLoadTaskList: { isResultStatus } },
@@ -101,9 +101,7 @@ const LoadTaskList = props => {
         setLoadTaskInfo,
         sceneKey,
         parent } = props
-     console.log('parent', parent)
 
-    // console.log('loadTaskList', loadTaskList)
     if (isResultStatus == 1) {
         return (
             <Container>

@@ -10,7 +10,6 @@ const RecAddrEditor = props => {
     const { addrEditorReducer: {
         saveRecAddr: { isResultStatus }
     } } = props
-    // console.log('props', props)
     return (
         <Container>
             <Content>

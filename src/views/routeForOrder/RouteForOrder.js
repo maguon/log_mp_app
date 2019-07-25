@@ -6,7 +6,6 @@ import RouteStart from './RouteStart'
 import RouteTaskListForOrder from '../routeTaskListForOrder/RouteTaskListForOrder'
 
 const RouteForOrder = props => {
-    console.log('props', props)
     const { routeForOrderReducer: { data: { requireTaskInfo: { status } } } } = props
     if (status == 0) {
         return <RouteStart {...props} />

@@ -20,8 +20,6 @@ const CarListItem = props => {
     const { item: { vin, act_insure_price, act_trans_price, id, valuation, model_type, safe_status, old_car },
         item, i, getTransAndInsurePrice, delOrderCar, sceneKey, order } = props
     const cartype = new Map(carModal).get(model_type)
-    // console.log('props', props)
-    // console.log('order', order)
     return (
         <TouchableOpacity
             key={i}
@@ -110,7 +108,6 @@ const OrderCarList = props => {
         orderReducer: { data: { order: { total_insure_price, car_num, total_trans_price, created_type, status },
             order } },
         orderCarListReducer: { data: { orderCarList }, getOrderCarList }, orderCarListReducer } = props
-    console.log('props', props)
     if (getOrderCarList.isResultStatus == 1) {
         return (
             <Container style={{ justifyContent: 'center', alignItems: 'center' }}>

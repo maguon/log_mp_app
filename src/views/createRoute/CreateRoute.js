@@ -65,7 +65,6 @@ const CreateRoute = props => {
                         getSupplierListWaiting()
                         routerDirection.supplierList(parent)({
                             onSelect: (param) => {
-                                console.log('param', param)
                                 const { id, supplier_short } = param
                                 onChange({ id, value: supplier_short, item: param })
                                 Actions.popTo(sceneKey)
@@ -110,6 +109,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(null, mapDispatchToProps)(reduxForm({
     form: 'createRouteForm',
     onSubmit: (values, dispatch, props) => {
-        dispatch(reduxActions.createRoute.createRoute({ values }))
+        const { requireTaskInfo } = props
+        dispatch(reduxActions.createRoute.createRoute({ values, orderId: requireTaskInfo.order_id, requireId: requireTaskInfo.id }))
     }
 })(CreateRoute))

@@ -192,8 +192,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotDemand.modify_orderRemarkForNotDemand]: (state, action) => {
         const { payload: { orderId, remark } } = action
-        // console.log('action',action)
-
         return {
             ...state,
             data: {
@@ -215,7 +213,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotDemand.set_orderForNotDemand]: (state, action) => {
         const { payload: { order } } = action
-        // console.log('order',order)
         return {
             ...state,
             data: {

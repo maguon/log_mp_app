@@ -28,7 +28,6 @@ const initialState = {
 export default handleActions({
     [reduxActionTypes.order.modify_orderRemark_success]: (state, action) => {
         const { payload: { remark } } = action
-        // console.log('remark',remark)
         return {
             ...state,
             data: {
@@ -79,7 +78,6 @@ export default handleActions({
 
     [reduxActionTypes.order.get_requireTaskForOrder_success]: (state, action) => {
         const { payload: { requireTaskInfo } } = action
-        // console.log('remark',remark)
         return {
             ...state,
             data: {

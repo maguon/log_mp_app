@@ -98,7 +98,6 @@ export default handleActions({
 
     [reduxActionTypes.login.set_userInfo]: (state, action) => {
         const { payload: { user } } = action
-        // console.log('action',action)
         return {
             ...initialState,
             data: {

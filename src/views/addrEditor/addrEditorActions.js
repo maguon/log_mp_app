@@ -19,7 +19,6 @@ export const saveSendAddr = req => async (dispatch, getState) => {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
             const orderRes = await httpRequest.get(orderUrl)
             if (orderRes.success) {
-                // console.log('req', req)
                 if (req.sceneName == 'notInfo') {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
                     dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
@@ -59,7 +58,6 @@ export const saveRecAddr = req => async (dispatch, getState) => {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
             const orderRes = await httpRequest.get(orderUrl)
             if (orderRes.success) {
-                // console.log('req', req)
                 if (req.sceneName == 'notInfo') {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
                     dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })

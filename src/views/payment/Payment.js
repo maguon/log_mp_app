@@ -12,7 +12,6 @@ import moment from 'moment'
 import orderPaymentStatusList from '../../config/order_payment_status.json'
 
 const RenderPaymentList = props => {
-    // console.log('props', props)
     const paymentList = props.paymentList.map((item, index) => {
         if (item.payment_type == 1) {
             return renderWeChatPayment({ item, index })
@@ -31,7 +30,6 @@ const RenderPaymentList = props => {
 
 const renderBankCardPayment = props => {
     const { item, index } = props
-    // console.log('item', item)
     return (
         <View key={index} style={[styles.listItemPadding, styles.listItemBorderBottom, { backgroundColor: '#fff' }]}>
             <View style={[styles.listItemPadding, styles.listItemBody]}>
@@ -82,7 +80,6 @@ const renderOtherPayment = props => {
 
 
 const Payment = props => {
-    // console.log('props', props)
     const { paymentReucer: { data: { paymentList } }, order: { total_insure_price, total_trans_price, real_payment_price, payment_status } } = props
     const paymentCount = paymentList.reduce((prev, curr) => {
         if (curr.type == 0 && curr.status == 1) {

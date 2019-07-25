@@ -22,7 +22,6 @@ const departureTimeRequiredValidator = required('发运日期必选')
 const CreateOrder = props => {
     const { getCityList, getCityListWaiting, sceneKey, getRouteCityListWaiting, getRouteCityList, formValues,
         createOrderReducer, parent } = props
-    console.log('props', props)
     return (
         <Container>
             <Content>

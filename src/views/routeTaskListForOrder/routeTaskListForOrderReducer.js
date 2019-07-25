@@ -2,11 +2,16 @@ import { handleActions } from 'redux-actions'
 import * as reduxActionTypes from '../../reduxActionTypes'
 
 const initialState = {
-    data:{
-        routeTaskListForOrder:[]
+    data: {
+        routeTaskListForOrder: []
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
-    getRouteTaskListForOrder:{
+    getRouteTaskListForOrder: {
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''
+    },
+    getRouteTaskListForOrderById: {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''
@@ -18,7 +23,7 @@ export default handleActions({
         const { payload: { routeTaskListForOrder } } = action
         return {
             ...state,
-            data:{
+            data: {
                 routeTaskListForOrder
             },
             getRouteTaskListForOrder: {
@@ -58,4 +63,26 @@ export default handleActions({
             }
         }
     },
+
+
+    [reduxActionTypes.routeTaskListForOrder.get_routeTaskListForOrderById_success]: (state, action) => {
+        const { payload: { loadTaskInfo } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                routeTaskListForOrder: state.data.routeTaskListForOrder.map(item => {
+                    if (item.id == loadTaskInfo.id) {
+                        return loadTaskInfo
+                    } else {
+                        return item
+                    }
+                })
+            },
+            getRouteTaskListForOrderById: {
+                ...initialState.getRouteTaskListForOrderById,
+                isResultStatus: 2
+            }
+        }
+    }
 }, initialState)

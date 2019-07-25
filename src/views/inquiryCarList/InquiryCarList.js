@@ -59,7 +59,6 @@ const CarList = props => {
 }
 
 const InquiryCarList = props => {
-    // console.log('props', props)
     const { inquiryCarListReducer: { data: { inquiryCarList }, getInquiryCarList: { isResultStatus } }, inquiry: { ora_trans_price, service_type, ora_insure_price, car_num }
         , sceneKey } = props
 

@@ -23,7 +23,6 @@ const InquiryInfo = props => {
         service_type, ora_insure_price, ora_trans_price, user_name, cancel_time,
         inquiry_time, total_insure_price, total_trans_price },
         inquiry, sceneKey, getInquiryCarListWaiting, getInquiryCarList, cancalInquiry, produceOrder } = props
-    // console.log('props', props)
     return (
         <Container>
             <Content>
@@ -202,7 +201,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
     const { inquiryListReducer: { data: { inquiryList } } } = state
     const { inquiryId } = ownProps
-    // console.log('ownProps',ownProps)
     return {
         inquiry: inquiryList.find(item => item.id == inquiryId)
     }

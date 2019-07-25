@@ -24,7 +24,6 @@ const Select = props => {
         ValueComponent = TextValue,
         onPress,
         meta: { error, touched } } = props
-    // console.log('value', value)
     return (
         <TouchableOpacity style={styles.body} onPress={() => onPress({ onChange })}>
             <View style={[styles.item, itemStyle]}>

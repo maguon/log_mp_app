@@ -194,8 +194,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotRoute.modify_orderRemarkForNotRoute]: (state, action) => {
         const { payload: { orderId, remark } } = action
-        console.log('action',action)
-
         return {
             ...state,
             data: {
@@ -217,7 +215,6 @@ export default handleActions({
 
     [reduxActionTypes.orderListNotRoute.set_orderForNotRoute]: (state, action) => {
         const { payload: { order } } = action
-        // console.log('order',order)
         return {
             ...state,
             data: {

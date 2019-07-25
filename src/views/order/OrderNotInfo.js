@@ -16,7 +16,6 @@ import * as routerDirection from '../../util/RouterDirection'
 
 
 const OrderNotInfo = props => {
-    // console.log('props', props)
     const {
         orderReducer:
         {

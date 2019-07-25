@@ -9,9 +9,7 @@ export const getOrderCarList = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/orderItem?orderId=${req.orderId}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.orderCarList.get_orderCarList_success, payload: { orderCarList: res.result } })
         } else {
@@ -31,9 +29,7 @@ export const getOrderCarById = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/orderItem?orderId=${req.orderId}&orderItemId=${req.orderItemId}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.orderCarList.get_orderCarById_success, payload: { orderCar: res.result[0] } })
         } else {
@@ -49,16 +45,13 @@ export const getOrderCarByCarId = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/orderItem?orderId=${req.orderId}&orderItemId=${req.orderItemId}`
-        console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.orderCarList.get_orderCarByCarId_success, payload: { orderCar: res.result[0] } })
         } else {
             dispatch({ type: reduxActionTypes.orderCarList.get_orderCarByCarId_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        console.log('err', err)
         dispatch({ type: reduxActionTypes.orderCarList.get_orderCarByCarId_error, payload: { errorMsg: `${err}` } })
     }
 }

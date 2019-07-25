@@ -16,11 +16,9 @@ export const savePickUpAddr = req => async (dispatch, getState) => {
             recvAddressPointId: req.values.recvAddressPoint.id,
             recvAddressPoint: req.values.recvAddressPoint.value
         }))
-        // console.log('res', res)
         if (res.success) {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${order.id}`
             const orderRes = await httpRequest.get(orderUrl)
-            // console.log('orderRes', orderRes)
             if (orderRes.success) {
                 dispatch({ type: reduxActionTypes.pickUpAddrEditor.save_pickUpAddr_success, payload: { order: orderRes.result[0] } })
                 dispatch({ type: reduxActionTypes.orderInfo.set_orderInfo, payload: { order: orderRes.result[0] } })
@@ -33,12 +31,10 @@ export const savePickUpAddr = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.pickUpAddrEditor.save_pickUpAddr_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        // console.log('err', err)
         dispatch({ type: reduxActionTypes.pickUpAddrEditor.save_pickUpAddr_error, payload: { errorMsg: `${err}` } })
     }
 }
 
 export const setOrderForpickUpAddr = req => (dispatch) => {
-    // console.log('req',req)
     dispatch({ type: reduxActionTypes.pickUpAddrEditor.set_orderForPickUpAddr, payload: { order: req.order } })
 }

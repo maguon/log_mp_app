@@ -18,7 +18,6 @@ import * as routerDirection from '../../util/RouterDirection'
 const LoadTaskInfo = props => {
     const { loadTaskInfoReducer: { data: { loadTaskInfo } }, loadTaskInfoReducer, changeLoadTaskStatus,
         getRouteCarList, getRouteCarListWaiting, parent, sceneKey } = props
-    console.log('loadTaskInfo', loadTaskInfo)
 
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
     let _supplier_trans_price = loadTaskInfo.supplier_trans_price ? loadTaskInfo.supplier_trans_price : 0
@@ -68,7 +67,7 @@ const LoadTaskInfo = props => {
                     style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                     onPress={() => {
                         getRouteCarListWaiting()
-                        routerDirection.routeCarList(parent)({ preSceneKey: sceneKey })
+                        routerDirection.routeCarList(parent)({ preSceneKey: sceneKey,loadTaskInfo })
                         InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: loadTaskInfo.id, orderId: loadTaskInfo.order_id }))
                     }}
                 >

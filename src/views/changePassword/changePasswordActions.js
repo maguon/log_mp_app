@@ -6,7 +6,6 @@ import { sleep, ObjectToUrl } from '../../util/util'
 
 export const changePassword = param => async (dispatch, getState) => {
     try {
-        // console.log('param', param)
         const { oldPassword, newPassword } = param
         dispatch({ type: reduxActionTypes.changePassword.change_password_waiting, payload: {} })
         const { communicationSettingReducer: { data: { base_host } },
@@ -16,7 +15,6 @@ export const changePassword = param => async (dispatch, getState) => {
             originPassword: oldPassword,
             newPassword
         })
-        // console.log('res', res)
         if (res.success) {
             ToastAndroid.show('修改成功！', 10)
             dispatch({ type: reduxActionTypes.changePassword.change_password_success, payload: {} })
@@ -26,7 +24,6 @@ export const changePassword = param => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.changePassword.change_password_failed, payload: { failedMsg: res.msg } })
         }
     } catch (err) {
-        // console.log('err', err)
         dispatch({ type: reduxActionTypes.changePassword.change_password_error, payload: { errorMsg: `${err}` } })
     }
 }

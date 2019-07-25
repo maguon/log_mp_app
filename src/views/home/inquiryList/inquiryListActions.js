@@ -8,7 +8,7 @@ export const getInquiryList = req => async (dispatch, getState) => {
     try {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
-        // console.log('req', req)
+
         let searchReq = {}
         if (req) {
             searchReq = {
@@ -21,15 +21,12 @@ export const getInquiryList = req => async (dispatch, getState) => {
                 inquiryId: req.inquiryId
             }
         }
-        // console.log('searchParam', searchParam)
         const url = `${base_host}/admin/${id}/inquiry${ObjectToUrl({
             start: 0,
             size: pageSize,
             ...searchReq
         })}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({
                 type: reduxActionTypes.inquiryList.get_inquiryList_success, payload: {
@@ -42,7 +39,6 @@ export const getInquiryList = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.inquiryList.get_inquiryList_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
-        // console.log('err', err)
         dispatch({ type: reduxActionTypes.inquiryList.get_inquiryList_error, payload: { errorMsg: `${err}` } })
 
     }
@@ -82,9 +78,7 @@ export const getInquiryListMore = () => async (dispatch, getState) => {
                     size: pageSize,
                     ...searchReq
                 })}`
-                // console.log('url', url)
                 const res = await httpRequest.get(url)
-                // console.log('res', res)
                 if (res.success) {
                     dispatch({
                         type: reduxActionTypes.inquiryList.get_inquiryListMore_success, payload: {
@@ -110,9 +104,7 @@ export const getInquiryById = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
         loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/inquiry?inquiryId=${req.inquiryId}`
-        // console.log('url', url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.inquiryList.get_inquiryById_success, payload: { inquiryInfo: res.result[0] } })
 

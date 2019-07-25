@@ -18,7 +18,6 @@ import serviceTypeList from '../../config/service_type.json'
 import * as routerDirection from '../../util/RouterDirection'
 
 const OrderNotPrice = props => {
-    // console.log('props', props)
     const {
         orderReducer:
         {

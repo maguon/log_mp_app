@@ -110,7 +110,6 @@ class InquiryList extends Component {
         const { inquiryListReducer: { data: { inquiryList, isCompleted, searchParam },
             getInquiryList: { isResultStatus } }, inquiryListReducer,
             getInquiryListWaiting, getInquiryList,  getInquiryListMore, sceneKey } = this.props
-        // console.log('this.props',this.props)
         return (
                 <Container>
                     <FlatList

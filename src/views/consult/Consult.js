@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     const { inquiry: { total_insure_price, total_trans_price, remark } } = ownProps
-    // console.log('ownProps',ownProps)
     return {
         consultReducer: state.consultReducer,
         initialValues: {

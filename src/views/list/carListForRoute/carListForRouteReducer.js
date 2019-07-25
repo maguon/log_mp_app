@@ -14,7 +14,7 @@ const initialState = {
 }
 
 export default handleActions({
-    [reduxActionTypes.carListForRoute.get_carListForRoute_waiting]: (state, action) => {
+    [reduxActionTypes.carListForRoute.get_carListForRoute_success]: (state, action) => {
         const { payload: { carList } } = action
         return {
             ...state,

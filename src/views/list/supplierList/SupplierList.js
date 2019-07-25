@@ -28,7 +28,7 @@ const renderListItem = props => {
 
 const SupplierList = props => {
     const { onSelect, supplierListReducer: { data: { supplierList }, getSupplierList } } = props
-    console.log('getSupplierList', getSupplierList)
+
     if (getSupplierList.isResultStatus == 1) {
         return (
             <Container>
