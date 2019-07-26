@@ -7,3 +7,6 @@ export const get_routeTaskListForOrderById_success = 'get_routeTaskListForOrderB
 export const get_routeTaskListForOrderById_failed = 'get_routeTaskListForOrderById_failed'
 export const get_routeTaskListForOrderById_error = 'get_routeTaskListForOrderById_error'
 export const get_routeTaskListForOrderById_waiting = 'get_routeTaskListForOrderById_waiting'
+
+export const add_routeTaskInfo='add_routeTaskInfo'
+export const del_routeTaskInfo='del_routeTaskInfo'

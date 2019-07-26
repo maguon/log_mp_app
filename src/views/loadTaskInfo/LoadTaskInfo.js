@@ -17,11 +17,12 @@ import * as routerDirection from '../../util/RouterDirection'
 
 const LoadTaskInfo = props => {
     const { loadTaskInfoReducer: { data: { loadTaskInfo } }, loadTaskInfoReducer, changeLoadTaskStatus,
-        getRouteCarList, getRouteCarListWaiting, parent, sceneKey } = props
+        getRouteCarList, getRouteCarListWaiting, parent, sceneKey, cancelLoadTaskInfo } = props
 
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
     let _supplier_trans_price = loadTaskInfo.supplier_trans_price ? loadTaskInfo.supplier_trans_price : 0
 
+    console.log('loadTaskInfo', loadTaskInfo)
     return (
         <Container>
             <Content>
@@ -57,7 +58,6 @@ const LoadTaskInfo = props => {
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>运输方式</Text>
                     {loadTaskInfo.trans_type == 1 && <Text style={[globalStyles.midText, styles.listItemPadding]}>陆运</Text>}
                     {loadTaskInfo.trans_type == 2 && <Text style={[globalStyles.midText, styles.listItemPadding]}>海运</Text>}
-
                 </View>
                 <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>计划发运日期</Text>
@@ -67,7 +67,7 @@ const LoadTaskInfo = props => {
                     style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                     onPress={() => {
                         getRouteCarListWaiting()
-                        routerDirection.routeCarList(parent)({ preSceneKey: sceneKey,loadTaskInfo })
+                        routerDirection.routeCarList(parent)({ preSceneKey: sceneKey, loadTaskInfo })
                         InteractionManager.runAfterInteractions(() => getRouteCarList({ loadTaskId: loadTaskInfo.id, orderId: loadTaskInfo.order_id }))
                     }}
                 >
@@ -92,8 +92,17 @@ const LoadTaskInfo = props => {
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </View>
+                <View>
+                    <Button full style={{ margin: 15, backgroundColor: '#fff', borderColor: '#bd417c', borderWidth: 0.5 }}
+                        onPress={() => {
+                            console.log('loadTaskId', loadTaskInfo.id)
+                            cancelLoadTaskInfo({ loadTaskId: loadTaskInfo.id })
+                        }}>
+                        <Text>取消路线</Text>
+                    </Button>
+                </View>
                 <ModalWaiting visible={loadTaskInfoReducer.changeLoadTaskInfoStatus.isResultStatus == 1} title={'状态变更中...'} />
-
+                <ModalWaiting visible={loadTaskInfoReducer.changeLoadTaskInfoStatus.isResultStatus == 1} title={'路线取消中...'} />
             </Content>
         </Container>
     )
@@ -115,6 +124,9 @@ const mapDispatchToProps = (dispatch) => ({
     getRouteCarListWaiting: () => {
         dispatch(reduxActions.routeCarList.getRouteCarListWaiting())
     },
+    cancelLoadTaskInfo: req => {
+        dispatch(reduxActions.loadTaskInfo.cancelLoadTaskInfo(req))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadTaskInfo)

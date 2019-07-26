@@ -1,9 +1,10 @@
 import httpRequest from '../../util/HttpRequest'
 import * as reduxActionTypes from '../../reduxActionTypes'
+import { Actions } from 'react-native-router-flux'
 
 export const changeLoadTaskStatus = req => async (dispatch, getState) => {
     try {
-        dispatch({ type: reduxActionTypes.loadTaskInfo.change_loadTaskInfoStatus_waiting})
+        dispatch({ type: reduxActionTypes.loadTaskInfo.change_loadTaskInfoStatus_waiting })
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/loadTask/${req.loadTaskId}/status/${req.status}`
@@ -39,6 +40,29 @@ export const syncLoadTaskInfo = req => async (dispatch, getState) => {
 
 export const setLoadTaskInfo = param => (dispatch) => {
     dispatch({ type: reduxActionTypes.loadTaskInfo.set_loadTaskInfo, payload: { loadTaskInfo: param } })
+}
+
+
+export const cancelLoadTaskInfo = req => async (dispatch, getState) => {
+    try {
+        dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_waiting })
+        const { communicationSettingReducer: { data: { base_host } },
+            loginReducer: { data: { user: { id } } } } = getState()
+        const url = `${base_host}/admin/${id}/loadTask/${req.loadTaskId}`
+        console.log('url', url)
+        const res = await httpRequest.del(url)
+        console.log('res', res)
+        if (res.success) {
+            dispatch({ type: reduxActionTypes.routeTaskListForOrder.del_routeTaskInfo, payload: { loadTaskId } })
+            dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_success })
+            Actions.pop()
+        } else {
+            dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_failed, payload: { failedMsg: `${err}` } })
+        }
+    } catch (err) {
+        console.log('err', err)
+        dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_error, payload: { errorMsg: `${err}` } })
+    }
 }
 
 

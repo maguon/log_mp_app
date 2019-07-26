@@ -84,5 +84,27 @@ export default handleActions({
                 isResultStatus: 2
             }
         }
+    },
+
+    [reduxActionTypes.routeTaskListForOrder.add_routeTaskInfo]: (state, action) => {
+        const { payload: { loadTaskInfo } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                routeTaskListForOrder: [...state.data.routeTaskListForOrder, loadTaskInfo]
+            }
+        }
+    },
+
+    [reduxActionTypes.routeTaskListForOrder.del_routeTaskInfo]: (state, action) => {
+        const { payload: { loadTaskId } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                routeTaskListForOrder: state.data.routeTaskListForOrder.filter(item => item.id != loadTaskId)
+            }
+        }
     }
 }, initialState)

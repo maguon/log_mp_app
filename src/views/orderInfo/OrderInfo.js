@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, InteractionManager  } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, InteractionManager } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Content, Icon,Spinner } from 'native-base'
+import { Container, Content, Icon, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
@@ -13,9 +13,9 @@ import * as reduxActions from '../../reduxActions'
 import * as routerDirection from '../../util/RouterDirection'
 
 const OrderInfo = props => {
-    const { orderInfoReducer: { data: { order } }, sceneKey, setOrderForpickUpAddr, parent,
+    const { orderInfoReducer: { data: { order, requireTaskInfo } }, sceneKey, setOrderForpickUpAddr, parent,
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } } } = props
-
+    // console.log('props', props)
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
     const serviceType = new Map(service_type_list).get(order.service_type)
@@ -103,7 +103,7 @@ const OrderInfo = props => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, order })
+                            routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, order, requireTaskInfo })
                         }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>

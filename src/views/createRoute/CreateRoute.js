@@ -7,9 +7,11 @@ import * as reduxActions from '../../reduxActions'
 import { connect } from 'react-redux'
 import * as routerDirection from '../../util/RouterDirection'
 import { Actions } from 'react-native-router-flux'
+import ModalWaiting from '../../components/ModalWaiting'
 
 const CreateRoute = props => {
-    const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey } = props
+    const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey,
+        createRouteReducer: { createRoute: { isResultStatus } } } = props
     return (
         <Container>
             <Content>
@@ -86,8 +88,15 @@ const CreateRoute = props => {
                     component={DatePicker}
                 />
             </Content>
+            <ModalWaiting visible={isResultStatus == 1} title={'提交中...'} />
         </Container>
     )
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        createRouteReducer: state.createRouteReducer
+    }
 }
 
 
@@ -106,7 +115,7 @@ const mapDispatchToProps = (dispatch) => ({
     }
 })
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createRouteForm',
     onSubmit: (values, dispatch, props) => {
         const { requireTaskInfo } = props

@@ -15,6 +15,11 @@ const initialState = {
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''  
+    },
+    cancelLoadTaskInfo:{
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''  
     }
 }
 
@@ -122,6 +127,52 @@ export default handleActions({
             ...state,
             syncLoadTaskInfo: {
                 ...state.syncLoadTaskInfo,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+
+
+
+    [reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_success]: (state, action) => {
+        return {
+            ...state,
+            cancelLoadTaskInfo: {
+                ...state.cancelLoadTaskInfo,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            cancelLoadTaskInfo: {
+                ...state.cancelLoadTaskInfo,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_waiting]: (state, action) => {
+        return {
+            ...state,
+            cancelLoadTaskInfo: {
+                ...state.cancelLoadTaskInfo,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            cancelLoadTaskInfo: {
+                ...state.cancelLoadTaskInfo,
                 isResultStatus: 3,
                 errorMsg
             }
