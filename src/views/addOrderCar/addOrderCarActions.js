@@ -23,17 +23,31 @@ export const addOrderCar = req => async (dispatch, getState) => {
             serviceType: req.order.service_type
         })
         if (res.success) {
-            dispatch({ type: reduxActionTypes.addOrderCar.add_orderCar_success, payload: {} })
-            dispatch(reduxActions.orderListNotInfo.getOrderNotInfoById({ orderId: req.order.id }))
-            dispatch(reduxActions.orderCarList.getOrderCarByCarIdAddList({
-                orderId: req.order.id,
-                orderItemId: res.result[0].orderItemId
-            }))
-            ToastAndroid.show('创建成功！', 10)
+
+            const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.order.id}`
+            console.log('orderUrl', orderUrl)
+            const orderRes = await httpRequest.get(orderUrl)
+            console.log('orderRes', orderRes)
+            if (orderRes.success) {
+                dispatch({ type: reduxActionTypes.addOrderCar.add_orderCar_success, payload: {} })
+                dispatch({ type: reduxActionTypes.orderListNotInfo.get_orderNotInfoById_success, payload: { order: orderRes.result[0] } })
+                dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
+                dispatch(reduxActions.orderCarList.getOrderCarByCarIdAddList({
+                    orderId: req.order.id,
+                    orderItemId: res.result[0].orderItemId
+                }))
+
+                ToastAndroid.show('创建成功！', 10)
+            } else {
+                dispatch({ type: reduxActionTypes.addOrderCar.add_orderCar_failed, payload: { failedMsg: `${orderRes.msg}` } })
+            }
+
         } else {
             dispatch({ type: reduxActionTypes.addOrderCar.add_orderCar_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
+        console.log('err', err)
         dispatch({ type: reduxActionTypes.addOrderCar.add_orderCar_error, payload: { errorMsg: `${err}` } })
     }
 }

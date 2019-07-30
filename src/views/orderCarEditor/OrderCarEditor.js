@@ -23,7 +23,7 @@ const OrderCarEditor = props => {
     const actTransPrice = formValues && formValues.actTransPrice && !isNaN(parseFloat(formValues.actTransPrice)) ? parseFloat(formValues.actTransPrice) : 0.00
     const actInsurePrice = formValues && formValues.actInsurePrice && !isNaN(parseFloat(formValues.actInsurePrice)) ? parseFloat(formValues.actInsurePrice) : 0.00
     const actPrice = `${moneyFormat(actTransPrice + actInsurePrice)}`
-    
+
     return (
         <Container>
             <Content>

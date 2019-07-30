@@ -29,6 +29,7 @@ const CreateOrder = props => {
                     name='startCity'
                     label='始发城市'
                     component={Select}
+                    isRequired={true}
                     validate={[startCityRequiredValidator]}
                     onPress={({ onChange }) => {
                         if (formValues && formValues.endCity) {
@@ -61,6 +62,7 @@ const CreateOrder = props => {
                     name='endCity'
                     label='目的城市'
                     component={Select}
+                    isRequired={true}
                     validate={[endCityRequiredValidator]}
                     onPress={({ onChange }) => {
                         if (formValues && formValues.startCity) {
@@ -92,6 +94,7 @@ const CreateOrder = props => {
                 <Field
                     validate={[serviceTypeRequiredValidator]}
                     label='服务方式'
+                    isRequired={true}
                     name='serviceType'
                     listTitle='服务方式'
                     itemList={[{ id: '1', value: '上门提货' }, { id: '2', value: '当地自提' }]}
@@ -99,6 +102,7 @@ const CreateOrder = props => {
                 <Field
                     name='departureTime'
                     label='发运日期'
+                    isRequired={true}
                     validate={[departureTimeRequiredValidator]}
                     component={DatePicker} />
             </Content>

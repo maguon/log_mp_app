@@ -8,13 +8,17 @@ export const changeLoadTaskStatus = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/loadTask/${req.loadTaskId}/status/${req.status}`
+        console.log('url',url)
         const res = await httpRequest.put(url, {})
         if (res.success) {
             const loadTaskInfoUrl = `${base_host}/admin/${id}/routeLoadTask?loadTaskId=${req.loadTaskId}`
             const loadTaskInfoRes = await httpRequest.get(loadTaskInfoUrl)
+            console.log('loadTaskInfoRes',loadTaskInfoRes)
             if (loadTaskInfoRes.success) {
+                
                 dispatch({ type: reduxActionTypes.loadTaskInfo.change_loadTaskInfoStatus_success, payload: { loadTaskInfo: loadTaskInfoRes.result[0] } })
                 dispatch({ type: reduxActionTypes.loadTaskList.get_loadTaskById_success, payload: { loadTaskInfo: loadTaskInfoRes.result[0] } })
+                dispatch({ type: reduxActionTypes.routeTaskListForOrder.get_routeTaskListForOrderById_success, payload: { loadTaskInfo: loadTaskInfoRes.result[0] } })
             } else {
                 dispatch({ type: reduxActionTypes.loadTaskInfo.change_loadTaskInfoStatus_failed, payload: { errorMsg: `${loadTaskInfoRes.msg}` } })
             }

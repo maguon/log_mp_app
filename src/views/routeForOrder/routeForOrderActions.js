@@ -1,5 +1,7 @@
 import * as reduxActionTypes from '../../reduxActionTypes'
 import httpRequest from '../../util/HttpRequest'
+import * as reduxActions from '../../reduxActions'
+
 
 export const changeRouteStatus = req => async (dispatch, getState) => {
     try {
@@ -12,7 +14,20 @@ export const changeRouteStatus = req => async (dispatch, getState) => {
             const routeTaskUrl = `${base_host}/admin/${id}/requireTask?requireId=${req.requireTaskId}`
             const routeTaskRes = await httpRequest.get(routeTaskUrl)
             if (routeTaskRes.success) {
-                dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })
+                const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
+                console.log('orderUrl', orderUrl)
+                const orderRes = await httpRequest.get(orderUrl)
+                console.log('orderRes', orderRes)
+                if (orderRes.success) {    
+                    dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+                    dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder({ orderId: req.orderId }))
+                    dispatch(reduxActions.orderInfo.setOrderInfo(orderRes.result[0]))
+                    dispatch({type:reduxActionTypes.orderInfo.get_requireTaskInfoForOrderInfo_success,payload: { requireTaskInfo: routeTaskRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })
+                } else {
+                    dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_failed, payload: { failedMsg: `${orderRes.msg}` } })
+                }
             } else {
                 dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_failed, payload: { failedMsg: `${routeTaskRes.msg}` } })
             }
@@ -20,6 +35,7 @@ export const changeRouteStatus = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_failed, payload: { failedMsg: `${res.msg}` } })
         }
     } catch (err) {
+        console.log('err',err)
         dispatch({ type: reduxActionTypes.routeForOrder.change_routeStatus_waiting, payload: { errorMsg: `${err}` } })
     }
 }

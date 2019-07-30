@@ -17,7 +17,7 @@ class AddOrderCarToolButton extends Component {
 
 
     render() {
-        const { dispatch, orderCarId, orderId } = this.props
+        const { dispatch, orderCarId, order, preSceneKey } = this.props
         return (
             <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => {
@@ -32,7 +32,7 @@ class AddOrderCarToolButton extends Component {
                 <AlertModal
                     title='确定要删除该信息？'
                     isVisible={this.state.modalVisible}
-                    onPressOk={() => { dispatch(reduxActions.orderCarList.delOrderCar({ orderItemId: orderCarId, orderId })) }}
+                    onPressOk={() => { dispatch(reduxActions.orderCarList.delOrderCar({ orderItemId: orderCarId, orderId: order.id, preSceneKey })) }}
                     onPressCancel={() => { this.setState({ modalVisible: false }) }}
                     onRequestClose={() => { this.setState({ modalVisible: false }) }} />
             </View>

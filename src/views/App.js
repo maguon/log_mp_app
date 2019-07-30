@@ -173,7 +173,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -299,8 +299,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={CreateOrderToolButton}
                             />
-
-                            <Scene key="orderCarList"
+                            <Scene key="orderCarListAtHomeBlock"
                                 LeftButton={LeftButton}
                                 component={OrderCarList}
                                 title='运送车辆'
@@ -308,7 +307,7 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
-                            <Scene key="orderCarInfo"
+                            <Scene key="orderCarInfoAtHomeBlock"
                                 LeftButton={LeftButton}
                                 component={OrderCarInfo}
                                 title='车辆详情'
@@ -316,7 +315,7 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
-                            <Scene key="orderCarEditor"
+                            <Scene key="orderCarEditorAtHomeBlock"
                                 LeftButton={LeftButton}
                                 component={OrderCarEditor}
                                 title='修改车辆信息'
@@ -325,7 +324,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderCarEditorToolButton}
                             />
-                            <Scene key="orderCarFeeEditor"
+                            <Scene key="orderCarFeeEditorAtHomeBlock"
                                 LeftButton={LeftButton}
                                 component={OrderCarFeeEditor}
                                 title='车辆信息'
@@ -343,7 +342,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={OrderRemarkEditorToolButton}
                             />
-                            <Scene key="addOrderCar"
+                            <Scene key="addOrderCarAtHomeBlock"
                                 LeftButton={LeftButton}
                                 component={AddOrderCar}
                                 title='增加车辆'
@@ -436,7 +435,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -444,6 +443,41 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                                 RightButton={OrderListToolButton}
+                            />
+                            <Scene key="orderCarFeeEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarFeeEditor}
+                                title='车辆信息'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderCarFeeEditorToolButton}
+                            />
+                            <Scene key="orderCarInfoAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarInfo}
+                                title='车辆详情'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
+                            <Scene key="orderCarEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarEditor}
+                                title='修改车辆信息'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={OrderCarEditorToolButton}
+                            />
+                            <Scene key="addOrderCarAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={AddOrderCar}
+                                title='增加车辆'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={AddOrderCarToolButton}
                             />
                             <Scene key="createOrderAtOrderBlock"
                                 LeftButton={LeftButton}
@@ -460,6 +494,14 @@ export default class App extends Component {
                                 title='订单详情'
                                 hideNavBar={false}
                                 hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="orderCarListAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarList}
+                                title='运送车辆'
+                                hideTabBar={true}
+                                hideNavBar={false}
                                 navBar={NavBar}
                             />
                             <Scene key="orderAtOrderBlock"

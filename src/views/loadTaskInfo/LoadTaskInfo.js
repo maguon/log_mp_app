@@ -21,8 +21,7 @@ const LoadTaskInfo = props => {
 
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
     let _supplier_trans_price = loadTaskInfo.supplier_trans_price ? loadTaskInfo.supplier_trans_price : 0
-
-    console.log('loadTaskInfo', loadTaskInfo)
+    // console.log('props',props)
     return (
         <Container>
             <Content>
@@ -35,11 +34,11 @@ const LoadTaskInfo = props => {
                     </View>
                     <View style={[styles.listItemBody, styles.listItemPadding]}>
                         <Text style={[globalStyles.midText]}>{loadTaskInfo.created_on ? `${moment(loadTaskInfo.created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
-                        <Button small transparent
+                        {loadTaskInfo.load_task_status < 3 && <Button small transparent
                             style={{ borderColor: '#ba7797', borderWidth: 0.5, borderRadius: 2 }}
                             onPress={() => changeLoadTaskStatus({ loadTaskId: loadTaskInfo.id, status: (loadTaskInfo.load_task_status + 1) })} >
                             <Text style={[globalStyles.midText, { color: '#ba7797', paddingHorizontal: 10 }]}>变更状态</Text>
-                        </Button>
+                        </Button>}
                     </View>
                 </View>
                 <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
@@ -92,17 +91,16 @@ const LoadTaskInfo = props => {
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
                 </View>
-                <View>
+                {loadTaskInfo.load_task_status == 1 && loadTaskInfo.require_status == 1 && <View>
                     <Button full style={{ margin: 15, backgroundColor: '#fff', borderColor: '#bd417c', borderWidth: 0.5 }}
                         onPress={() => {
-                            console.log('loadTaskId', loadTaskInfo.id)
                             cancelLoadTaskInfo({ loadTaskId: loadTaskInfo.id })
                         }}>
                         <Text>取消路线</Text>
                     </Button>
-                </View>
+                </View>}
                 <ModalWaiting visible={loadTaskInfoReducer.changeLoadTaskInfoStatus.isResultStatus == 1} title={'状态变更中...'} />
-                <ModalWaiting visible={loadTaskInfoReducer.changeLoadTaskInfoStatus.isResultStatus == 1} title={'路线取消中...'} />
+                <ModalWaiting visible={loadTaskInfoReducer.cancelLoadTaskInfo.isResultStatus == 1} title={'路线取消中...'} />
             </Content>
         </Container>
     )

@@ -15,10 +15,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import carModal from '../../config/car_modal.json'
 import * as reduxActions from '../../reduxActions'
 import ModalWaiting from '../../components/ModalWaiting'
+import * as routerDirection from '../../util/RouterDirection'
 
 const CarListItem = props => {
     const { item: { vin, act_insure_price, act_trans_price, id, valuation, model_type, safe_status, old_car },
-        item, i, getTransAndInsurePrice, delOrderCar, sceneKey, order } = props
+        item, i, getTransAndInsurePrice, delOrderCar, sceneKey, order, parent } = props
     const cartype = new Map(carModal).get(model_type)
     return (
         <TouchableOpacity
@@ -33,12 +34,11 @@ const CarListItem = props => {
                     safeStatus: safe_status
                 })
                 if (order.created_type == 1 && order.status == 0) {
-                    Actions.orderCarEditor({ preSceneKey: sceneKey, orderCarId: id, order })
+                    routerDirection.orderCarEditor(parent)({ preSceneKey: sceneKey, orderCarId: id, order })
                 } else if (order.status == 1) {
-                    Actions.orderCarFeeEditor({ preSceneKey: sceneKey, orderCarId: id, order })
-                }
-                else {
-                    Actions.orderCarInfo({ preSceneKey: sceneKey, orderCarId: id, orderId: order.id })
+                    routerDirection.orderCarFeeEditor(parent)({ preSceneKey: sceneKey, orderCarId: id, order })
+                } else {
+                    routerDirection.orderCarInfo(parent)({ preSceneKey: sceneKey, orderCarId: id, orderId: order.id })
                 }
             }}
             style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom, { backgroundColor: '#fff' }]}>
@@ -67,7 +67,7 @@ const CarListItem = props => {
                 </View>
             </View>
             <View style={[styles.listItemPadding, {}]}>
-                {order.created_type == 1 && order.status == 0 && <TouchableOpacity onPress={() => delOrderCar({ orderItemId: id })} style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-end' }}>
+                {order.created_type == 1 && order.status == 0 && <TouchableOpacity onPress={() => delOrderCar({ orderItemId: id, preSceneKey: sceneKey,orderId:order.id })} style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-end' }}>
                     <Icon name='ios-close' style={styles.fontColor} />
                 </TouchableOpacity>}
                 <View style={{ flex: 2, justifyContent: order.created_type == 1 && order.status == 0 ? 'flex-start' : 'center' }}>
@@ -90,8 +90,7 @@ const EmptyList = props => {
 
 
 const CarList = props => {
-    const { list, sceneKey, delOrderCar, getTransAndInsurePrice, order
-    } = props
+    const { list, sceneKey, delOrderCar, getTransAndInsurePrice, order, parent } = props
     return list.map((item, i) => {
         return <CarListItem
             item={item}
@@ -99,12 +98,13 @@ const CarList = props => {
             sceneKey={sceneKey}
             getTransAndInsurePrice={getTransAndInsurePrice}
             order={order}
+            parent={parent}
             delOrderCar={delOrderCar} />
     })
 }
 
 const OrderCarList = props => {
-    const { sceneKey, getTransAndInsurePrice, delOrderCar,
+    const { sceneKey, getTransAndInsurePrice, delOrderCar, parent,
         orderReducer: { data: { order: { total_insure_price, car_num, total_trans_price, created_type, status },
             order } },
         orderCarListReducer: { data: { orderCarList }, getOrderCarList }, orderCarListReducer } = props
@@ -121,14 +121,14 @@ const OrderCarList = props => {
                 <Content>
                     <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
                         <View style={styles.listItemPadding}>
-                            <Text style={[globalStyles.midText, globalStyles.styleColor]}>运送车辆：{car_num ? `${car_num}` : '0'}</Text>
+                            <Text style={[globalStyles.midText, globalStyles.styleColor]}>运送车辆：{`${orderCarList.length}`}</Text>
                         </View>
-                        {created_type == 1 && status == 0 && <TouchableOpacity onPress={() => Actions.addOrderCar({ preSceneKey: sceneKey, order })}>
+                        {created_type == 1 && status == 0 && <TouchableOpacity onPress={() => routerDirection.addOrderCar(parent)({ preSceneKey: sceneKey, order })}>
                             <Icon name='ios-add' style={[styles.fontColor, { paddingRight: 7.5 }]} />
                         </TouchableOpacity>}
                     </View>
                     {orderCarList.length == 0 && status == 0 && <EmptyList title={created_type == 1 ? '请点击右上角“+”加号添加车辆信息' : '暂无车辆信息'} />}
-                    {CarList({ list: orderCarList, sceneKey, delOrderCar, getTransAndInsurePrice, order })}
+                    {CarList({ list: orderCarList, sceneKey, delOrderCar, getTransAndInsurePrice, order, parent })}
                     {orderCarList.length > 0 && <View style={[styles.listItemPadding, styles.listItemBorderBottom]}>
                         <View style={[styles.listItemBody, styles.listItemPadding]}>
                             <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>应付运费</Text>
@@ -193,8 +193,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     delOrderCar: req => {
-        const { orderId } = ownProps
-        dispatch(reduxActions.orderCarList.delOrderCar({ ...req, orderId }))
+        // const { orderId } = ownProps
+        dispatch(reduxActions.orderCarList.delOrderCar(req))
     },
     getTransAndInsurePrice: req => {
         dispatch(reduxActions.orderCarEditor.getTransAndInsurePrice(req))

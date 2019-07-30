@@ -64,11 +64,12 @@ export const delOrderCar = req => async (dispatch, getState) => {
         const { orderId, orderItemId } = req
         const url = `${base_host}/admin/${id}/orderItem/${req.orderItemId}`
         const res = await httpRequest.del(url)
+        console.log('req',req)
         if (res.success) {
-            Actions.popTo('orderCarList')
+            Actions.popTo(req.preSceneKey)
             InteractionManager.runAfterInteractions(() => {
                 dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_success, payload: { orderItemId } })
-                dispatch(reduxActions.orderListNotInfo.getOrderNotInfoById({ orderId }))
+                dispatch(reduxActions.orderListNotInfo.getOrderNotInfoById({ orderId: req.orderId }))
             })
         } else {
             dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_failed, payload: { failedMsg: `${res.msg}` } })

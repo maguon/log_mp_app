@@ -10,11 +10,11 @@ import * as reduxActions from '../../reduxActions'
 import ModalWaiting from '../../components/ModalWaiting'
 
 const renderItem = props => {
-    const { item, delloadTaskDetail } = props
+    const { item, delloadTaskDetail, loadTaskInfo } = props
     const car_modal = new Map(car_modal_list).get(item.model_type)
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
-    
+
     return (
         <View onPress={() => { }}
             style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom, { marginTop: 10, backgroundColor: '#fff' }]}>
@@ -32,13 +32,13 @@ const renderItem = props => {
                             <Text style={[globalStyles.midText, { color: '#fff' }]}>保</Text>
                         </View>}
                     </View>
-                    <View>
+                    {loadTaskInfo.require_status<3 && <View>
                         <TouchableOpacity onPress={() => {
                             delloadTaskDetail({ loadTaskId: item.dp_load_task_id, loadTaskDetailId: item.load_task_detail_id })
                         }}>
                             <Icon name='ios-close' style={styles.fontColor} />
                         </TouchableOpacity>
-                    </View>
+                    </View>}
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBody]}>
                     <Text style={globalStyles.midText}>{car_modal.name ? `${car_modal.name}` : ''}（{item.brand ? `${item.brand}` : ''}-{item.brand_type ? `${item.brand_type}` : ''}）</Text>
@@ -96,7 +96,7 @@ const renderListHeader = props => {
 
 const RouteCarList = props => {
     const { routeCarListReducer: { data: { routeCarList }, getRouteCarList: { isResultStatus } },
-        routeCarListReducer, delloadTaskDetail } = props
+        routeCarListReducer, delloadTaskDetail, loadTaskInfo } = props
 
 
     const totalSupplierInsurePrice = routeCarList.reduce((prev, curr) => {
@@ -110,6 +110,9 @@ const RouteCarList = props => {
         return prev + currSupplierTransPrice
     }, 0)
 
+
+    console.log('props', props)
+    // 
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -137,7 +140,7 @@ const RouteCarList = props => {
                             return <View />
                         }
                     }}
-                    renderItem={param => renderItem({ ...param, delloadTaskDetail })}
+                    renderItem={param => renderItem({ ...param, delloadTaskDetail, loadTaskInfo })}
                 />
                 <ModalWaiting visible={routeCarListReducer.delloadTaskDetail.isResultStatus == 1} title={'删除中...'} />
                 <ModalWaiting visible={routeCarListReducer.addLoadTaskDetail.isResultStatus == 1} title={'添加中...'} />

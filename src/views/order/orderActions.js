@@ -120,15 +120,15 @@ export const changeOrderStatus = req => async (dispatch, getState) => {
                 dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
                 if (targetStatus == 0) {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
-                } else if (targetStatus == 1) {
+                } else if (targetStatus == 1) { 
                     dispatch({ type: reduxActionTypes.orderListNotPrice.set_orderForNotPrice, payload: { order: orderRes.result[0] } })
                 } else if (targetStatus == 2) {
                     dispatch({ type: reduxActionTypes.orderListNotDemand.set_orderForNotDemand, payload: { order: orderRes.result[0] } })
+                }else if (targetStatus == 3) {
+                    dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
+                    dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder({ orderId: order.id }))
+                    dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
                 }
-
-                // else if (targetStatus == 3) {
-                //     dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
-                // }
 
                 if (order.status == 0) {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.remove_orderForNotInfo, payload: { order } })

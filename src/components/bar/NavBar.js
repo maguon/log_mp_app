@@ -21,7 +21,7 @@ const NavBar = props => {
                     <Title style={[globalStyles.xlText, { color: '#fff' }]}>{title}</Title>
                 </Body>}
                 <Right style={{ flex: title ? 2 : 1 }}>
-                    {RightButton && <RightButton parent={parent} sceneKey={sceneKey} {...restProps} />}
+                    {RightButton && <RightButton parent={parent} sceneKey={sceneKey} preSceneKey={preSceneKey} {...restProps} />}
                 </Right>
             </Header>
         </View>

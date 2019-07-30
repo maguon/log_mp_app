@@ -84,7 +84,7 @@ const OrderNotInfo = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        Actions.orderCarList({ preSceneKey: sceneKey })
+                        routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>

@@ -10,6 +10,7 @@ import OrderNotInfo from './OrderNotInfo'
 import OrderNotDemand from './OrderNotDemand'
 import OrderNotPrice from './OrderNotPrice'
 import OrderNotRoute from './OrderNotRoute'
+import OrderInfo from '../orderInfo/OrderInfo'
 import ModalWaiting from '../../components/ModalWaiting'
 
 
@@ -30,6 +31,7 @@ const Order = props => {
                 {status == 1 && <OrderNotPrice {...props} />}
                 {status == 2 && <OrderNotDemand {...props} />}
                 {status == 3 && <OrderNotRoute {...props} />}
+                {status > 3 && <OrderInfo {...props} />}
             </Container>
         )
     }
@@ -77,7 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
     createRequireTask: req => {
         dispatch(reduxActions.order.createRequireTask(req))
     },
-    setRequireTaskInfo:req=>{
+    setRequireTaskInfo: req => {
         dispatch(reduxActions.routeForOrder.setRequireTaskInfo(req))
     }
 })

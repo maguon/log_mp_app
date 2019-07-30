@@ -8,6 +8,18 @@ import { connect } from 'react-redux'
 import * as routerDirection from '../../util/RouterDirection'
 import { Actions } from 'react-native-router-flux'
 import ModalWaiting from '../../components/ModalWaiting'
+import { requiredObj, required } from '../../util/Validator'
+
+
+const startCityRequiredValidator = requiredObj('始发城市必选')
+const startDetailRequiredValidator = requiredObj('始发城市地址必选')
+const endCityRequiredValidator = requiredObj('目的城市必选')
+const endDetailRequiredValidator = requiredObj('目的城市地址必选')
+
+const supplierRequiredValidator = requiredObj('供应商必选')
+const transTypeRequiredValidator = required('运输方式必选')
+const planDateRequiredValidator = required('计划发运日期必选')
+
 
 const CreateRoute = props => {
     const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey,
@@ -19,6 +31,8 @@ const CreateRoute = props => {
                     name='routeStart'
                     label='始发城市'
                     component={Select}
+                    isRequired={true}
+                    validate={[startCityRequiredValidator]}
                     onPress={({ onChange }) => {
                         getCityListWaiting()
                         routerDirection.cityList(parent)({
@@ -35,11 +49,15 @@ const CreateRoute = props => {
                 <Field
                     name='routeStartDetail'
                     label='始发地址'
+                    isRequired={true}
+                    validate={[startDetailRequiredValidator]}
                     component={TextBox}
                 />
                 <Field
                     name='routeEnd'
                     label='目的城市'
+                    isRequired={true}
+                    validate={[endCityRequiredValidator]}
                     component={Select}
                     onPress={({ onChange }) => {
                         getCityListWaiting()
@@ -58,11 +76,15 @@ const CreateRoute = props => {
                     name='routeEndDetail'
                     label='目的地址'
                     component={TextBox}
+                    isRequired={true}
+                    validate={[endDetailRequiredValidator]}
                 />
                 <Field
                     name='supplier'
                     label='供应商'
                     component={Select}
+                    isRequired={true}
+                    validate={[supplierRequiredValidator]}
                     onPress={({ onChange }) => {
                         getSupplierListWaiting()
                         routerDirection.supplierList(parent)({
@@ -80,11 +102,15 @@ const CreateRoute = props => {
                     label='运输方式'
                     name='transType'
                     listTitle='运输方式'
+                    isRequired={true}
+                    validate={[transTypeRequiredValidator]}
                     itemList={[{ id: '1', value: '陆运' }, { id: '2', value: '航运' }]}
                     component={PickerBox} />
                 <Field
                     name='planDate'
                     label='计划发运日期'
+                    isRequired={true}
+                    validate={[planDateRequiredValidator]}
                     component={DatePicker}
                 />
             </Content>

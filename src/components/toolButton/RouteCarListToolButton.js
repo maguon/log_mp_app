@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, InteractionManager } from 'react-native'
+import { TouchableOpacity, InteractionManager,View } from 'react-native'
 import { Icon } from 'native-base'
 import * as routerDirection from '../../util/RouterDirection'
 import { connect } from 'react-redux'
@@ -8,23 +8,29 @@ import { Actions } from 'react-native-router-flux'
 
 const RouteCarListToolButton = props => {
     const { sceneKey, parent, getCarListForRoute, getCarListForRouteWaiting, loadTaskInfo, addLoadTaskDetail } = props
-    return (
-        <TouchableOpacity onPress={() => {
-            getCarListForRouteWaiting()
-            routerDirection.carListForRoute(parent)({
-                preSceneKey: sceneKey,
-                onSelect: param => {
-                    Actions.popTo(sceneKey)
-                    InteractionManager.runAfterInteractions(() => {
-                        addLoadTaskDetail({ loadTaskInfo, car: param })
-                    })
-                }
-            })
-            getCarListForRoute({ orderId: loadTaskInfo.order_id, loadTaskId: loadTaskInfo.id })
-        }}>
-            <Icon name='ios-add' style={{ color: '#fff' }} />
-        </TouchableOpacity>
-    )
+
+    if(loadTaskInfo.require_status<3){
+        return (
+            <TouchableOpacity onPress={() => {
+                getCarListForRouteWaiting()
+                routerDirection.carListForRoute(parent)({
+                    preSceneKey: sceneKey,
+                    onSelect: param => {
+                        Actions.popTo(sceneKey)
+                        InteractionManager.runAfterInteractions(() => {
+                            addLoadTaskDetail({ loadTaskInfo, car: param })
+                        })
+                    }
+                })
+                getCarListForRoute({ orderId: loadTaskInfo.order_id, loadTaskId: loadTaskInfo.id })
+            }}>
+                <Icon name='ios-add' style={{ color: '#fff' }} />
+            </TouchableOpacity>
+        )
+    }else{
+        return <View />
+    }
+
 }
 
 const mapDispatchToProps = (dispatch) => ({

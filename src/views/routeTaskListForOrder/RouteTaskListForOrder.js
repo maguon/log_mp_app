@@ -11,17 +11,16 @@ import { Actions } from 'react-native-router-flux'
 import * as routerDirection from '../../util/RouterDirection'
 
 const renderItem = props => {
-    const { item,  setLoadTaskInfo, sceneKey, parent } = props
+    const { item,  setLoadTaskInfo, sceneKey, parent,requireTaskInfo } = props
 
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
+
     return (
         <TouchableOpacity style={styles.listItemBorderBottom}
             onPress={() => {
-
                 setLoadTaskInfo(item)
-                routerDirection.loadTaskInfo(parent)({ preSceneKey: sceneKey })
-               
+                routerDirection.loadTaskInfo(parent)({ preSceneKey: sceneKey,requireTaskInfo })
             }}>
             <View style={[styles.listItemHeader, styles.listItemBorderBottom]}>
                 <Text style={globalStyles.midText}>线路编号：{item.id ? `${item.id}` : ''}</Text>
@@ -96,7 +95,7 @@ const RouteTaskListForOrder = props => {
     const { routeTaskListForOrderReducer: { data: { routeTaskListForOrder },
         getRouteTaskListForOrder: { isResultStatus } },
         routeTaskListForOrderReducer, setLoadTaskInfo,
-         sceneKey, order, parent } = props
+         sceneKey, order, parent,requireTaskInfo } = props
     const totalSupplierInsurePrice = routeTaskListForOrder.reduce((prev, curr) => {
         const currSupplierInsurePrice = curr.supplier_insure_price ? curr.supplier_insure_price : 0
         return prev + currSupplierInsurePrice
@@ -107,6 +106,7 @@ const RouteTaskListForOrder = props => {
         return prev + currSupplierTransPrice
     }, 0)
 
+    // console.log('props',props)
 
     if (isResultStatus == 1) {
         return (
@@ -128,7 +128,7 @@ const RouteTaskListForOrder = props => {
                             return <View />
                         }
                     }}
-                    renderItem={param => renderItem({ ...param, order,  setLoadTaskInfo, parent, sceneKey })}
+                    renderItem={param => renderItem({ ...param, order,  setLoadTaskInfo, parent, sceneKey,requireTaskInfo })}
                 />
             </Container>
         )
