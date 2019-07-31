@@ -128,7 +128,6 @@ export default handleActions({
             ...state,
             data: {
                 ...state.data,
-
                 order
             }
         }

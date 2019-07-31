@@ -64,13 +64,21 @@ export const delOrderCar = req => async (dispatch, getState) => {
         const { orderId, orderItemId } = req
         const url = `${base_host}/admin/${id}/orderItem/${req.orderItemId}`
         const res = await httpRequest.del(url)
-        console.log('req',req)
         if (res.success) {
-            Actions.popTo(req.preSceneKey)
-            InteractionManager.runAfterInteractions(() => {
-                dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_success, payload: { orderItemId } })
-                dispatch(reduxActions.orderListNotInfo.getOrderNotInfoById({ orderId: req.orderId }))
-            })
+            const orderUrl = `${base_host}/admin/${id}/order?orderId=${orderId}`
+            const orderRes = await httpRequest.get(orderUrl)
+            if (orderRes.success) {
+                Actions.popTo(req.preSceneKey)
+                InteractionManager.runAfterInteractions(() => {
+                    dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_success, payload: { orderItemId } })
+                    dispatch({ type: reduxActionTypes.orderListNotInfo.get_orderNotInfoById_success, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
+                })
+            } else {
+                dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_failed, payload: { failedMsg: `${orderRes.msg}` } })
+            }
+
         } else {
             dispatch({ type: reduxActionTypes.orderCarList.del_orderCar_failed, payload: { failedMsg: `${res.msg}` } })
         }

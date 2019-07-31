@@ -6,12 +6,12 @@ import { connect } from 'react-redux'
 import globalStyles from '../../style/GlobalStyles'
 import * as routerDirection from '../../util/RouterDirection'
 
-const RouteTaskListForOrderToolButton = props => {
-    const { parent, sceneKey, requireTaskInfo } = props
+const routeTaskListForOrderToolButton = props => {
+    const { parent, sceneKey, routeForOrderReducer: { data: { requireTaskInfo } } } = props
     // console.log('requireTaskInfo', requireTaskInfo)
     if (requireTaskInfo.status == 1) {
         return (
-            <TouchableOpacity onPress={() => routerDirection.createRoute(parent)({ preSceneKey: sceneKey, requireTaskInfo: props.requireTaskInfo })}>
+            <TouchableOpacity onPress={() => routerDirection.createRoute(parent)({ preSceneKey: sceneKey, requireTaskInfo: requireTaskInfo })}>
                 <Icon name='ios-add' style={{ color: '#fff' }} />
             </TouchableOpacity>
         )
@@ -20,7 +20,14 @@ const RouteTaskListForOrderToolButton = props => {
             <View />
         )
     }
-
 }
 
-export default (RouteTaskListForOrderToolButton)
+
+const mapStateToProps = (state) => {
+    return {
+        routeForOrderReducer: state.routeForOrderReducer
+    }
+}
+
+
+export default connect(mapStateToProps)(routeTaskListForOrderToolButton)

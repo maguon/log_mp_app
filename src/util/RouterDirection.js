@@ -60,14 +60,7 @@ export const addressInfo = parent => {
     }
 }
 
-export const routeTaskListForOrder = parent => {
-    if (parent === 'orderBlock') {
-        return Actions.routeTaskListForOrderAtOrderBlock
-    }
-    if (parent === 'routeBlock') {
-        return Actions.routeTaskListForOrderAtRouteBlock
-    }
-}
+
 
 export const supplierList = parent => {
     if (parent === 'homeBlock') {
@@ -173,5 +166,36 @@ export const orderCarFeeEditor = parent => {
     }
     if (parent === 'orderBlock') {
         return Actions.orderCarFeeEditorAtOrderBlock
+    }
+}
+
+export const payment = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.paymentAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.paymentAtOrderBlock
+    }
+}
+
+export const routeForOrder = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.routeForOrderAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.routeForOrderAtOrderBlock
+    }
+}
+
+
+export const routeTaskListForOrder = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.routeTaskListForOrderAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.routeTaskListForOrderAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.routeTaskListForOrderAtRouteBlock
     }
 }

@@ -120,11 +120,11 @@ export const changeOrderStatus = req => async (dispatch, getState) => {
                 dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
                 if (targetStatus == 0) {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
-                } else if (targetStatus == 1) { 
+                } else if (targetStatus == 1) {
                     dispatch({ type: reduxActionTypes.orderListNotPrice.set_orderForNotPrice, payload: { order: orderRes.result[0] } })
                 } else if (targetStatus == 2) {
                     dispatch({ type: reduxActionTypes.orderListNotDemand.set_orderForNotDemand, payload: { order: orderRes.result[0] } })
-                }else if (targetStatus == 3) {
+                } else if (targetStatus == 3) {
                     dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
                     dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder({ orderId: order.id }))
                     dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
@@ -137,9 +137,9 @@ export const changeOrderStatus = req => async (dispatch, getState) => {
                 } else if (order.status == 2) {
                     dispatch({ type: reduxActionTypes.orderListNotDemand.remove_orderForNotDemand, payload: { order } })
                 }
-                // else if (order.status == 3) {
-                //     dispatch({ type: reduxActionTypes.orderListNotRoute.remove_orderForNotRoute, payload: { order } })
-                // }
+                else if (order.status == 3) {
+                    dispatch({ type: reduxActionTypes.orderListNotRoute.remove_orderForNotRoute, payload: { order } })
+                }
 
             } else {
                 dispatch({ type: reduxActionTypes.order.change_orderStatus_failed, payload: { failedMsg: `${orderRes.msg}` } })
@@ -159,14 +159,24 @@ export const createRequireTask = req => async (dispatch, getState) => {
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order/${req.order.id}/requireTask`
         const res = await httpRequest.post(url, {})
+        // console.log('res', res)
         if (res.success) {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.order.id}`
             const orderRes = await httpRequest.get(orderUrl)
             if (orderRes.success) {
-                dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
-                dispatch({ type: reduxActionTypes.order.change_orderStatus_success })
-                dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
-                dispatch({ type: reduxActionTypes.orderListNotDemand.remove_orderForNotDemand, payload: { order: req.order } })
+                const routeTaskUrl = `${base_host}/admin/${id}/requireTask?requireId=${res.id}`
+                // console.log('routeTaskUrl', routeTaskUrl)
+                const routeTaskRes = await httpRequest.get(routeTaskUrl)
+                // console.log('routeTaskRes', routeTaskRes)
+                if (routeTaskRes.success) {
+                    dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.get_requireTaskForOrder_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.order.change_orderStatus_success })
+                    dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
+                    dispatch({ type: reduxActionTypes.orderListNotDemand.remove_orderForNotDemand, payload: { order: req.order } })
+                } else {
+                    dispatch({ type: reduxActionTypes.order.change_orderStatus_failed, failedMsg: `${routeTaskRes.msg}` })
+                }
             } else {
                 dispatch({ type: reduxActionTypes.order.change_orderStatus_failed, failedMsg: `${orderRes.msg}` })
             }

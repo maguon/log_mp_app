@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import * as reduxActions from '../../reduxActions'
 
 const RouteStart = props => {
-    const { changeRouteStatus, routeForOrderReducer: { data: { requireTaskInfo: { id, order_id } } } } = props
+    const { changeRouteStatus, requireTaskInfo: { id, order_id } } = props
     console.log('props', props)
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -32,7 +32,10 @@ class AddOrderCarToolButton extends Component {
                 <AlertModal
                     title='确定要删除该信息？'
                     isVisible={this.state.modalVisible}
-                    onPressOk={() => { dispatch(reduxActions.orderCarList.delOrderCar({ orderItemId: orderCarId, orderId: order.id, preSceneKey })) }}
+                    onPressOk={() => { 
+                        dispatch(reduxActions.orderCarList.delOrderCar({ orderItemId: orderCarId, orderId: order.id, preSceneKey }))
+                        this.setState({ modalVisible: false }) 
+                     }}
                     onPressCancel={() => { this.setState({ modalVisible: false }) }}
                     onRequestClose={() => { this.setState({ modalVisible: false }) }} />
             </View>

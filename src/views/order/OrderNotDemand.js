@@ -91,7 +91,7 @@ const OrderNotDemand = props => {
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
                         // getOrderCarListWaiting()
-                        Actions.orderCarList({ preSceneKey: sceneKey })
+                        routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
                         // InteractionManager.runAfterInteractions(() => getOrderCarList({ orderId }))
                     }}>
                     <View style={styles.listItemPadding}>
@@ -119,7 +119,7 @@ const OrderNotDemand = props => {
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
                         getPaymentListWaiting()
-                        Actions.payment({ preSceneKey: sceneKey, order })
+                        routerDirection.payment(parent)({ preSceneKey: sceneKey, order })
                         InteractionManager.runAfterInteractions(() => getPaymentList({ order }))
                     }}>
                     <View style={styles.listItemPadding}>

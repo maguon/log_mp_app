@@ -12,9 +12,9 @@ import { requiredObj, required } from '../../util/Validator'
 
 
 const startCityRequiredValidator = requiredObj('始发城市必选')
-const startDetailRequiredValidator = requiredObj('始发城市地址必选')
+const startDetailRequiredValidator = required('始发城市地址必选')
 const endCityRequiredValidator = requiredObj('目的城市必选')
-const endDetailRequiredValidator = requiredObj('目的城市地址必选')
+const endDetailRequiredValidator = required('目的城市地址必选')
 
 const supplierRequiredValidator = requiredObj('供应商必选')
 const transTypeRequiredValidator = required('运输方式必选')
@@ -24,6 +24,7 @@ const planDateRequiredValidator = required('计划发运日期必选')
 const CreateRoute = props => {
     const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey,
         createRouteReducer: { createRoute: { isResultStatus } } } = props
+    // console.log('props',props)
     return (
         <Container>
             <Content>
@@ -145,6 +146,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createRouteForm',
     onSubmit: (values, dispatch, props) => {
         const { requireTaskInfo } = props
+        // console.log('requireTaskInfo',requireTaskInfo)
         dispatch(reduxActions.createRoute.createRoute({ values, orderId: requireTaskInfo.order_id, requireId: requireTaskInfo.id }))
     }
 })(CreateRoute))

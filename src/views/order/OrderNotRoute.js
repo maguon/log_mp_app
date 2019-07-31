@@ -26,7 +26,8 @@ const OrderNotRoute = props => {
                 order,
                 order: {
                     id, created_on, total_trans_price, total_insure_price, admin_mark,
-                    start_city, created_type, end_city, service_type, car_num, admin_name
+                    start_city, created_type, end_city,
+                    service_type, car_num, admin_name
                 },
                 requireTaskInfo: {
                     status
@@ -36,15 +37,18 @@ const OrderNotRoute = props => {
         },
         sceneKey,
         cancelOrder,
-        getRouteTaskInfo,
-        getRouteTaskInfoWaiting,
-        getLoadTaskList,
-        getLoadTaskListWaiting,
-        changeOrderStatus,
         setRequireTaskInfo,
         parent
     } = props
     const serviceType = new Map(serviceTypeList).get(service_type)
+
+    const _total_insure_price = total_insure_price ? total_insure_price : 0
+    const _total_trans_price = total_trans_price ? total_trans_price : 0
+    const _requiretotal_insure_price = requireTaskInfo.total_insure_price ? requireTaskInfo.total_insure_price : 0
+    const _requiretotal_trans_price = requireTaskInfo.total_trans_price ? requireTaskInfo.total_trans_price : 0
+
+
+    console.log('props',props)
     return (
         <Container>
             <Content>
@@ -61,7 +65,9 @@ const OrderNotRoute = props => {
                         </View>
                         <View>
                             <Text style={[globalStyles.midText, styles.fontColor]}>
-                                待安排
+                                {status == 0 && '待安排'}
+                                {status == 1 && '已安排'}
+                                {status == 9 && '已完成'}
                             </Text>
                         </View>
                     </View>
@@ -70,18 +76,18 @@ const OrderNotRoute = props => {
                             <Text style={[globalStyles.midText]}>创建人：{admin_name ? `${admin_name}` : ''}</Text>
                         </View>
                         <View>
-                            <Text style={[globalStyles.midText]}>发运日期：</Text>
+                            <Text style={[globalStyles.midText]}>发运日期：{order.departure_time ? `${moment(order.departure_time).format('YYYY-MM-DD')}` : ''}</Text>
                         </View>
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View>
-                            <Text style={[globalStyles.midText]}>订单费用</Text>
+                            <Text style={[globalStyles.midText]}>订单费用：{(_total_insure_price + _total_trans_price)}元</Text>
                         </View>
                     </View>
                 </View>
                 <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                     <View style={[styles.listItemPadding, { alignSelf: 'flex-end' }]}>
-                        <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>需求创建时间：2018-08-26 11:20:31</Text>
+                        <Text style={[globalStyles.midText, { fontWeight: 'bold' }]}>需求创建时间：{requireTaskInfo.created_on ? `${moment(requireTaskInfo.created_on).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
                     </View>
                 </View>
                 <TouchableOpacity
@@ -102,7 +108,7 @@ const OrderNotRoute = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        Actions.orderCarList({ preSceneKey: sceneKey })
+                        routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>运送车辆：</Text></Text>
@@ -117,15 +123,8 @@ const OrderNotRoute = props => {
                 <TouchableOpacity
                     style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}
                     onPress={() => {
-                        // getRouteTaskInfoWaiting()
-                        // getLoadTaskListWaiting()
                         setRequireTaskInfo(requireTaskInfo)
-                        Actions.routeForOrderAtHome({ preSceneKey: sceneKey })
-                        // Actions.loadTaskListAtHome({ preSceneKey: sceneKey })
-                        // InteractionManager.runAfterInteractions(async () => {
-                        //     await getRouteTaskInfo({ order })
-                        //     getLoadTaskList({ order })
-                        // })
+                        routerDirection.routeForOrder(parent)({ preSceneKey: sceneKey })
                     }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}><Text style={{ fontWeight: 'bold' }}>路线安排</Text></Text>
@@ -140,7 +139,7 @@ const OrderNotRoute = props => {
                     </View>
                     <View style={[styles.listItemPadding, styles.listItemBody]}>
                         <View style={[styles.listItemBody]}>
-                            <Text style={[globalStyles.xlText, styles.fontColor, { fontWeight: '400' }]}>{total_insure_price + total_trans_price}</Text>
+                            <Text style={[globalStyles.xlText, styles.fontColor, { fontWeight: '400' }]}>{(_requiretotal_insure_price + _requiretotal_trans_price)}</Text>
                             <Text style={[globalStyles.midText, { paddingLeft: 7.5 }]}>元</Text>
                         </View>
                     </View>

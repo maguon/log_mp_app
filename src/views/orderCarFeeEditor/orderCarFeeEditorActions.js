@@ -32,6 +32,7 @@ export const updateOrderCarFee = req => async (dispatch, getState) => {
                 } else if (req.order.status == 3) {
                     dispatch({ type: reduxActionTypes.orderListNotRoute.set_orderForNotRoute, payload: { order: orderRes.result[0] } })
                 }
+                dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
             } else {
                 dispatch({ type: reduxActionTypes.orderCarFeeEditor.update_orderCar_failed, payload: { failedMsg: `${orderRes.msg}` } })
             }
