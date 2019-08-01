@@ -21,7 +21,7 @@ const LoadTaskInfo = props => {
 
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
     let _supplier_trans_price = loadTaskInfo.supplier_trans_price ? loadTaskInfo.supplier_trans_price : 0
-    // console.log('props',props)
+
     return (
         <Container>
             <Content>

@@ -224,3 +224,16 @@ export const routeTaskListForOrder = parent => {
         return Actions.routeTaskListForOrderAtRouteBlock
     }
 }
+
+export const pickUpAddrEditor = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.pickUpAddrEditorAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.pickUpAddrEditorAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.pickUpAddrEditorAtRouteBlock
+    }
+
+}

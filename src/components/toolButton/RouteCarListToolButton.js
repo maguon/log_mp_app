@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, InteractionManager,View } from 'react-native'
+import { TouchableOpacity, InteractionManager, View } from 'react-native'
 import { Icon } from 'native-base'
 import * as routerDirection from '../../util/RouterDirection'
 import { connect } from 'react-redux'
@@ -8,8 +8,7 @@ import { Actions } from 'react-native-router-flux'
 
 const RouteCarListToolButton = props => {
     const { sceneKey, parent, getCarListForRoute, getCarListForRouteWaiting, loadTaskInfo, addLoadTaskDetail } = props
-
-    if(loadTaskInfo.require_status<3){
+    if (loadTaskInfo.require_status < 3) {
         return (
             <TouchableOpacity onPress={() => {
                 getCarListForRouteWaiting()
@@ -27,7 +26,7 @@ const RouteCarListToolButton = props => {
                 <Icon name='ios-add' style={{ color: '#fff' }} />
             </TouchableOpacity>
         )
-    }else{
+    } else {
         return <View />
     }
 

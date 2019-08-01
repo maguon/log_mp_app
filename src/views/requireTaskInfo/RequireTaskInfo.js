@@ -14,7 +14,6 @@ import moment from 'moment'
 import service_type_list from '../../config/service_type.json'
 import * as routerDirection from '../../util/RouterDirection'
 import * as reduxActions from '../../reduxActions'
-import {Actions} from 'react-native-router-flux'
 
 
 const RequireTaskInfo = props => {
@@ -23,16 +22,16 @@ const RequireTaskInfo = props => {
             requireTaskInfo: {
                 order_id, created_on, route_start, route_end, real_name, departure_time, order_created_on, car_num,
                 order_remark, admin_mark, total_insure_price, id, total_trans_price, service_type, status
-            }, requireTaskInfo,order } },
+            }, requireTaskInfo, order } },
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } },
         parent, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder, getOrderCarList, getOrderCarListWaiting,
-        setRequireTaskInfo,setOrderForpickUpAddr } = props
+        setRequireTaskInfo, setOrderForpickUpAddr } = props
 
     const _total_trans_price = total_trans_price ? total_trans_price : 0
     const _total_insure_price = total_insure_price ? total_insure_price : 0
 
     const serviceType = new Map(service_type_list).get(service_type)
-    // console.log('props',props)
+    console.log('requireTaskInfo', requireTaskInfo)
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -65,7 +64,9 @@ const RequireTaskInfo = props => {
                             </View>
                             <View>
                                 <Text style={[globalStyles.midText, styles.fontColor]}>
-                                    待安排
+                                    {status == 0 && `待安排`}
+                                    {status == 1 && `已安排`}
+                                    {status == 9 && `已完成`}
                                 </Text>
                             </View>
                         </View>
@@ -84,7 +85,7 @@ const RequireTaskInfo = props => {
                     <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                         onPress={() => {
                             setOrderForpickUpAddr({ order })
-                            Actions.pickUpAddrEditor({ preSceneKey: sceneKey })
+                            routerDirection.pickUpAddrEditor(parent)({ preSceneKey: sceneKey })
                         }}>
                         <View style={[styles.listItemPadding]}>
                             <Text style={[globalStyles.midText]}>收发货信息</Text>
@@ -111,7 +112,7 @@ const RequireTaskInfo = props => {
                     <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                         onPress={() => {
                             // console.log('onPress')
-                            if (status == 4 || status == 8 || status == 9) {  
+                            if (status == 4 || status == 8 || status == 9) {
                                 getRouteTaskListForOrderWaiting()
                                 routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, requireTaskInfo })
                                 InteractionManager.runAfterInteractions(() => {
@@ -142,6 +143,23 @@ const RequireTaskInfo = props => {
                     <View style={[styles.listItemPadding, styles.listItemBorderBottom]}>
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>客服备注</Text>
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>{admin_mark ? `${admin_mark}` : ''}</Text>
+                    </View>
+                    <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
+                        <View style={[styles.listItemPadding, { flex: 1 }]}>
+                            <Button full style={[{ flex: 1, backgroundColor: styleColor }]} onPress={() => {
+                                Alert.alert(
+                                    '',
+                                    '确定完成需求？',
+                                    [
+                                        { text: '取消', onPress: () => { }, style: 'cancel' },
+                                        { text: '确定', onPress: () => { } },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }}>
+                                <Text style={[globalStyles.largeText, { color: '#fff' }]}>完成需求</Text>
+                            </Button>
+                        </View>
                     </View>
                 </Content>
             </Container>

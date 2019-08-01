@@ -105,8 +105,7 @@ const RouteTaskListForOrder = props => {
         const currSupplierTransPrice = curr.supplier_trans_price ? curr.supplier_trans_price : 0
         return prev + currSupplierTransPrice
     }, 0)
-    console.log('props',props)
-    // console.log('props',props)
+
 
     if (isResultStatus == 1) {
         return (

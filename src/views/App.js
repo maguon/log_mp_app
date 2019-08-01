@@ -16,7 +16,7 @@ import SendAddrEditorToolButton from '../components/toolButton/SendAddrEditorToo
 import RecAddrEditorToolButton from '../components/toolButton/RecAddrEditorToolButton'
 import RouteCarListToolButton from '../components/toolButton/RouteCarListToolButton'
 import RouteTaskListForOrderToolButton from '../components/toolButton/RouteTaskListForOrderToolButton'
-import RouteForOrderToolButton  from '../components/toolButton/RouteForOrderToolButton'
+import RouteForOrderToolButton from '../components/toolButton/RouteForOrderToolButton'
 
 
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
@@ -412,6 +412,14 @@ export default class App extends Component {
                                 hideTabBar={true}
                                 navBar={NavBar}
                             />
+                            <Scene key="pickUpAddrEditorAtHomeBlock"
+                                LeftButton={LeftButton}
+                                component={PickUpAddrEditor}
+                                title='修改收发货地址'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={PickUpAddrEditorToolButton}
+                            />
                         </Scene>
                         <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                             <Scene key="feePrice"
@@ -597,7 +605,7 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                             />
-                            <Scene key="pickUpAddrEditor"
+                            <Scene key="pickUpAddrEditorAtOrderBlock"
                                 LeftButton={LeftButton}
                                 component={PickUpAddrEditor}
                                 title='修改收发货地址'
@@ -682,6 +690,14 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                                 RightButton={RouteToolButton}
+                            />
+                            <Scene key="pickUpAddrEditorAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={PickUpAddrEditor}
+                                title='修改收发货地址'
+                                hideNavBar={false}
+                                navBar={NavBar}
+                                RightButton={PickUpAddrEditorToolButton}
                             />
                             <Scene key="routeForOrderAtRouteBlock"
                                 LeftButton={LeftButton}

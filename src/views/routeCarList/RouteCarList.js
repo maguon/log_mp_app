@@ -111,8 +111,6 @@ const RouteCarList = props => {
     }, 0)
 
 
-    console.log('props', props)
-    // 
     if (isResultStatus == 1) {
         return (
             <Container>

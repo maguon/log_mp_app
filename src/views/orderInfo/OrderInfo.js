@@ -8,7 +8,6 @@ import moment from 'moment'
 import order_status from '../../config/order_status.json'
 import order_payment_status from '../../config/order_payment_status.json'
 import service_type_list from '../../config/service_type.json'
-import { Actions } from 'react-native-router-flux'
 import * as reduxActions from '../../reduxActions'
 import * as routerDirection from '../../util/RouterDirection'
 
@@ -65,7 +64,7 @@ const OrderInfo = props => {
                     <TouchableOpacity
                         onPress={() => {
                             setOrderForpickUpAddr({ order })
-                            Actions.pickUpAddrEditor({ preSceneKey: sceneKey })
+                            routerDirection.pickUpAddrEditor(parent)({ preSceneKey: sceneKey })
                         }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>
