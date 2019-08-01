@@ -14,7 +14,8 @@ import * as routerDirection from '../../util/RouterDirection'
 
 const OrderInfo = props => {
     const { orderInfoReducer: { data: { order, requireTaskInfo } }, sceneKey, setOrderForpickUpAddr, parent,
-        routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } } } = props
+        routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } },
+        getPaymentList,getPaymentListWaiting } = props
     // console.log('props', props)
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
@@ -76,7 +77,9 @@ const OrderInfo = props => {
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => { }}
+                        onPress={() => {
+                            routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
+                         }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>
                             <Text style={globalStyles.midText}>运送车辆</Text>
@@ -91,7 +94,11 @@ const OrderInfo = props => {
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>{(_total_insure_price + _total_trans_price)}元</Text>
                     </View>
                     <TouchableOpacity
-                        onPress={() => { }}
+                        onPress={() => {
+                            getPaymentListWaiting()
+                            routerDirection.payment(parent)({ preSceneKey: sceneKey, order })
+                            InteractionManager.runAfterInteractions(() => getPaymentList({ order }))
+                         }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>
                             <Text style={globalStyles.midText}>支付信息</Text>
@@ -135,6 +142,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     setOrderForpickUpAddr: req => {
         dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
+    },
+    getPaymentList: req => {
+        dispatch(reduxActions.payment.getPaymentList(req))
+    },
+    getPaymentListWaiting: () => {
+        dispatch(reduxActions.payment.getPaymentListWaiting())
     }
 })
 

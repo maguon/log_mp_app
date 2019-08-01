@@ -36,15 +36,24 @@ export const orderRemarkEditor = parent => {
     }
 }
 
+//
 export const recAddrEditor = parent => {
     if (parent === 'homeBlock') {
         return Actions.recAddrEditorAtHomeBlock
     }
+    if (parent === 'orderBlock') {
+        return Actions.recAddrEditorAtOrderBlock
+    }
 }
 
+
+//
 export const sendAddrEditor = parent => {
     if (parent === 'homeBlock') {
         return Actions.sendAddrEditorAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.sendAddrEditorAtOrderBlock
     }
 }
 
@@ -52,11 +61,18 @@ export const addrEditor = parent => {
     if (parent === 'homeBlock') {
         return Actions.addrEditorAtHomeBlock
     }
+    if (parent === 'orderBlock') {
+        return Actions.addrEditorAtOrderBlock
+    }
 }
 
+//
 export const addressInfo = parent => {
     if (parent === 'homeBlock') {
         return Actions.addressInfoAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.addressInfoAtOrderBlock
     }
 }
 
@@ -131,6 +147,9 @@ export const orderCarList = parent => {
     if (parent === 'orderBlock') {
         return Actions.orderCarListAtOrderBlock
     }
+    if (parent === 'routeBlock') {
+        return Actions.orderCarListAtRouteBlock
+    }
 }
 
 export const addOrderCar = parent => {
@@ -158,6 +177,9 @@ export const orderCarInfo = parent => {
     if (parent === 'orderBlock') {
         return Actions.orderCarInfoAtOrderBlock
     }
+    if (parent === 'routeBlock') {
+        return Actions.orderCarInfoAtRouteBlock
+    }
 }
 
 export const orderCarFeeEditor = parent => {
@@ -184,6 +206,9 @@ export const routeForOrder = parent => {
     }
     if (parent === 'orderBlock') {
         return Actions.routeForOrderAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.routeForOrderAtRouteBlock
     }
 }
 

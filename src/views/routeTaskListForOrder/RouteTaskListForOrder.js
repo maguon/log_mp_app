@@ -15,7 +15,7 @@ const renderItem = props => {
 
     const _supplier_trans_price = item.supplier_trans_price ? item.supplier_trans_price : 0
     const _supplier_insure_price = item.supplier_insure_price ? item.supplier_insure_price : 0
-
+    
     return (
         <TouchableOpacity style={styles.listItemBorderBottom}
             onPress={() => {
@@ -105,7 +105,7 @@ const RouteTaskListForOrder = props => {
         const currSupplierTransPrice = curr.supplier_trans_price ? curr.supplier_trans_price : 0
         return prev + currSupplierTransPrice
     }, 0)
-
+    console.log('props',props)
     // console.log('props',props)
 
     if (isResultStatus == 1) {

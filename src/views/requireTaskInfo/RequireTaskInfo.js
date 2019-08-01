@@ -14,6 +14,7 @@ import moment from 'moment'
 import service_type_list from '../../config/service_type.json'
 import * as routerDirection from '../../util/RouterDirection'
 import * as reduxActions from '../../reduxActions'
+import {Actions} from 'react-native-router-flux'
 
 
 const RequireTaskInfo = props => {
@@ -22,14 +23,16 @@ const RequireTaskInfo = props => {
             requireTaskInfo: {
                 order_id, created_on, route_start, route_end, real_name, departure_time, order_created_on, car_num,
                 order_remark, admin_mark, total_insure_price, id, total_trans_price, service_type, status
-            }, requireTaskInfo } },
+            }, requireTaskInfo,order } },
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } },
-        parent, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder } = props
+        parent, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder, getOrderCarList, getOrderCarListWaiting,
+        setRequireTaskInfo,setOrderForpickUpAddr } = props
 
     const _total_trans_price = total_trans_price ? total_trans_price : 0
     const _total_insure_price = total_insure_price ? total_insure_price : 0
 
     const serviceType = new Map(service_type_list).get(service_type)
+    // console.log('props',props)
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -78,7 +81,11 @@ const RequireTaskInfo = props => {
                     <View style={[styles.listItemHeader, styles.listItemBorderBottom, { justifyContent: 'flex-end' }]}>
                         <Text style={[globalStyles.midText]}>需求生成时间：{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
                     </View>
-                    <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                    <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                        onPress={() => {
+                            setOrderForpickUpAddr({ order })
+                            Actions.pickUpAddrEditor({ preSceneKey: sceneKey })
+                        }}>
                         <View style={[styles.listItemPadding]}>
                             <Text style={[globalStyles.midText]}>收发货信息</Text>
                         </View>
@@ -86,8 +93,13 @@ const RequireTaskInfo = props => {
                             <Text style={[globalStyles.midText]}>{serviceType}</Text>
                             <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                         </View>
-                    </View>
-                    <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                        onPress={() => {
+                            getOrderCarListWaiting()
+                            routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
+                            getOrderCarList({ orderId: order_id })
+                        }}>
                         <View style={[styles.listItemPadding]}>
                             <Text style={[globalStyles.midText]}>运送车辆</Text>
                         </View>
@@ -95,14 +107,21 @@ const RequireTaskInfo = props => {
                             <Text style={[globalStyles.midText]}>{car_num ? `${car_num}` : '0'}</Text>
                             <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                         onPress={() => {
-                            getRouteTaskListForOrderWaiting()
-                            routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey ,requireTaskInfo})
-                            InteractionManager.runAfterInteractions(() => {
-                                getRouteTaskListForOrder({ orderId: order_id })
-                            })
+                            // console.log('onPress')
+                            if (status == 4 || status == 8 || status == 9) {  
+                                getRouteTaskListForOrderWaiting()
+                                routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, requireTaskInfo })
+                                InteractionManager.runAfterInteractions(() => {
+                                    getRouteTaskListForOrder({ orderId: order_id })
+                                })
+                            }
+                            if (status == 0 || status == 1 || status == 2 || status == 3) {
+                                setRequireTaskInfo(requireTaskInfo)
+                                routerDirection.routeForOrder(parent)({ preSceneKey: sceneKey })
+                            }
                         }}>
                         <View style={[styles.listItemPadding]}>
                             <Text style={[globalStyles.midText]}>路线安排</Text>
@@ -144,6 +163,18 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getRouteTaskListForOrder: req => {
         dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder(req))
+    },
+    getOrderCarList: req => {
+        dispatch(reduxActions.orderCarList.getOrderCarList(req))
+    },
+    getOrderCarListWaiting: () => {
+        dispatch(reduxActions.orderCarList.getOrderCarListWaiting())
+    },
+    setRequireTaskInfo: req => {
+        dispatch(reduxActions.routeForOrder.setRequireTaskInfo(req))
+    },
+    setOrderForpickUpAddr: req => {
+        dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
     }
 })
 

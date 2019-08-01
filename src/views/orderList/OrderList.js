@@ -62,10 +62,12 @@ const renderItem = props => {
                 getRouteTaskListForOrderWaiting()
                 getRequireTaskInfoWaiting()
                 setOrderInfo(item)
+                getOrderCarListWaiting()
                 Actions.orderInfoAtOrderBlock({ preSceneKey: sceneKey, order: item })
                 InteractionManager.runAfterInteractions(() => {
                     getRouteTaskListForOrder({ orderId: id })
                     getRequireTaskInfo({ orderId: id })
+                    getOrderCarList({ orderId: id })
                 })
             }
             if (status == 0 || status == 1 || status == 2 || status == 3) {

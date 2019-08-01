@@ -18,14 +18,6 @@ import RouteCarListToolButton from '../components/toolButton/RouteCarListToolBut
 import RouteTaskListForOrderToolButton from '../components/toolButton/RouteTaskListForOrderToolButton'
 import RouteForOrderToolButton  from '../components/toolButton/RouteForOrderToolButton'
 
-// import SendAddrEditorForNotPriceToolButton from '../components/toolButton/SendAddrEditorForNotPriceToolButton'
-// import SendAddrEditorForNotDemandToolButton from '../components/toolButton/SendAddrEditorForNotDemandToolButton'
-// import SendAddrEditorForNotInfoToolButton from '../components/toolButton/SendAddrEditorForNotInfoToolButton'
-
-// import RecAddrEditorForNotDemandToolButton from '../components/toolButton/RecAddrEditorForNotDemandToolButton'
-// import RecAddrEditorForNotInfoToolButton from '../components/toolButton/RecAddrEditorForNotInfoToolButton'
-// import RecAddrEditorForNotPriceToolButton from '../components/toolButton/RecAddrEditorForNotPriceToolButton'
-
 
 import AddOrderCarToolButton from '../components/toolButton/AddOrderCarToolButton'
 import OrderCarEditorToolButton from '../components/toolButton/OrderCarEditorToolButton'
@@ -174,7 +166,7 @@ export default class App extends Component {
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                         </Scene>*/}
                     <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
+                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
                             <Scene key="home"
                                 initial={true}
                                 component={Home}
@@ -360,7 +352,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                             <Scene key="routeForOrderAtHomeBlock"
-                            RightButton={RouteForOrderToolButton}
+                                RightButton={RouteForOrderToolButton}
                                 LeftButton={LeftButton}
                                 component={RouteForOrder}
                                 title='线路安排'
@@ -445,7 +437,7 @@ export default class App extends Component {
                                 navBar={NavBar}
                             />
                         </Scene>
-                        <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
+                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
                             <Scene key="orderList"
                                 initial={true}
                                 component={OrderList}
@@ -453,6 +445,40 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 navBar={NavBar}
                                 RightButton={OrderListToolButton}
+                            />
+                            <Scene key="addrEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={AddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="addressInfoAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={AddressInfo}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="recAddrEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={RecAddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={RecAddrEditorToolButton}
+                            />
+                            <Scene key="sendAddrEditorAtOrderBlock"
+                                LeftButton={LeftButton}
+                                component={SendAddrEditor}
+                                title='收发货信息'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                                RightButton={SendAddrEditorToolButton}
                             />
                             <Scene key="orderCarFeeEditorAtOrderBlock"
                                 LeftButton={LeftButton}
@@ -657,6 +683,23 @@ export default class App extends Component {
                                 navBar={NavBar}
                                 RightButton={RouteToolButton}
                             />
+                            <Scene key="routeForOrderAtRouteBlock"
+                                LeftButton={LeftButton}
+                                RightButton={RouteForOrderToolButton}
+                                component={RouteForOrder}
+                                title='线路安排'
+                                hideNavBar={false}
+                                hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="orderCarListAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarList}
+                                title='运送车辆'
+                                hideTabBar={true}
+                                hideNavBar={false}
+                                navBar={NavBar}
+                            />
                             <Scene key="routeCarListAtRouteBlock"
                                 RightButton={RouteCarListToolButton}
                                 LeftButton={LeftButton}
@@ -664,6 +707,14 @@ export default class App extends Component {
                                 title='运输车辆列表'
                                 hideNavBar={false}
                                 hideTabBar={true}
+                                navBar={NavBar}
+                            />
+                            <Scene key="orderCarInfoAtRouteBlock"
+                                LeftButton={LeftButton}
+                                component={OrderCarInfo}
+                                title='车辆详情'
+                                hideTabBar={true}
+                                hideNavBar={false}
                                 navBar={NavBar}
                             />
                             <Scene key="loadTaskInfoAtRouteBlock"

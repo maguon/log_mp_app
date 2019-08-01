@@ -29,9 +29,9 @@ export default handleActions({
             ...state,
             data: {
                 ...state.data,
-                requireTaskList, 
-                searchParam, 
-                isCompleted 
+                requireTaskList,
+                searchParam,
+                isCompleted
             },
             getRequireTaskList: {
                 ...state.getRequireTaskList,
@@ -122,5 +122,20 @@ export default handleActions({
         }
     },
 
-
+    [reduxActionTypes.requireTaskList.set_requireTaskInfoForList]: (state, action) => {
+        const { payload: { requireTaskInfo } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                requireTaskList: state.data.requireTaskList.map(item => {
+                    if (item.id == requireTaskInfo.id) {
+                        return requireTaskInfo
+                    } else {
+                        return item
+                    }
+                })
+            }
+        }
+    },
 }, initialState)
