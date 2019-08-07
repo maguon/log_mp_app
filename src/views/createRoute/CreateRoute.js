@@ -24,7 +24,6 @@ const planDateRequiredValidator = required('计划发运日期必选')
 const CreateRoute = props => {
     const { getCityListWaiting, getCityList, getSupplierList, getSupplierListWaiting, parent, sceneKey,
         createRouteReducer: { createRoute: { isResultStatus } } } = props
-    // console.log('props',props)
     return (
         <Container>
             <Content>
@@ -146,7 +145,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createRouteForm',
     onSubmit: (values, dispatch, props) => {
         const { requireTaskInfo } = props
-        // console.log('requireTaskInfo',requireTaskInfo)
         dispatch(reduxActions.createRoute.createRoute({ values, orderId: requireTaskInfo.order_id, requireId: requireTaskInfo.id }))
     }
 })(CreateRoute))

@@ -16,7 +16,6 @@ const initialState = {
 export default handleActions({
     [reduxActionTypes.routeForOrder.change_routeStatus_success]: (state, action) => {
         const { payload: { requireTaskInfo } } = action
-        console.log('requireTaskInfo',requireTaskInfo)
         return {
             ...state,
             data:{

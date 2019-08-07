@@ -7,15 +7,15 @@ const initialState = {
         order:{}
     },
     //login.isResultStatus : 0(未执行), 1(等待), 2(执行成功), 3(未知错误), 4(执行失败)
-    cancelRequire:{
-        isResultStatus: 0,
-        errorMsg: '',
-        failedMsg: ''
-    },
     getOrder:{
         isResultStatus: 0,
         errorMsg: '',
         failedMsg: ''   
+    },
+    finishRequire:{
+        isResultStatus: 0,
+        errorMsg: '',
+        failedMsg: ''    
     }
 }
 
@@ -30,55 +30,6 @@ export default handleActions({
             }
         }
     },
-
-
-
-
-    [reduxActionTypes.requireTaskInfo.cancel_require_success]: (state, action) => {
-        const { payload: { requireTaskInfo } } = action
-        return {
-            ...state,
-            data:{
-                requireTaskInfo
-            },
-            cancelRequire: {
-                ...state.cancelRequire,
-                isResultStatus: 2
-            }
-        }
-    },
-    [reduxActionTypes.requireTaskInfo.cancel_require_failed]: (state, action) => {
-        const { payload: { failedMsg } } = action
-        return {
-            ...state,
-            cancelRequire: {
-                ...state.cancelRequire,
-                isResultStatus: 4,
-                failedMsg
-            }
-        }
-    },
-    [reduxActionTypes.requireTaskInfo.cancel_require_waiting]: (state, action) => {
-        return {
-            ...state,
-            cancelRequire: {
-                ...state.cancelRequire,
-                isResultStatus: 1
-            }
-        }
-    },
-    [reduxActionTypes.requireTaskInfo.cancel_require_error]: (state, action) => {
-        const { payload: { errorMsg } } = action
-        return {
-            ...state,
-            cancelRequire: {
-                ...state.cancelRequire,
-                isResultStatus: 3,
-                errorMsg
-            }
-        }
-    },
-
 
 
     [reduxActionTypes.requireTaskInfo.get_orderForRequireTaskInfo_success]: (state, action) => {
@@ -121,6 +72,55 @@ export default handleActions({
             ...state,
             getOrder: {
                 ...state.getOrder,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+
+    [reduxActionTypes.requireTaskInfo.finish_require_success]: (state, action) => {
+        const { payload: { requireTaskInfo } } = action
+        return {
+            ...state,
+            data:{
+                ...state.data,
+                requireTaskInfo
+            },
+            finishRequire: {
+                ...state.finishRequire,
+                isResultStatus: 2
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskInfo.finish_require_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            finishRequire: {
+                ...state.finishRequire,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskInfo.finish_require_waiting]: (state, action) => {
+        return {
+            ...state,
+            finishRequire: {
+                ...state.finishRequire,
+                isResultStatus: 1
+            }
+        }
+    },
+    [reduxActionTypes.requireTaskInfo.finish_require_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            finishRequire: {
+                ...state.finishRequire,
                 isResultStatus: 3,
                 errorMsg
             }

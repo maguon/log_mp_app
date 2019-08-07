@@ -47,8 +47,6 @@ const OrderNotRoute = props => {
     const _requiretotal_insure_price = requireTaskInfo.total_insure_price ? requireTaskInfo.total_insure_price : 0
     const _requiretotal_trans_price = requireTaskInfo.total_trans_price ? requireTaskInfo.total_trans_price : 0
 
-
-    // console.log('props',props)
     return (
         <Container>
             <Content>

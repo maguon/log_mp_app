@@ -75,6 +75,4 @@ export default handleActions({
             }
         }
     }
-
-
 }, initialState)

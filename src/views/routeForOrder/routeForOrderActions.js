@@ -12,18 +12,15 @@ export const changeRouteStatus = req => async (dispatch, getState) => {
         const res = await httpRequest.put(url, {})
         if (res.success) {
             const routeTaskUrl = `${base_host}/admin/${id}/requireTask?requireId=${req.requireTaskId}`
-            // console.log('routeTaskUrl', routeTaskUrl)
             const routeTaskRes = await httpRequest.get(routeTaskUrl)
-            // console.log('routeTaskRes', routeTaskRes)
             if (routeTaskRes.success) {
                 const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.orderId}`
-                // console.log('orderUrl', orderUrl)
                 const orderRes = await httpRequest.get(orderUrl)
-                // console.log('orderRes', orderRes)
                 if (orderRes.success) {
                     dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrderWaiting())
                     dispatch(reduxActions.routeTaskListForOrder.getRouteTaskListForOrder({ orderId: req.orderId }))
                     dispatch(reduxActions.orderInfo.setOrderInfo(orderRes.result[0]))
+                    dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
                     dispatch({ type: reduxActionTypes.requireTaskList.set_requireTaskInfoForList, payload: { requireTaskInfo: routeTaskRes.result[0] } })
                     dispatch({ type: reduxActionTypes.requireTaskInfo.set_requireTaskInfo, payload: { requireTaskInfo: routeTaskRes.result[0] } })
                     dispatch({ type: reduxActionTypes.orderInfo.get_requireTaskInfoForOrderInfo_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })

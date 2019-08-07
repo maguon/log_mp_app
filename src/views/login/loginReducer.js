@@ -4,13 +4,13 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 const initialState = {
     data: {
         user: {
-            id: 3,
-            user_name: "19999999999",
-            real_name: "管理员",
-            gender: 0,
-            phone: "13322222222",
-            status: 1,
-            type: 10001
+            // id: 3,
+            // user_name: "19999999999",
+            // real_name: "管理员",
+            // gender: 0,
+            // phone: "13322222222",
+            // status: 1,
+            // type: 10001
         }
     },
     loginFlow: {

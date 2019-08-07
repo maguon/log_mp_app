@@ -142,7 +142,7 @@ export default class App extends Component {
         return (
             <Router getSceneStyle={getSceneStyle} >
                 <Scene key="root">
-                    {/* <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
+                    <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
                     <Scene
                         key="mainRoot"
                         component={connect(mapStateToProps)(Switch)}
@@ -150,10 +150,9 @@ export default class App extends Component {
                         type={ActionConst.RESET}
                         selector={(props) => {
                             const { user } = props.loginReducer.data
-                            console.log(user)
-                            if (user.mobile
+                            if (user.userName
                                 && user.token
-                                && user.uid
+                                && user.id
                                 && user.status
                                 && user.type) {
                                 return 'main'
@@ -164,649 +163,651 @@ export default class App extends Component {
                     >
                         <Scene key="loginBlock" >
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
-                        </Scene>*/}
-                    <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
-                            <Scene key="home"
-                                initial={true}
-                                component={Home}
-                                title='首页'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={HomeToolButton}
-                            />
-                            <Scene key="inquiryInfo"
-                                LeftButton={LeftButton}
-                                component={InquiryInfo}
-                                title='询价详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="order"
-                                LeftButton={LeftButton}
-                                component={order}
-                                title='订单详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="addrEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={AddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="addressInfoAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={AddressInfo}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="recAddrEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={RecAddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={RecAddrEditorToolButton}
-                            />
-                            <Scene key="sendAddrEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={SendAddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={SendAddrEditorToolButton}
-                            />
-                            <Scene key="paymentAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={Payment}
-                                title='支付信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="consultInfo"
-                                LeftButton={LeftButton}
-                                component={ConsultInfo}
-                                title='协商费用'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="inquiryCarList"
-                                LeftButton={LeftButton}
-                                component={InquiryCarList}
-                                title='运送车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="inquiryCarInfo"
-                                LeftButton={LeftButton}
-                                component={InquiryCarInfo}
-                                title='车辆信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="consult"
-                                LeftButton={LeftButton}
-                                component={Consult}
-                                title='协商费用'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={ConsultToolButton}
-                            />
-                            <Scene key="cityList"
-                                LeftButton={LeftButton}
-                                component={CityList}
-                                title='城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCityList"
-                                LeftButton={LeftButton}
-                                component={RouteCityList}
-                                title='可选城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="createOrder"
-                                LeftButton={LeftButton}
-                                component={CreateOrder}
-                                title='创建订单'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={CreateOrderToolButton}
-                            />
-                            <Scene key="orderCarListAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarList}
-                                title='运送车辆'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarInfoAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarInfo}
-                                title='车辆详情'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarEditor}
-                                title='修改车辆信息'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderCarEditorToolButton}
-                            />
-                            <Scene key="orderCarFeeEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarFeeEditor}
-                                title='车辆信息'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderCarFeeEditorToolButton}
-                            />
-                            <Scene key="orderRemarkEditor"
-                                LeftButton={LeftButton}
-                                component={OrderRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderRemarkEditorToolButton}
-                            />
-                            <Scene key="addOrderCarAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={AddOrderCar}
-                                title='增加车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={AddOrderCarToolButton}
-                            />
-                            <Scene key="loadTaskListAtHome"
-                                LeftButton={LeftButton}
-                                component={LoadTaskList}
-                                title='线路安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeForOrderAtHomeBlock"
-                                RightButton={RouteForOrderToolButton}
-                                LeftButton={LeftButton}
-                                component={RouteForOrder}
-                                title='线路安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="createRouteAtHomeBlock"
+                        </Scene>
 
-                                LeftButton={LeftButton}
-                                component={CreateRoute}
-                                title='增加线路'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={CreateRouteToolButton}
-                            />
-                            <Scene key="supplierListAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={SupplierList}
-                                title='供应商列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCarListAtHomeBlock"
-                                RightButton={RouteCarListToolButton}
-                                LeftButton={LeftButton}
-                                component={RouteCarList}
-                                title='运输车辆列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="loadTaskInfoAtHomeBlock"
-                                component={LoadTaskInfo}
-                                LeftButton={LeftButton}
-                                title='路线详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="carListForRouteAtHomeBlock"
-                                component={CarListForRoute}
-                                LeftButton={LeftButton}
-                                title='选择车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeTaskListForOrderAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={RouteTaskListForOrder}
-                                RightButton={RouteTaskListForOrderToolButton}
-                                title='路线安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="pickUpAddrEditorAtHomeBlock"
-                                LeftButton={LeftButton}
-                                component={PickUpAddrEditor}
-                                title='修改收发货地址'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={PickUpAddrEditorToolButton}
-                            />
-                        </Scene>
-                        <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
-                            <Scene key="feePrice"
-                                component={FeePrice}
-                                title='询价'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="cityListAtFeePriceBlock"
-                                LeftButton={LeftButton}
-                                component={CityList}
-                                title='城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCityListAtFeePriceBlock"
-                                LeftButton={LeftButton}
-                                component={RouteCityList}
-                                title='可选城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                        </Scene>
-                        <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
-                            <Scene key="orderList"
-                                initial={true}
-                                component={OrderList}
-                                title='订单'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderListToolButton}
-                            />
-                            <Scene key="addrEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={AddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="addressInfoAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={AddressInfo}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="recAddrEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={RecAddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={RecAddrEditorToolButton}
-                            />
-                            <Scene key="sendAddrEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={SendAddrEditor}
-                                title='收发货信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={SendAddrEditorToolButton}
-                            />
-                            <Scene key="orderCarFeeEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarFeeEditor}
-                                title='车辆信息'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderCarFeeEditorToolButton}
-                            />
-                            <Scene key="routeForOrderAtOrderBlock"
-                                LeftButton={LeftButton}
-                                RightButton={RouteForOrderToolButton}
-                                component={RouteForOrder}
-                                title='线路安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="paymentAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={Payment}
-                                title='支付信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarInfoAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarInfo}
-                                title='车辆详情'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarEditor}
-                                title='修改车辆信息'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderCarEditorToolButton}
-                            />
-                            <Scene key="addOrderCarAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={AddOrderCar}
-                                title='增加车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={AddOrderCarToolButton}
-                            />
-                            <Scene key="createOrderAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={CreateOrder}
-                                title='创建订单'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={CreateOrderToolButton}
-                            />
-                            <Scene key="orderInfoAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderInfo}
-                                title='订单详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarListAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarList}
-                                title='运送车辆'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={order}
-                                title='订单详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="cityListAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={CityList}
-                                title='城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCityListAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={RouteCityList}
-                                title='可选城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCarListAtOrderBlock"
-                                RightButton={RouteCarListToolButton}
-                                LeftButton={LeftButton}
-                                component={RouteCarList}
-                                title='运输车辆列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="pickUpAddrList"
-                                LeftButton={LeftButton}
-                                component={PickUpAddrList}
-                                title='收发货地址列表'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="pickUpAddrEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={PickUpAddrEditor}
-                                title='修改收发货地址'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={PickUpAddrEditorToolButton}
-                            />
-                            <Scene key="routeTaskListForOrderAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={RouteTaskListForOrder}
-                                RightButton={RouteTaskListForOrderToolButton}
-                                title='路线安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderRemarkEditorAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={OrderRemarkEditor}
-                                title='客服备注'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={OrderRemarkEditorToolButton}
-                            />
-                            <Scene key="loadTaskInfoAtOrderBlock"
-                                component={LoadTaskInfo}
-                                LeftButton={LeftButton}
-                                title='路线详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="syncedRoute"
-                                // initial={true}
-                                component={SyncedRoute}
-                                LeftButton={LeftButton}
-                                title='同步信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="carListForSyncedRoute"
-                                component={CarListForSyncedRoute}
-                                LeftButton={LeftButton}
-                                title='同步信息'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="carListForRouteAtOrderBlock"
-                                component={CarListForRoute}
-                                LeftButton={LeftButton}
-                                title='选择车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="createRouteAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={CreateRoute}
-                                title='增加线路'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={CreateRouteToolButton}
-                            />
-                            <Scene key="supplierListAtOrderBlock"
-                                LeftButton={LeftButton}
-                                component={SupplierList}
-                                title='供应商列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                        </Scene>
-                        <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
-                            <Scene key="route"
-                                initial={true}
-                                component={Route}
-                                title='路线'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={RouteToolButton}
-                            />
-                            <Scene key="pickUpAddrEditorAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={PickUpAddrEditor}
-                                title='修改收发货地址'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                                RightButton={PickUpAddrEditorToolButton}
-                            />
-                            <Scene key="routeForOrderAtRouteBlock"
-                                LeftButton={LeftButton}
-                                RightButton={RouteForOrderToolButton}
-                                component={RouteForOrder}
-                                title='线路安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarListAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarList}
-                                title='运送车辆'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeCarListAtRouteBlock"
-                                RightButton={RouteCarListToolButton}
-                                LeftButton={LeftButton}
-                                component={RouteCarList}
-                                title='运输车辆列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="orderCarInfoAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={OrderCarInfo}
-                                title='车辆详情'
-                                hideTabBar={true}
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="loadTaskInfoAtRouteBlock"
-                                component={LoadTaskInfo}
-                                LeftButton={LeftButton}
-                                title='路线详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="requireTaskInfo"
-                                component={RequireTaskInfo}
-                                LeftButton={LeftButton}
-                                title='订单详情'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="cityListAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={CityList}
-                                title='城市列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="routeTaskListForOrderAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={RouteTaskListForOrder}
-                                RightButton={RouteTaskListForOrderToolButton}
-                                title='路线安排'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="carListForRouteAtRouteBlock"
-                                component={CarListForRoute}
-                                LeftButton={LeftButton}
-                                title='选择车辆'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                            <Scene key="createRouteAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={CreateRoute}
-                                title='增加线路'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                                RightButton={CreateRouteToolButton}
-                            />
-                            <Scene key="supplierListAtRouteBlock"
-                                LeftButton={LeftButton}
-                                component={SupplierList}
-                                title='供应商列表'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
-                        </Scene>
-                        <Scene key="settingBlock" icon={TabBarIcon} online='ios-settings' >
-                            <Scene key="setting"
-                                component={Setting}
-                                title='设置'
-                                hideNavBar={false}
-                                navBar={NavBar}
-                            />
-                            <Scene key="changePassword"
-                                LeftButton={LeftButton}
-                                component={ChangePassword}
-                                title='修改密码'
-                                hideNavBar={false}
-                                hideTabBar={true}
-                                navBar={NavBar}
-                            />
+                        <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
+                            <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
+                                <Scene key="home"
+                                    initial={true}
+                                    component={Home}
+                                    title='首页'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={HomeToolButton}
+                                />
+                                <Scene key="inquiryInfo"
+                                    LeftButton={LeftButton}
+                                    component={InquiryInfo}
+                                    title='询价详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="order"
+                                    LeftButton={LeftButton}
+                                    component={order}
+                                    title='订单详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="addrEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="addressInfoAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddressInfo}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="recAddrEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={RecAddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={RecAddrEditorToolButton}
+                                />
+                                <Scene key="sendAddrEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={SendAddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={SendAddrEditorToolButton}
+                                />
+                                <Scene key="paymentAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={Payment}
+                                    title='支付信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="consultInfo"
+                                    LeftButton={LeftButton}
+                                    component={ConsultInfo}
+                                    title='协商费用'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="inquiryCarList"
+                                    LeftButton={LeftButton}
+                                    component={InquiryCarList}
+                                    title='运送车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="inquiryCarInfo"
+                                    LeftButton={LeftButton}
+                                    component={InquiryCarInfo}
+                                    title='车辆信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="consult"
+                                    LeftButton={LeftButton}
+                                    component={Consult}
+                                    title='协商费用'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={ConsultToolButton}
+                                />
+                                <Scene key="cityList"
+                                    LeftButton={LeftButton}
+                                    component={CityList}
+                                    title='城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCityList"
+                                    LeftButton={LeftButton}
+                                    component={RouteCityList}
+                                    title='可选城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="createOrder"
+                                    LeftButton={LeftButton}
+                                    component={CreateOrder}
+                                    title='创建订单'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={CreateOrderToolButton}
+                                />
+                                <Scene key="orderCarListAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarList}
+                                    title='运送车辆'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarInfoAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarInfo}
+                                    title='车辆详情'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarEditor}
+                                    title='修改车辆信息'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderCarEditorToolButton}
+                                />
+                                <Scene key="orderCarFeeEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarFeeEditor}
+                                    title='车辆信息'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderCarFeeEditorToolButton}
+                                />
+                                <Scene key="orderRemarkEditor"
+                                    LeftButton={LeftButton}
+                                    component={OrderRemarkEditor}
+                                    title='客服备注'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderRemarkEditorToolButton}
+                                />
+                                <Scene key="addOrderCarAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddOrderCar}
+                                    title='增加车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={AddOrderCarToolButton}
+                                />
+                                <Scene key="loadTaskListAtHome"
+                                    LeftButton={LeftButton}
+                                    component={LoadTaskList}
+                                    title='线路安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeForOrderAtHomeBlock"
+                                    RightButton={RouteForOrderToolButton}
+                                    LeftButton={LeftButton}
+                                    component={RouteForOrder}
+                                    title='线路安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="createRouteAtHomeBlock"
+
+                                    LeftButton={LeftButton}
+                                    component={CreateRoute}
+                                    title='增加线路'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={CreateRouteToolButton}
+                                />
+                                <Scene key="supplierListAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={SupplierList}
+                                    title='供应商列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCarListAtHomeBlock"
+                                    RightButton={RouteCarListToolButton}
+                                    LeftButton={LeftButton}
+                                    component={RouteCarList}
+                                    title='运输车辆列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="loadTaskInfoAtHomeBlock"
+                                    component={LoadTaskInfo}
+                                    LeftButton={LeftButton}
+                                    title='路线详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForRouteAtHomeBlock"
+                                    component={CarListForRoute}
+                                    LeftButton={LeftButton}
+                                    title='选择车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeTaskListForOrderAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={RouteTaskListForOrder}
+                                    RightButton={RouteTaskListForOrderToolButton}
+                                    title='路线安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="pickUpAddrEditorAtHomeBlock"
+                                    LeftButton={LeftButton}
+                                    component={PickUpAddrEditor}
+                                    title='修改收发货地址'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={PickUpAddrEditorToolButton}
+                                />
+                            </Scene>
+                            <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
+                                <Scene key="feePrice"
+                                    component={FeePrice}
+                                    title='询价'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="cityListAtFeePriceBlock"
+                                    LeftButton={LeftButton}
+                                    component={CityList}
+                                    title='城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCityListAtFeePriceBlock"
+                                    LeftButton={LeftButton}
+                                    component={RouteCityList}
+                                    title='可选城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                            </Scene>
+                            <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                                <Scene key="orderList"
+                                    initial={true}
+                                    component={OrderList}
+                                    title='订单'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderListToolButton}
+                                />
+                                <Scene key="addrEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="addressInfoAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddressInfo}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="recAddrEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={RecAddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={RecAddrEditorToolButton}
+                                />
+                                <Scene key="sendAddrEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={SendAddrEditor}
+                                    title='收发货信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={SendAddrEditorToolButton}
+                                />
+                                <Scene key="orderCarFeeEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarFeeEditor}
+                                    title='车辆信息'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderCarFeeEditorToolButton}
+                                />
+                                <Scene key="routeForOrderAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    RightButton={RouteForOrderToolButton}
+                                    component={RouteForOrder}
+                                    title='线路安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="paymentAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={Payment}
+                                    title='支付信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarInfoAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarInfo}
+                                    title='车辆详情'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarEditor}
+                                    title='修改车辆信息'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderCarEditorToolButton}
+                                />
+                                <Scene key="addOrderCarAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={AddOrderCar}
+                                    title='增加车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={AddOrderCarToolButton}
+                                />
+                                <Scene key="createOrderAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={CreateOrder}
+                                    title='创建订单'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={CreateOrderToolButton}
+                                />
+                                <Scene key="orderInfoAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderInfo}
+                                    title='订单详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarListAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarList}
+                                    title='运送车辆'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={order}
+                                    title='订单详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="cityListAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={CityList}
+                                    title='城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCityListAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={RouteCityList}
+                                    title='可选城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCarListAtOrderBlock"
+                                    RightButton={RouteCarListToolButton}
+                                    LeftButton={LeftButton}
+                                    component={RouteCarList}
+                                    title='运输车辆列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="pickUpAddrList"
+                                    LeftButton={LeftButton}
+                                    component={PickUpAddrList}
+                                    title='收发货地址列表'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="pickUpAddrEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={PickUpAddrEditor}
+                                    title='修改收发货地址'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={PickUpAddrEditorToolButton}
+                                />
+                                <Scene key="routeTaskListForOrderAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={RouteTaskListForOrder}
+                                    RightButton={RouteTaskListForOrderToolButton}
+                                    title='路线安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderRemarkEditorAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderRemarkEditor}
+                                    title='客服备注'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={OrderRemarkEditorToolButton}
+                                />
+                                <Scene key="loadTaskInfoAtOrderBlock"
+                                    component={LoadTaskInfo}
+                                    LeftButton={LeftButton}
+                                    title='路线详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="syncedRoute"
+                                    // initial={true}
+                                    component={SyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForSyncedRoute"
+                                    component={CarListForSyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForRouteAtOrderBlock"
+                                    component={CarListForRoute}
+                                    LeftButton={LeftButton}
+                                    title='选择车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="createRouteAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={CreateRoute}
+                                    title='增加线路'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={CreateRouteToolButton}
+                                />
+                                <Scene key="supplierListAtOrderBlock"
+                                    LeftButton={LeftButton}
+                                    component={SupplierList}
+                                    title='供应商列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                            </Scene>
+                            <Scene key="routeBlock" icon={TabBarIcon} online='ios-infinite' >
+                                <Scene key="route"
+                                    initial={true}
+                                    component={Route}
+                                    title='路线'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={RouteToolButton}
+                                />
+                                <Scene key="pickUpAddrEditorAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={PickUpAddrEditor}
+                                    title='修改收发货地址'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                    RightButton={PickUpAddrEditorToolButton}
+                                />
+                                <Scene key="routeForOrderAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    RightButton={RouteForOrderToolButton}
+                                    component={RouteForOrder}
+                                    title='线路安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarListAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarList}
+                                    title='运送车辆'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeCarListAtRouteBlock"
+                                    RightButton={RouteCarListToolButton}
+                                    LeftButton={LeftButton}
+                                    component={RouteCarList}
+                                    title='运输车辆列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="orderCarInfoAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={OrderCarInfo}
+                                    title='车辆详情'
+                                    hideTabBar={true}
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="loadTaskInfoAtRouteBlock"
+                                    component={LoadTaskInfo}
+                                    LeftButton={LeftButton}
+                                    title='路线详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="requireTaskInfo"
+                                    component={RequireTaskInfo}
+                                    LeftButton={LeftButton}
+                                    title='订单详情'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="cityListAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={CityList}
+                                    title='城市列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="routeTaskListForOrderAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={RouteTaskListForOrder}
+                                    RightButton={RouteTaskListForOrderToolButton}
+                                    title='路线安排'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForRouteAtRouteBlock"
+                                    component={CarListForRoute}
+                                    LeftButton={LeftButton}
+                                    title='选择车辆'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="createRouteAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={CreateRoute}
+                                    title='增加线路'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                    RightButton={CreateRouteToolButton}
+                                />
+                                <Scene key="supplierListAtRouteBlock"
+                                    LeftButton={LeftButton}
+                                    component={SupplierList}
+                                    title='供应商列表'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                            </Scene>
+                            <Scene key="settingBlock" icon={TabBarIcon} online='ios-settings' >
+                                <Scene key="setting"
+                                    component={Setting}
+                                    title='设置'
+                                    hideNavBar={false}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="changePassword"
+                                    LeftButton={LeftButton}
+                                    component={ChangePassword}
+                                    title='修改密码'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                            </Scene>
                         </Scene>
                     </Scene>
                 </Scene>

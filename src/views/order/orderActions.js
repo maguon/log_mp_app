@@ -118,6 +118,7 @@ export const changeOrderStatus = req => async (dispatch, getState) => {
             const orderRes = await httpRequest.get(orderUrl)
             if (orderRes.success) {
                 dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
+                dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
                 if (targetStatus == 0) {
                     dispatch({ type: reduxActionTypes.orderListNotInfo.set_orderForNotInfo, payload: { order: orderRes.result[0] } })
                 } else if (targetStatus == 1) {
@@ -159,16 +160,14 @@ export const createRequireTask = req => async (dispatch, getState) => {
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/order/${req.order.id}/requireTask`
         const res = await httpRequest.post(url, {})
-        // console.log('res', res)
         if (res.success) {
             const orderUrl = `${base_host}/admin/${id}/order?orderId=${req.order.id}`
             const orderRes = await httpRequest.get(orderUrl)
             if (orderRes.success) {
                 const routeTaskUrl = `${base_host}/admin/${id}/requireTask?requireId=${res.id}`
-                // console.log('routeTaskUrl', routeTaskUrl)
                 const routeTaskRes = await httpRequest.get(routeTaskUrl)
-                // console.log('routeTaskRes', routeTaskRes)
                 if (routeTaskRes.success) {
+                    dispatch({ type: reduxActionTypes.orderList.set_orderForOrderList, payload: { order: orderRes.result[0] } })
                     dispatch({ type: reduxActionTypes.order.init_order, payload: { order: orderRes.result[0] } })
                     dispatch({ type: reduxActionTypes.order.get_requireTaskForOrder_success, payload: { requireTaskInfo: routeTaskRes.result[0] } })
                     dispatch({ type: reduxActionTypes.order.change_orderStatus_success })

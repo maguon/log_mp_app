@@ -8,12 +8,10 @@ export const changeLoadTaskStatus = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/loadTask/${req.loadTaskId}/status/${req.status}`
-        console.log('url',url)
         const res = await httpRequest.put(url, {})
         if (res.success) {
             const loadTaskInfoUrl = `${base_host}/admin/${id}/routeLoadTask?loadTaskId=${req.loadTaskId}`
             const loadTaskInfoRes = await httpRequest.get(loadTaskInfoUrl)
-            console.log('loadTaskInfoRes',loadTaskInfoRes)
             if (loadTaskInfoRes.success) {
                 
                 dispatch({ type: reduxActionTypes.loadTaskInfo.change_loadTaskInfoStatus_success, payload: { loadTaskInfo: loadTaskInfoRes.result[0] } })
@@ -53,9 +51,7 @@ export const cancelLoadTaskInfo = req => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } },
             loginReducer: { data: { user: { id } } } } = getState()
         const url = `${base_host}/admin/${id}/loadTask/${req.loadTaskId}`
-        console.log('url', url)
         const res = await httpRequest.del(url)
-        console.log('res', res)
         if (res.success) {
             dispatch({ type: reduxActionTypes.routeTaskListForOrder.del_routeTaskInfo, payload: { loadTaskId } })
             dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_success })
@@ -64,7 +60,6 @@ export const cancelLoadTaskInfo = req => async (dispatch, getState) => {
             dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_failed, payload: { failedMsg: `${err}` } })
         }
     } catch (err) {
-        console.log('err', err)
         dispatch({ type: reduxActionTypes.loadTaskInfo.cancel_loadTaskInfo_error, payload: { errorMsg: `${err}` } })
     }
 }

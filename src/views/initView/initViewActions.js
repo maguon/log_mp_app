@@ -1,116 +1,56 @@
+import * as reduxActions from '../../reduxActions'
 import * as reduxActionTypes from '../../reduxActionTypes'
-import { sleep, ObjectToUrl } from '../../util/util'
 import localStorageKey from '../../util/LocalStorageKey'
 import localStorage from '../../util/LocalStorage'
-import { ToastAndroid } from 'react-native'
-import * as android_app from '../../config/android_app.json'
 import httpRequest from '../../util/HttpRequest'
-import XGPush from 'react-native-xinge-push'
-import { Actions } from 'react-native-router-flux'
+import { ObjectToUrl } from '../../util/util'
 import requestHeaders from '../../util/RequestHeaders'
+import * as android_app from '../../config/android_app.json'
+import { Actions } from 'react-native-router-flux'
+import { NativeModules } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
-//第二步 获取版本，对比版本
-//第三步 获取localStorage
-//第四步 获取deviceToken
-//第五步 换token
-
-export const waiting = (step) => (dispatch, getState) => {
-    let stepKey
-    if (!step) {
-        //获取步骤
-        const { initViewReducer: { initApp } } = getState()
-        if (!initApp.step) {
-            stepKey = 'validateVersion'
-        } else {
-            stepKey = initApp.step
+export const start = () => async (dispatch, getState) => {
+    dispatch({ type: reduxActionTypes.initView.init_app_waiting })
+    dispatch(loadUniqueID({
+        version: {
+            currentVersion: '',
+            newestVersion: '',
+            force_update: 0,//0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
+            url: '',
+            remark: ''
+        },
+        deviceInfo: {
+            uniqueID: ''
         }
-    } else {
-        stepKey = step
-    }
-    dispatch({ type: reduxActionTypes.initView.change_step, payload: { stepKey } })
-    if (stepKey == 'validateVersion') {
-        dispatch(validateVersion())
-    } else if (stepKey == 'initPush') {
-        dispatch(initPush())
-    } else if (stepKey == 'loadLocalStorage') {
-        dispatch(loadLocalStorage())
-    } else if (stepKey == 'validateToken') {
-        dispatch(validateToken())
-    }
+    }))
 }
 
-
-export const success = res => (dispatch, getState) => {
-    const { initViewReducer: { initApp: { step } } } = getState()
-    if (step == 'validateVersion') {
-        if (res.force_update != 1) {
-            dispatch({ type: reduxActionTypes.initView.valdate_version_success, payload: { versionInfo: res } })
-            dispatch(waiting('initPush'))
-        }
-    } else if (step == 'initPush') {
-        const { deviceToken } = res
-        dispatch({ type: reduxActionTypes.initView.init_XGPush_success, payload: { deviceToken } })
-        dispatch(waiting('loadLocalStorage'))
-    } else if (step == 'loadLocalStorage') {
-        dispatch({ type: reduxActionTypes.initView.load_localStorage_success, payload: { userlocalStorage: res.localStorageRes } })
-        dispatch(waiting('validateToken'))
-
-    } else if (step == 'validateToken') {
-        dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user: res.user } })
-        dispatch({ type: reduxActionTypes.initView.validate_token_success, payload: {} })
-        dispatch({ type: reduxActionTypes.initView.init_app_complete, payload: {} })
-
-        Actions.mainRoot()
+/** 
+ * 第一步：获取uniqueID，
+ *          如果localStorage中有，从localStorage中取，
+ *          如果没有DeviceInfo.getUniqueID()获取
+ */
+export const loadUniqueID = param => async (dispatch, getState) => {
+    let uniqueID
+    try {
+        uniqueID = await localStorage.load({ key: localStorageKey.UNIQUEID })
+    } catch (err) {
+        uniqueID = DeviceInfo.getUniqueID()
     }
+    dispatch(validateVersion({ ...param, deviceInfo: { ...param.deviceInfo, uniqueID } }))
 }
 
-export const falied = res => (dispatch, getState) => {
-    const { initViewReducer: { initApp: { step } } } = getState()
-    if (step == 'validateVersion') {
-        dispatch({ type: reduxActionTypes.initView.valdate_version_failed, payload: { failedMsg: res.msg } })
-        Actions.mainRoot()
-
-
-    } else if (step == 'initPush') {
-        dispatch({ type: reduxActionTypes.initView.init_XGPush_failed, payload: { failedMsg: '获取deviceToken错误：deviceToken为空！' } })
-    } else if (step == 'loadLocalStorage') {
-        if (res.localStorageRes.mobile) {
-            dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user: { mobile: res.localStorageRes.mobile } } })
-        } else {
-            dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user: {} } })
-        }
-        dispatch({ type: reduxActionTypes.initView.load_localStorage_failed, payload: { failedMsg: 'localStorage数据不全！' } })
-        Actions.mainRoot()
-    } else if (step == 'validateToken') {
-        ToastAndroid.show(`登陆失败：${res.msg}`, 10)
-        dispatch({ type: reduxActionTypes.initView.validate_token_failed, payload: { failedMsg: res.msg } })
-        Actions.mainRoot()
-    }
-}
-
-export const error = err => (dispatch, getState) => {
-    const { initViewReducer: { initApp: { step } } } = getState()
-
-    if (step == 'validateVersion') {
-        dispatch({ type: reduxActionTypes.initView.valdate_version_error, payload: { errorMsg: err } })
-        Actions.mainRoot()
-    } else if (step == 'initPush') {
-        dispatch({ type: reduxActionTypes.initView.init_XGPush_error, payload: { errorMsg: err } })
-    } else if (step == 'loadLocalStorage') {
-        dispatch({ type: reduxActionTypes.initView.load_localStorage_error, payload: { errorMsg: err } })
-        Actions.mainRoot()
-    } else if (step == 'validateToken') {
-        ToastAndroid.show(`登陆失败：${err}`, 10)
-        dispatch({ type: reduxActionTypes.initView.validate_token_error, payload: { errorMsg: err } })
-        Actions.mainRoot()
-    }
-}
-
-
-export const validateVersion = () => async (dispatch, getState) => {
+/** 
+ * 第三步：获取最新version信息并对比，
+ *          如果获取失败，停止初始化流程，等待用户手动点击获取
+ *          如果获取成功，对比是否需要强制更新 force_update:0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
+ */
+export const validateVersion = param => async (dispatch, getState) => {
+    const currentStep = 2
     try {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
-        const url = `${base_host}/app?${ObjectToUrl({ app: android_app.type, type: android_app.android })}`
+        const url = `${base_host}/app${ObjectToUrl({ appType: android_app.type, deviceType: android_app.android })}`
         const res = await httpRequest.get(url)
         if (res.success) {
             const versionInfo = {
@@ -120,131 +60,157 @@ export const validateVersion = () => async (dispatch, getState) => {
                 remark: '',
                 force_update: 0
             }
-
-            //>>>过滤出大于当前版本的版本列表
-            const currentVersionArr = android_app.version.split('.')
-            let versionList = res.result
-                .filter(item => {
-                    const itemArr = item.version.split('.')
-                    if (currentVersionArr[0] < itemArr[0]) {
-                        return true
-                    } else if (currentVersionArr[0] == itemArr[0] && currentVersionArr[1] < itemArr[1]) {
-                        return true
-                    } else if (currentVersionArr[0] == itemArr[0] && currentVersionArr[1] == itemArr[1] && currentVersionArr[2] < itemArr[2]) {
-                        return true
+            const serviceVersionInfo = res.result
+            versionInfo.newestVersion = serviceVersionInfo.version
+            versionInfo.url = serviceVersionInfo.url
+            versionInfo.remark = serviceVersionInfo.remark
+            if (serviceVersionInfo.force_update < 1) {
+                if (serviceVersionInfo.version_num > android_app.version_num) {
+                    if (serviceVersionInfo.min_version_num > android_app.version_num) {
+                        versionInfo.force_update = 1
                     } else {
-                        return false
+                        versionInfo.force_update = 2
                     }
-                })
-            //<<<
-
-            //force_update:0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
-            if (versionList.length > 0) {
-                //>>>判断是否大于当前版本的版本列表中是否有强制更新的版本
-                if (versionList.some(item => item.force_update == 1)) {
-                    versionInfo.force_update = 1
-                } else {
-                    versionInfo.force_update = 2
                 }
-                //<<<
-
-                //>>>找出最新版本
-                versionList = versionList.sort((a, b) => {
-                    const aArr = a.version.split('.')
-                    const bArr = b.version.split('.')
-                    if (aArr[0] < bArr[0]) {
-                        return true
-                    } else if (aArr[0] == bArr[0] && aArr[1] < bArr[1]) {
-                        return true
-                    } else if (aArr[0] == bArr[0] && aArr[1] == bArr[1] && aArr[2] < bArr[2]) {
-                        return true
-                    } else {
-                        return false
-                    }
-                })
-                //<<<
-                versionInfo.newestVersion = versionList[0].version
-                versionInfo.url = versionList[0].url
-                versionInfo.remark = versionList[0].remark
             } else {
-                versionInfo.force_update = 0
-                versionInfo.newestVersion = versionInfo.currentVersion
+                if (serviceVersionInfo.version_num > android_app.version_num) {
+                    versionInfo.force_update = 1
+                }
             }
-            // dispatch(falied(res))
-
-            dispatch(success(versionInfo))
-
+            if (versionInfo.force_update != 1) {
+                dispatch(loadLocalStorage({ ...param, version: versionInfo }))
+            } else {
+                dispatch({ type: reduxActionTypes.initView.init_app_complete, payload: { param: { ...param, version: versionInfo } } })
+            }
         } else {
-            dispatch(falied(res))
+            dispatch({ type: reduxActionTypes.initView.init_app_failed, payload: { currentStep, msg: '获取版本错误', param } })
         }
     } catch (err) {
-        dispatch(error(err))
+        dispatch({ type: reduxActionTypes.initView.init_app_error, payload: { currentStep, msg: '获取版本错误', param } })
     }
 }
 
-
-export const initPush = () => async (dispatch) => {
+/** 
+ * 第四步：获取最新user数据，
+ *          如果获取失败，跳转到登录页面
+ *          如果获取成功，继续流程
+ */
+export const loadLocalStorage = param => async (dispatch) => {
+    const currentStep = 3
     try {
-        XGPush.init(2100327204, 'AYA8S6DU622N')
-        const deviceToken = await XGPush.register('jeepeng')
-        if (deviceToken) {
-            dispatch(success({ deviceToken }))
-        } else {
-            dispatch(falied({ msg: '获取deviceToken错误：deviceToken为空！' }))
-        }
-    } catch (err) {
-        dispatch(error(err))
-    }
-
-}
-
-export const loadLocalStorage = () => async (dispatch) => {
-    try {
-        //localStorage.remove({ key: localStorageKey.USER })
         const localStorageRes = await localStorage.load({ key: localStorageKey.USER })
-        console.log('localStorageRes', localStorageRes)
-        if (localStorageRes.token && localStorageRes.uid) {
-            dispatch(success({ localStorageRes }))
+
+        if (localStorageRes.token && localStorageRes.id) {
+            dispatch(validateToken({ param, user: localStorageRes }))
         }
         else {
-            dispatch(falied({ localStorageRes }))
+            if (localStorageRes.userName) {
+                dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user: { userName: localStorageRes.userName } } })
+            } else {
+                dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user:  {}} })
+            }
+            dispatch({ type: reduxActionTypes.initView.init_app_failed, payload: { currentStep, msg: '登陆未执行', param } })
+            Actions.mainRoot()
         }
     } catch (err) {
-        dispatch(error(err))
+        dispatch({ type: reduxActionTypes.initView.init_app_error, payload: { currentStep, msg: '登陆未执行', param } })
+        Actions.mainRoot()
     }
 }
 
-export const validateToken = () => async (dispatch, getState) => {
+/** 
+ * 第五步：先获取用户信息，然后更新token，
+ *          如果获取用户信息失败，跳转到登录
+ *          如果获取用户信息成功，继续更新token
+ *          如果更新token失败，跳转到登录
+ *          如果更新token成功，继续流程
+ */
+export const validateToken = ({ param, user }) => async (dispatch, getState) => {
+    const currentStep = 4
     try {
-        const { communicationSettingReducer: { data: { base_host } },
-            initViewReducer: { data: { userlocalStorage: { uid, token } } } } = getState()
-        const url = `${base_host}/user/${uid}/token/${token}`
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+        const { id, token } = user
+        const url = `${base_host}/admin/${id}/token/${token}`
         const res = await httpRequest.get(url)
-
         if (res.success) {
-            const getUserInfoUrl = `${base_host}/user?${ObjectToUrl({ userId: uid })}`
+            const getUserInfoUrl = `${base_host}/admin${ObjectToUrl({ adminId: id })}`
             const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
             if (getUserInfoRes.success) {
-                const { uid, mobile, real_name, type, gender, avatar_image, status, drive_id } = getUserInfoRes.result[0]
+                const { id, user_name, real_name, type, gender, status } = getUserInfoRes.result[0]
                 const user = {
-                    uid, mobile, real_name, type, gender, avatar_image, status, drive_id,
+                    id, userName:user_name, real_name, type, gender, status,
                     token: res.result.accessToken,
                 }
                 //判断请求是否成功，如果成功，更新token
                 localStorage.save({ key: localStorageKey.USER, data: user })
                 requestHeaders.set('auth-token', res.result.accessToken)
                 requestHeaders.set('user-type', type)
-                requestHeaders.set('user-name', mobile)
-                dispatch(success({ user }))
+                requestHeaders.set('user-name', user_name)
+                await dispatch({ type: reduxActionTypes.login.set_userInfo, payload: { user } })
+                dispatch(loadDeviceToken(param))
             } else {
-                dispatch(falied({ msg: '无法获取用户信息！' }))
+                dispatch({ type: reduxActionTypes.initView.init_app_failed, payload: { currentStep, msg: '无法换token', param } })
+                Actions.mainRoot()
             }
         }
         else {
-            dispatch(falied({ msg: res.msg }))
+            dispatch({ type: reduxActionTypes.initView.init_app_failed, payload: { currentStep, msg: '无法换token', param } })
+            Actions.mainRoot()
         }
     } catch (err) {
-        dispatch(error(err))
+        dispatch({ type: reduxActionTypes.initView.init_app_error, payload: { currentStep, msg: '登陆未执行', param } })
+        Actions.mainRoot()
     }
+}
 
+/** 
+ * 第六步：从localStorage获取deviceToken
+ *          如果获取deviceToken失败，从NativeModules.XinGeModule.register()获取，
+ *          如果获取deviceToken成功，完成初始化流程
+ */
+export const loadDeviceToken = param => async (dispatch) => {
+    try {
+        deviceToken = await localStorage.load({ key: localStorageKey.DEVICETOKEN })
+        dispatch(saveDeviceToken({ deviceToken, ...param }))
+        dispatch({ type: reduxActionTypes.initView.init_app_complete, payload: { param } })
+        Actions.mainRoot()
+        return
+    } catch (err) {
+    }
+    dispatch(initPush(param))
+}
+
+
+/** 
+ * 第七步：从NativeModules.XinGeModule.register()获取deviceToken
+ *          如果获取deviceToken失败，从NativeModules.XinGeModule.register()获取，
+ *          如果获取deviceToken成功，完成初始化流程
+ */
+export const initPush = param => async (dispatch) => {
+    let deviceToken
+    try {
+        deviceToken = await NativeModules.XinGeModule.register()
+        dispatch(saveDeviceToken({ deviceToken, ...param }))
+        localStorage.save({ key: localStorageKey.DEVICETOKEN, data: deviceToken })
+    } catch (err) {
+    }
+    dispatch({ type: reduxActionTypes.initView.init_app_complete, payload: { param } })
+    Actions.mainRoot()
+
+}
+
+/** 
+ * 分支：保存deviceToken
+ */
+export const saveDeviceToken = param => async (dispatch, getState) => {
+    try {
+        const { communicationSettingReducer: { data: { base_host } },
+            loginReducer: { data: { user: { id } } } } = getState()
+        const { deviceToken, deviceInfo: { uniqueID } } = param
+        const url = `${base_host}/admin/${id}/device/${uniqueID}/appType/${android_app.type}/adminDeviceToken`
+        const res = await httpRequest.put(url, { 
+            deviceType:android_app.android,
+            deviceToken,
+            appVersion:android_app.version })
+    } catch (err) { }
 }

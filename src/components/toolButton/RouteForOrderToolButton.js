@@ -8,7 +8,6 @@ import * as routerDirection from '../../util/RouterDirection'
 
 const routeTaskListForOrderToolButton = props => {
     const { parent, sceneKey, routeForOrderReducer: { data: { requireTaskInfo } } } = props
-    // console.log('requireTaskInfo', requireTaskInfo)
     if (requireTaskInfo.status == 1) {
         return (
             <TouchableOpacity onPress={() => routerDirection.createRoute(parent)({ preSceneKey: sceneKey, requireTaskInfo: requireTaskInfo })}>
@@ -22,12 +21,10 @@ const routeTaskListForOrderToolButton = props => {
     }
 }
 
-
 const mapStateToProps = (state) => {
     return {
         routeForOrderReducer: state.routeForOrderReducer
     }
 }
-
 
 export default connect(mapStateToProps)(routeTaskListForOrderToolButton)

@@ -37,8 +37,6 @@ class Login extends Component {
         return (
             <Container style={styles.container}>
                 <StatusBar hidden={true} />
-
-
                 <ImageBackground
                     source={{ uri: 'login_back' }}
                     style={styles.backgroundImage} >
@@ -57,7 +55,7 @@ class Login extends Component {
                     <Text style={[globalStyles.smallText, { color: 'rgba(255,255,255,0.1)', position: 'absolute', top: 5, right: 5 }]}>{android_app.version}</Text>
                     {force_update != 1 && <View style={styles.formContainer}>
                         <Field
-                            name='mobile'
+                            name='userName'
                             iconName='md-person'
                             placeholderText='请输入用户名'
                             component={TextBox} />
@@ -67,7 +65,7 @@ class Login extends Component {
                             iconName='md-lock'
                             placeholderText='请输入密码'
                             component={TextBox} />
-                        <Button style={[styles.itemButton, { backgroundColor: '#00cade' }]}
+                        <Button style={[styles.itemButton, { backgroundColor: '#672c7b' }]}
                             onPress={handleSubmit}>
                             <Text style={[globalStyles.midText, styles.buttonTittle]}>登录</Text>
                         </Button>
@@ -78,33 +76,11 @@ class Login extends Component {
                         </View>
 
                     </View>}
-                    {force_update == 1 && <View style={styles.formContainer}>
-                        <Button style={[globalStyles.styleBackgroundColor, { marginTop: 50 }]} onPress={() => {
-                            if (url) {
-                                Linking.canOpenURL(url)
-                                    .then(supported => {
-                                        if (!supported) {
-                                            console.log('Can\'t handle url: ' + url)
-                                        } else {
-                                            return Linking.openURL(url)
-                                        }
-                                    })
-                                    .catch(err => console.error('An error occurred', err))
-                            }
-                        }}>
-                            <Text style={[globalStyles.midText, styles.buttonTittle]}>请下载最新版本</Text>
-                        </Button>
-                    </View>}
                 </ImageBackground>
             </Container>
         )
     }
 }
-
-
-// const Login = props => {
-
-// }
 
 const styles = StyleSheet.create({
     container: {
@@ -161,8 +137,8 @@ const styles = StyleSheet.create({
         height: 80
     },
     appname: {
-        width: 125,
-        height: 38,
+        width: 136,
+        height: 32,
         marginTop: 20
     },
     formContainer: {

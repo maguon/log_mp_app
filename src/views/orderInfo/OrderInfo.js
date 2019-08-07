@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, InteractionManager } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, InteractionManager, Alert } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Content, Icon, Spinner } from 'native-base'
+import { Container, Content, Icon, Spinner, Button } from 'native-base'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
@@ -14,8 +14,8 @@ import * as routerDirection from '../../util/RouterDirection'
 const OrderInfo = props => {
     const { orderInfoReducer: { data: { order, requireTaskInfo } }, sceneKey, setOrderForpickUpAddr, parent,
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } },
-        getPaymentList,getPaymentListWaiting } = props
-    // console.log('props', props)
+        getPaymentList, getPaymentListWaiting, finishRequire } = props
+
     const orderStatus = new Map(order_status).get(order.status)
     const orderPaymentStatus = new Map(order_payment_status).get(order.payment_status)
     const serviceType = new Map(service_type_list).get(order.service_type)
@@ -78,7 +78,7 @@ const OrderInfo = props => {
                     <TouchableOpacity
                         onPress={() => {
                             routerDirection.orderCarList(parent)({ preSceneKey: sceneKey })
-                         }}
+                        }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>
                             <Text style={globalStyles.midText}>运送车辆</Text>
@@ -97,7 +97,7 @@ const OrderInfo = props => {
                             getPaymentListWaiting()
                             routerDirection.payment(parent)({ preSceneKey: sceneKey, order })
                             InteractionManager.runAfterInteractions(() => getPaymentList({ order }))
-                         }}
+                        }}
                         style={[styles.listItemBody, styles.listItemBorderBottom, styles.listItemPadding]}>
                         <View style={styles.listItemPadding}>
                             <Text style={globalStyles.midText}>支付信息</Text>
@@ -124,6 +124,29 @@ const OrderInfo = props => {
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>客服备注</Text>
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>客服备注</Text>
                     </View>
+                    {requireTaskInfo.status == 1 && <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
+                        <View style={[styles.listItemPadding, { flex: 1 }]}>
+                            <Button full style={[{ flex: 1, backgroundColor: styleColor }]} onPress={() => {
+                                Alert.alert(
+                                    '',
+                                    '确定完成需求？',
+                                    [
+                                        { text: '取消', onPress: () => { }, style: 'cancel' },
+                                        {
+                                            text: '确定', onPress: () => finishRequire({
+                                                requireId: requireTaskInfo.id,
+                                                status: 9,
+                                                orderId: requireTaskInfo.order_id
+                                            })
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }}>
+                                <Text style={[globalStyles.largeText, { color: '#fff' }]}>完成需求</Text>
+                            </Button>
+                        </View>
+                    </View>}
                 </Content>
             </Container>
         )
@@ -137,6 +160,7 @@ const mapStateToProps = (state) => {
         orderInfoReducer: state.orderInfoReducer
     }
 }
+//
 
 const mapDispatchToProps = (dispatch) => ({
     setOrderForpickUpAddr: req => {
@@ -147,6 +171,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getPaymentListWaiting: () => {
         dispatch(reduxActions.payment.getPaymentListWaiting())
+    },
+    finishRequire: req => {
+        dispatch(reduxActions.requireTaskInfo.finishRequire(req))
     }
 })
 

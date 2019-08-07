@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Button, Icon, Spinner } from 'native-base'
@@ -25,13 +26,13 @@ const RequireTaskInfo = props => {
             }, requireTaskInfo, order } },
         routeTaskListForOrderReducer: { data: { routeTaskListForOrder }, getRouteTaskListForOrder: { isResultStatus } },
         parent, sceneKey, getRouteTaskListForOrderWaiting, getRouteTaskListForOrder, getOrderCarList, getOrderCarListWaiting,
-        setRequireTaskInfo, setOrderForpickUpAddr } = props
+        setRequireTaskInfo, setOrderForpickUpAddr, finishRequire } = props
 
     const _total_trans_price = total_trans_price ? total_trans_price : 0
     const _total_insure_price = total_insure_price ? total_insure_price : 0
 
     const serviceType = new Map(service_type_list).get(service_type)
-    console.log('requireTaskInfo', requireTaskInfo)
+
     if (isResultStatus == 1) {
         return (
             <Container>
@@ -111,7 +112,6 @@ const RequireTaskInfo = props => {
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
                         onPress={() => {
-                            // console.log('onPress')
                             if (status == 4 || status == 8 || status == 9) {
                                 getRouteTaskListForOrderWaiting()
                                 routerDirection.routeTaskListForOrder(parent)({ preSceneKey: sceneKey, requireTaskInfo })
@@ -144,7 +144,7 @@ const RequireTaskInfo = props => {
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>客服备注</Text>
                         <Text style={[globalStyles.midText, styles.listItemPadding]}>{admin_mark ? `${admin_mark}` : ''}</Text>
                     </View>
-                    <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
+                    {status == 1 && <View style={[styles.listItemPadding, styles.listItemBorderBottom, styles.listItemBody]}>
                         <View style={[styles.listItemPadding, { flex: 1 }]}>
                             <Button full style={[{ flex: 1, backgroundColor: styleColor }]} onPress={() => {
                                 Alert.alert(
@@ -152,7 +152,13 @@ const RequireTaskInfo = props => {
                                     '确定完成需求？',
                                     [
                                         { text: '取消', onPress: () => { }, style: 'cancel' },
-                                        { text: '确定', onPress: () => { } },
+                                        {
+                                            text: '确定', onPress: () => finishRequire({
+                                                requireId: id,
+                                                status: 9,
+                                                orderId:order_id
+                                            })
+                                        },
                                     ],
                                     { cancelable: false }
                                 )
@@ -160,7 +166,7 @@ const RequireTaskInfo = props => {
                                 <Text style={[globalStyles.largeText, { color: '#fff' }]}>完成需求</Text>
                             </Button>
                         </View>
-                    </View>
+                    </View>}
                 </Content>
             </Container>
         )
@@ -193,6 +199,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     setOrderForpickUpAddr: req => {
         dispatch(reduxActions.pickUpAddrEditor.setOrderForpickUpAddr(req))
+    },
+    finishRequire: req => {
+        dispatch(reduxActions.requireTaskInfo.finishRequire(req))
     }
 })
 
