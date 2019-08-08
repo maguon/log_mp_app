@@ -41,6 +41,9 @@ import * as createRoute from './views/createRoute/createRouteActionTypes'
 import * as supplierList from './views/list/supplierList/supplierListActionTypes'
 import * as carListForRoute from './views/list/carListForRoute/carListForRouteActionTypes'
 
+import * as syncedRoute from './views/syncedRoute/syncedRouteActionTypes'
+import * as carListForSyncedRoute from './views/carListForSyncedRoute/carListForSyncedRouteActionTypes'
+
 export {
     login,
     initView,
@@ -76,8 +79,8 @@ export {
     routeTaskListForOrder,
     feePrice,
     addrEditor,
-
-
+    syncedRoute,
+    carListForSyncedRoute,
 
     pickUpAddrEditor,
     pickUpAddrList,

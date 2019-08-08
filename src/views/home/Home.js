@@ -68,7 +68,7 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabActiveIndex: 2,
+            tabActiveIndex: 1,
             showAlert: false
         }
     }

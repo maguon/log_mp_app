@@ -166,7 +166,7 @@ export default class App extends Component {
                         </Scene>
 
                         <Scene key="main" tabs={true} tabBarStyle={styles.tabBarStyle} tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                            <Scene key="homeBlock" icon={TabBarIcon} online='ios-home' >
+                            <Scene key="homeBlock" initial={true} icon={TabBarIcon} online='ios-home' >
                                 <Scene key="home"
                                     initial={true}
                                     component={Home}
@@ -420,6 +420,22 @@ export default class App extends Component {
                                     navBar={NavBar}
                                     RightButton={PickUpAddrEditorToolButton}
                                 />
+                                <Scene key="syncedRouteAtHomeBlock"
+                                    component={SyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForSyncedRouteAtHomeBlock"
+                                    component={CarListForSyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
                             </Scene>
                             <Scene key="feePriceBlock" icon={TabBarIcon} online='logo-yen' >
                                 <Scene key="feePrice"
@@ -445,7 +461,7 @@ export default class App extends Component {
                                     navBar={NavBar}
                                 />
                             </Scene>
-                            <Scene key="orderBlock" initial={true} icon={TabBarIcon} online='ios-albums' >
+                            <Scene key="orderBlock" icon={TabBarIcon} online='ios-albums' >
                                 <Scene key="orderList"
                                     initial={true}
                                     component={OrderList}
@@ -639,8 +655,7 @@ export default class App extends Component {
                                     hideTabBar={true}
                                     navBar={NavBar}
                                 />
-                                <Scene key="syncedRoute"
-                                    // initial={true}
+                                <Scene key="syncedRouteAtOrderBlock"
                                     component={SyncedRoute}
                                     LeftButton={LeftButton}
                                     title='同步信息'
@@ -648,7 +663,7 @@ export default class App extends Component {
                                     hideTabBar={true}
                                     navBar={NavBar}
                                 />
-                                <Scene key="carListForSyncedRoute"
+                                <Scene key="carListForSyncedRouteAtOrderBlock"
                                     component={CarListForSyncedRoute}
                                     LeftButton={LeftButton}
                                     title='同步信息'
@@ -690,6 +705,22 @@ export default class App extends Component {
                                     hideNavBar={false}
                                     navBar={NavBar}
                                     RightButton={RouteToolButton}
+                                />
+                                <Scene key="syncedRouteAtRouteBlock"
+                                    component={SyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
+                                />
+                                <Scene key="carListForSyncedRouteAtRouteBlock"
+                                    component={CarListForSyncedRoute}
+                                    LeftButton={LeftButton}
+                                    title='同步信息'
+                                    hideNavBar={false}
+                                    hideTabBar={true}
+                                    navBar={NavBar}
                                 />
                                 <Scene key="pickUpAddrEditorAtRouteBlock"
                                     LeftButton={LeftButton}

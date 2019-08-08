@@ -40,6 +40,9 @@ import * as supplierList from './views/list/supplierList/supplierListActions'
 import * as carListForRoute from './views/list/carListForRoute/carListForRouteActions'
 
 
+import * as syncedRoute from './views/syncedRoute/syncedRouteActions'
+import * as carListForSyncedRoute from './views/carListForSyncedRoute/carListForSyncedRouteActions'
+
 export {
     initView,
     login,
@@ -80,6 +83,8 @@ export {
     routeForOrder,
     createRoute,
     supplierList,
-    carListForRoute
+    carListForRoute,
+    syncedRoute,
+    carListForSyncedRoute
 
 }

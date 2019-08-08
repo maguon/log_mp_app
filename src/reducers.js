@@ -41,6 +41,9 @@ import routeForOrderReducer from './views/routeForOrder/routeForOrderReducer'
 import createRouteReducer from './views/createRoute/createRouteReducer'
 import supplierListReducer from './views/list/supplierList/supplierListReducer'
 import carListForRouteReducer from './views/list/carListForRoute/carListForRouteReducer'
+import syncedRouteRecuer from './views/syncedRoute/syncedRouteRecuer'
+import carListForSyncedRouteReducer from './views/carListForSyncedRoute/carListForSyncedRouteReducer'
+
 
 
 export default combineReducers({
@@ -88,5 +91,7 @@ export default combineReducers({
     createRouteReducer,
     supplierListReducer,
 
-    carListForRouteReducer
+    carListForRouteReducer,
+    syncedRouteRecuer,
+    carListForSyncedRouteReducer
 })

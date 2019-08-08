@@ -17,11 +17,12 @@ import * as routerDirection from '../../util/RouterDirection'
 
 const LoadTaskInfo = props => {
     const { loadTaskInfoReducer: { data: { loadTaskInfo } }, loadTaskInfoReducer, changeLoadTaskStatus,
-        getRouteCarList, getRouteCarListWaiting, parent, sceneKey, cancelLoadTaskInfo } = props
-
+        getRouteCarList, getRouteCarListWaiting, parent, sceneKey, cancelLoadTaskInfo, syncLoadTaskInfo,
+        getSyncedRouteWaiting, getSyncedRoute } = props
     let _supplier_insure_price = loadTaskInfo.supplier_insure_price ? loadTaskInfo.supplier_insure_price : 0
     let _supplier_trans_price = loadTaskInfo.supplier_trans_price ? loadTaskInfo.supplier_trans_price : 0
 
+    console.log('loadTaskInfo', loadTaskInfo)
     return (
         <Container>
             <Content>
@@ -82,7 +83,12 @@ const LoadTaskInfo = props => {
                     <Text style={[globalStyles.midText, styles.listItemPadding]}>支付供应商</Text>
                     <Text style={[globalStyles.midText, styles.listItemPadding]}><Text style={[styles.fontColor]}>{(_supplier_insure_price + _supplier_trans_price)}</Text> 元</Text>
                 </View>
-                <View style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}>
+                {loadTaskInfo.load_task_status < 9 && loadTaskInfo.close_flag == 0 && loadTaskInfo.hook_id == 0 && <TouchableOpacity
+                    style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                    onPress={() => {
+
+                        syncLoadTaskInfo({ loadTaskId: loadTaskInfo.id })
+                    }}>
                     <View style={styles.listItemPadding}>
                         <Text style={[globalStyles.midText]}>信息同步至供应商</Text>
                     </View>
@@ -90,7 +96,24 @@ const LoadTaskInfo = props => {
                         <Text style={[globalStyles.midText]}>同步信息</Text>
                         <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
                     </View>
-                </View>
+                </TouchableOpacity>}
+                {loadTaskInfo.load_task_status < 9 && loadTaskInfo.close_flag == 0 && loadTaskInfo.hook_id > 0 && <TouchableOpacity
+                    style={[styles.listItemBody, styles.listItemPadding, styles.listItemBorderBottom]}
+                    onPress={() => {
+                        getSyncedRouteWaiting()
+                        routerDirection.syncedRoute(parent)({ preSceneKey: sceneKey,loadTaskId: loadTaskInfo.id  })
+                        InteractionManager.runAfterInteractions(() => {
+                            getSyncedRoute({ loadTaskId: loadTaskInfo.id })
+                        })
+                    }}>
+                    <View style={styles.listItemPadding}>
+                        <Text style={[globalStyles.midText]}></Text>
+                    </View>
+                    <View style={[styles.listItemPadding, styles.listItemBody]}>
+                        <Text style={[globalStyles.midText]}>查看同步信息</Text>
+                        <FontAwesome name='angle-right' style={{ fontSize: 20, paddingLeft: 15 }} />
+                    </View>
+                </TouchableOpacity>}
                 {loadTaskInfo.load_task_status == 1 && loadTaskInfo.require_status == 1 && <View>
                     <Button full style={{ margin: 15, backgroundColor: '#fff', borderColor: '#bd417c', borderWidth: 0.5 }}
                         onPress={() => {
@@ -124,6 +147,16 @@ const mapDispatchToProps = (dispatch) => ({
     },
     cancelLoadTaskInfo: req => {
         dispatch(reduxActions.loadTaskInfo.cancelLoadTaskInfo(req))
+    },
+    syncLoadTaskInfo: req => {
+        dispatch(reduxActions.loadTaskInfo.syncLoadTaskInfo(req))
+    },
+    getSyncedRouteWaiting: () => {
+        dispatch(reduxActions.syncedRoute.getSyncedRouteWaiting())
+
+    },
+    getSyncedRoute: req => {
+        dispatch(reduxActions.syncedRoute.getSyncedRoute(req))
     }
 })
 

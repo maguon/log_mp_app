@@ -235,5 +235,30 @@ export const pickUpAddrEditor = parent => {
     if (parent === 'routeBlock') {
         return Actions.pickUpAddrEditorAtRouteBlock
     }
-
 }
+
+
+export const syncedRoute = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.syncedRouteAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.syncedRouteAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.syncedRouteAtRouteBlock
+    }
+}
+
+export const carListForSyncedRoute = parent => {
+    if (parent === 'homeBlock') {
+        return Actions.carListForSyncedRouteAtHomeBlock
+    }
+    if (parent === 'orderBlock') {
+        return Actions.carListForSyncedRouteAtOrderBlock
+    }
+    if (parent === 'routeBlock') {
+        return Actions.carListForSyncedRouteAtRouteBlock
+    }
+}
+

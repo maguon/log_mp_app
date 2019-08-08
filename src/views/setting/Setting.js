@@ -38,8 +38,8 @@ class Setting extends Component {
     render() {
         const { sceneKey, getScanCountList, getScanCountListWaiting,
             initViewReducer: { data: { version: { currentVersion = '', force_update, url } } },
-            loginReducer: { data: { user: { avatar_image, phone = '', user_name = '', gender } } } } = this.props
-
+            loginReducer: { data: { user: { userName = '', real_name = '', gender } } } } = this.props
+        console.log('this.props', this.props)
         return (
             <Container style={globalStyles.container}>
                 <Content>
@@ -64,11 +64,11 @@ class Setting extends Component {
                         </View> */}
                         <View style={{ flex: 2, justifyContent: 'center' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={[globalStyles.largeText, { color: 'rgba(255,255,255,0.8)', fontWeight: 'bold' }]}>{user_name}</Text>
-                                {gender == 0 && <Icon name='ios-woman' style={{ marginLeft: 5, color: 'rgba(255,255,255,0.6)' }} />}
-                                {gender == 1 && <Icon name='ios-man' style={{ marginLeft: 5, color: 'rgba(255,255,255,0.6)' }} />}
+                                <Text style={[globalStyles.largeText, { color: 'rgba(255,255,255,0.8)', fontWeight: 'bold' }]}>{real_name}</Text>
+                                {gender == 0 && <Icon name='ios-woman' style={{ marginLeft: 15, color: 'rgba(255,255,255,0.6)' }} />}
+                                {gender == 1 && <Icon name='ios-man' style={{ marginLeft: 15, color: 'rgba(255,255,255,0.6)' }} />}
                             </View>
-                            <Text style={[globalStyles.midText, { color: 'rgba(255,255,255,0.6)', marginTop: 10 }]}>{phone}</Text>
+                            <Text style={[globalStyles.midText, { color: 'rgba(255,255,255,0.6)', marginTop: 10 }]}>{userName}</Text>
                         </View>
                     </View>
                     {/* <Separator style={[globalStyles.container, globalStyles.separator]} />
@@ -150,7 +150,7 @@ const mapDispatchToProps = (dispatch) => ({
         // dispatch(reduxActions.setting.modifySuperviseAvatarImage(param))
     },
     cleanLogin: (param) => {
-        // dispatch(reduxActions.login.cleanLogin(param))
+        dispatch(reduxActions.login.cleanLogin(param))
     }
 })
 
